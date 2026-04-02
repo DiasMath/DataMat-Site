@@ -53,6 +53,7 @@ export default {
         },
         contact: "hsl(var(--contact-bg))",
         terracotta: "hsl(var(--terracotta))",
+        highlight: "hsl(var(--highlight))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",

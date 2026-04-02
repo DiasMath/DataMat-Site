@@ -11,16 +11,16 @@ const pains = [
 const item = { hidden: { opacity: 0, x: -20 }, show: { opacity: 1, x: 0 } };
 
 const WithoutBISection = () => (
-  <section className="section-padding bg-card">
+  <section className="section-padding bg-background">
     <div className="max-w-7xl mx-auto">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.5 }}
-        className="max-w-2xl mb-16"
+        className="max-w-2xl mb-10"
       >
-        <p className="text-sm font-semibold text-primary uppercase tracking-widest mb-3">O Custo da Inércia</p>
+        <p className="text-base font-semibold text-primary uppercase tracking-widest mb-3">O Custo da Inércia</p>
         <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
           O que você perde sem BI personalizado
         </h2>
@@ -37,7 +37,7 @@ const WithoutBISection = () => (
         className="space-y-5"
       >
         {pains.map((p) => (
-          <motion.div key={p.title} variants={item} className="flex gap-5 p-6 rounded-2xl bg-background border border-border hover-lift">
+          <motion.div key={p.title} variants={item} className="flex gap-5 p-6 rounded-2xl bg-card border border-border hover-lift">
             <div className="w-11 h-11 rounded-lg bg-secondary/15 flex items-center justify-center shrink-0 mt-0.5">
               <p.icon className="text-secondary" size={20} />
             </div>

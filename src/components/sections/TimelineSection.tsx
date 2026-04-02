@@ -1,17 +1,17 @@
 import { motion } from "framer-motion";
-import { FileSignature, MessageSquare, Map, Boxes, CheckCircle, LayoutDashboard } from "lucide-react";
+import { FileSignature, MessageSquare, Map, Boxes, CheckCircle, BarChart3 } from "lucide-react";
 
 const timeline = [
-  { icon: FileSignature, title: "Assinatura do Contrato", desc: "Formalizamos a parceria com termos claros e transparentes." },
+  { icon: FileSignature, title: "Assinatura do Contrato", desc: "Formalizamos a parceria com termos claros, sem jargões técnicos." },
   { icon: MessageSquare, title: "Reunião de Diagnóstico", desc: "Entendemos seus desafios, objetivos e fontes de dados." },
   { icon: Map, title: "Mapeamento de Dados", desc: "Identificamos e catalogamos todas as fontes relevantes." },
   { icon: Boxes, title: "Modelagem e Desenvolvimento", desc: "Construímos o data warehouse e os dashboards sob medida." },
   { icon: CheckCircle, title: "Validação", desc: "Apresentamos, ajustamos e aprovamos com sua equipe." },
-  { icon: LayoutDashboard, title: "Entrega dos Dashboards", desc: "Go-live com treinamento e suporte para autonomia." },
+  { icon: BarChart3, title: "Entrega dos Dashboards", desc: "Go-live com treinamento e suporte para autonomia." },
 ];
 
 const TimelineSection = () => (
-  <section className="section-padding bg-card">
+  <section className="section-padding bg-background">
     <div className="max-w-7xl mx-auto">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -20,7 +20,7 @@ const TimelineSection = () => (
         transition={{ duration: 0.5 }}
         className="text-center max-w-2xl mx-auto mb-16"
       >
-        <p className="text-sm font-semibold text-primary uppercase tracking-widest mb-3">Do Contrato aos Primeiros Visuais</p>
+        <p className="text-base font-semibold text-primary uppercase tracking-widest mb-3">Do Contrato aos Primeiros Visuais</p>
         <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
           Você sabe exatamente o que esperar e quando
         </h2>

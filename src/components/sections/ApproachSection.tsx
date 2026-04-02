@@ -4,7 +4,7 @@ import { Search, Boxes, Rocket, RefreshCw } from "lucide-react";
 const steps = [
   { icon: Search, step: "01", title: "Diagnóstico", desc: "Entendemos seu negócio, mapeamos suas fontes de dados e identificamos as perguntas que precisam de respostas." },
   { icon: Boxes, step: "02", title: "Modelagem", desc: "Estruturamos o data warehouse, definimos KPIs e desenhamos a arquitetura ideal para seus dados." },
-  { icon: Rocket, step: "03", title: "Entrega", desc: "Desenvolvemos dashboards sob medida e validamos cada visual com a equipe antes do go-live." },
+  { icon: Rocket, step: "03", title: "Entrega", desc: "Desenvolvemos dashboards sob medida e adequamos os visuais com as necessidades do cliente." },
   { icon: RefreshCw, step: "04", title: "Evolução Contínua", desc: "Acompanhamos os resultados e evoluímos as análises conforme seu negócio cresce e muda." },
 ];
 
@@ -20,7 +20,7 @@ const ApproachSection = () => (
         transition={{ duration: 0.5 }}
         className="text-center max-w-2xl mx-auto mb-16"
       >
-        <p className="text-sm font-semibold text-primary uppercase tracking-widest mb-3">Nossa Abordagem</p>
+        <p className="text-base font-semibold text-primary uppercase tracking-widest mb-3">Nossa Abordagem</p>
         <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
           Metodologia que entrega resultado
         </h2>

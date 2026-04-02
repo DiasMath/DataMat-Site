@@ -14,8 +14,8 @@ const services = [
   },
   {
     icon: Plug,
-    title: "Integração de APIs",
-    desc: "Conectamos suas ferramentas e sistemas para um fluxo de dados contínuo e automatizado.",
+    title: "Integração de APIs e Planilhas",
+    desc: "Conectamos suas ferramentas, sistemas e planilhas Excel/Google Sheets para um fluxo de dados contínuo e automatizado.",
   },
 ];
 
@@ -25,7 +25,7 @@ const item = {
 };
 
 const AboutSection = () => (
-  <section id="sobre" className="section-padding">
+  <section id="sobre" className="section-padding bg-card">
     <div className="max-w-7xl mx-auto">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -34,7 +34,7 @@ const AboutSection = () => (
         transition={{ duration: 0.5 }}
         className="max-w-2xl mb-16"
       >
-        <p className="text-sm font-semibold text-primary uppercase tracking-widest mb-3">Sobre Nós</p>
+        <p className="text-base font-semibold text-primary uppercase tracking-widest mb-3">Sobre Nós</p>
         <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
           Transformamos complexidade em resultados práticos.
         </h2>
@@ -56,7 +56,7 @@ const AboutSection = () => (
           <motion.div
             key={s.title}
             variants={item}
-            className="group p-8 rounded-2xl bg-card border border-border hover-lift cursor-default"
+            className="group p-8 rounded-2xl bg-background border border-border hover-lift cursor-default"
           >
             <div className="w-12 h-12 rounded-xl bg-primary/15 flex items-center justify-center mb-5 group-hover:bg-primary/25 transition-colors">
               <s.icon className="text-primary" size={24} />

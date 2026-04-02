@@ -6,7 +6,7 @@ const erpItems = [
   "Dados sem cruzamento entre fontes",
   "Visualizações estáticas e limitadas",
   "KPIs padronizados para todos",
-  "Atualizações manuais e demoradas",
+  "Não te ajuda nas decisões",
 ];
 
 const biItems = [
@@ -27,7 +27,7 @@ const ComparisonSection = () => (
         transition={{ duration: 0.5 }}
         className="text-center max-w-2xl mx-auto mb-16"
       >
-        <p className="text-sm font-semibold text-primary uppercase tracking-widest mb-3">Do Genérico ao Personalizado</p>
+        <p className="text-base font-semibold text-primary uppercase tracking-widest mb-3">Do Genérico ao Personalizado</p>
         <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
           ERP padrão vs. BI sob medida
         </h2>

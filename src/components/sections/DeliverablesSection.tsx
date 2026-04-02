@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
-import { LayoutDashboard, Gauge, Link2, Zap } from "lucide-react";
+import { BarChart3, Gauge, Link2, Zap } from "lucide-react";
 
 const deliverables = [
-  { icon: LayoutDashboard, title: "Dashboards Estratégicos", desc: "Painéis customizados que contam a história dos seus dados e guiam decisões." },
+  { icon: BarChart3, title: "Dashboards Estratégicos", desc: "Dashboards personalizados com a identidade da sua empresa para reuniões com clientes, fornecedores e investidores." },
   { icon: Gauge, title: "KPIs do Negócio", desc: "Indicadores-chave definidos com você, medindo o que realmente importa." },
   { icon: Link2, title: "Integração de Fontes", desc: "Conectamos ERP, CRM, planilhas e APIs em uma visão unificada." },
   { icon: Zap, title: "Autonomia para o Cliente", desc: "Treinamos sua equipe para explorar e evoluir os dashboards de forma independente." },
@@ -11,7 +11,7 @@ const deliverables = [
 const item = { hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } };
 
 const DeliverablesSection = () => (
-  <section className="section-padding">
+  <section className="section-padding bg-background">
     <div className="max-w-7xl mx-auto">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -20,7 +20,7 @@ const DeliverablesSection = () => (
         transition={{ duration: 0.5 }}
         className="text-center max-w-2xl mx-auto mb-16"
       >
-        <p className="text-sm font-semibold text-primary uppercase tracking-widest mb-3">O que Entregamos</p>
+        <p className="text-base font-semibold text-primary uppercase tracking-widest mb-3">O que Entregamos</p>
         <h2 className="text-3xl md:text-4xl font-bold text-foreground">
           Ferramentas que geram impacto real
         </h2>

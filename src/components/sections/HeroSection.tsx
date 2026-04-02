@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import heroImg from "@/assets/hero-abstract.jpg";
 
+const WHATSAPP_LINK = "https://wa.me/5521996101868?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20os%20serviços%20da%20DATAMAT";
+
 const HeroSection = () => (
   <section className="relative min-h-screen flex items-center overflow-hidden pt-20" style={{ background: "var(--hero-gradient)" }}>
     <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 items-center px-6 md:px-12 lg:px-20 py-20">
@@ -28,10 +30,12 @@ const HeroSection = () => (
 
         <div className="flex flex-col sm:flex-row gap-4 pt-4">
           <a
-            href="#contato"
+            href={WHATSAPP_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
             className="px-8 py-4 rounded-lg bg-primary text-primary-foreground font-bold text-base hover:brightness-110 hover:shadow-xl transition-all text-center"
           >
-            Fale com um Especialista
+            Fale no WhatsApp
           </a>
           <a
             href="#sobre"

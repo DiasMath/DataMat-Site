@@ -10,7 +10,7 @@ const points = [
 const item = { hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } };
 
 const WhyBISection = () => (
-  <section className="section-padding">
+  <section className="section-padding bg-card">
     <div className="max-w-7xl mx-auto">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -19,7 +19,7 @@ const WhyBISection = () => (
         transition={{ duration: 0.5 }}
         className="max-w-2xl mb-16"
       >
-        <p className="text-sm font-semibold text-primary uppercase tracking-widest mb-3">Por que ter BI?</p>
+        <p className="text-base font-semibold text-primary uppercase tracking-widest mb-3">Por que ter BI?</p>
         <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
           A informação certa no momento certo muda tudo.
         </h2>
@@ -37,7 +37,7 @@ const WhyBISection = () => (
         className="grid md:grid-cols-3 gap-8"
       >
         {points.map((p) => (
-          <motion.div key={p.title} variants={item} className="p-8 rounded-2xl bg-card border border-border hover-lift cursor-default">
+          <motion.div key={p.title} variants={item} className="p-8 rounded-2xl bg-background border border-border hover-lift cursor-default">
             <div className="w-12 h-12 rounded-xl bg-primary/15 flex items-center justify-center mb-5">
               <p.icon className="text-primary" size={24} />
             </div>

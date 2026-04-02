@@ -41,6 +41,7 @@
     --terracotta: 16 45% 55%;
     --amber-glow: 36 100% 62% / 0.15;
 
+    --highlight: 36 100% 48%;
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
@@ -55,6 +56,10 @@
 @layer base {
   * {
     @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
   }
 
   body {

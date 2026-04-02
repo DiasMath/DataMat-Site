@@ -11,7 +11,7 @@ const values = [
 const item = { hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } };
 
 const ValuesSection = () => (
-  <section id="valores" className="section-padding bg-card">
+  <section id="valores" className="section-padding bg-background">
     <div className="max-w-7xl mx-auto">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -20,7 +20,7 @@ const ValuesSection = () => (
         transition={{ duration: 0.5 }}
         className="text-center max-w-2xl mx-auto mb-16"
       >
-        <p className="text-sm font-semibold text-primary uppercase tracking-widest mb-3">Nossos Valores</p>
+        <p className="text-base font-semibold text-primary uppercase tracking-widest mb-3">Nossos Valores</p>
         <h2 className="text-3xl md:text-4xl font-bold text-foreground">O Que Acreditamos</h2>
       </motion.div>
 
@@ -35,7 +35,7 @@ const ValuesSection = () => (
           <motion.div
             key={v.title}
             variants={item}
-            className="p-7 rounded-2xl bg-background border border-border hover-lift cursor-default text-center"
+            className="p-7 rounded-2xl bg-card border border-border hover-lift cursor-default text-center"
           >
             <div className="w-14 h-14 rounded-xl bg-primary/15 flex items-center justify-center mx-auto mb-5">
               <v.icon className="text-primary" size={26} />
