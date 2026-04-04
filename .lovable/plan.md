@@ -1,25 +1,37 @@
 
 
-## Plano: Página de Demonstração + Link na Navbar
+## Plano: Redesign da Página de Demonstração — Layout Mais Dinâmico
 
-### O que será feito
+### Problema identificado
+A página atual usa 4 cards em grid, o mesmo padrão repetido em várias seções da landing page. Isso torna a experiência visual monótona.
 
-1. **Novo link "Demonstração" no Header** — Adicionar ao array `navLinks` um item que aponta para `/demonstracao` (usando React Router `Link` em vez de anchor tags para navegação interna entre páginas).
+### O que vai mudar
 
-2. **Nova página `src/pages/Demo.tsx`** — Página com o mesmo design system (cores terrosas, Plus Jakarta Sans, componentes consistentes):
-   - **Hero banner** com imagem de fundo escura/gradiente (estilo roqt.com.br), título em destaque tipo "Veja seus dados ganharem vida" e subtítulo explicativo.
-   - **Seção de contexto** com texto + ícones explicando o que o cliente verá na demonstração (cards com benefícios tipo: "Dashboards Interativos", "Filtros Dinâmicos", "Dados em Tempo Real").
-   - **Seção do iframe Power BI** com título, texto introdutório e um container estilizado com placeholder para o iframe (com bordas arredondadas, sombra, aspect-ratio 16:9). O iframe terá um `src` placeholder para ser substituído pelo link real do Power BI.
-   - **CTA final** incentivando o contato após ver a demo.
-   - **Footer** reutilizado da página principal.
+**1. Substituir os 4 cards por seções intercaladas texto + visual (zig-zag layout)**
 
-3. **Atualizar `App.tsx`** — Adicionar rota `/demonstracao` apontando para a nova página.
+Em vez de cards em grid, criar 3-4 blocos onde texto fica de um lado e uma ilustração/mockup do outro, alternando a posição a cada bloco (esquerda/direita). Cada bloco representa uma funcionalidade:
 
-4. **Atualizar `Header.tsx`** — Converter links para usar React Router (`Link` / `useNavigate`) para links de rota, mantendo hash links para a página principal. Adicionar "Demonstração" como link de navegação.
+- **Bloco 1** (imagem à direita): "Dashboards Interativos" — texto explicativo à esquerda, mockup visual de um dashboard à direita (imagem decorativa com gradiente/glow).
+- **Bloco 2** (imagem à esquerda): "Filtros que Revelam Insights" — imagem à esquerda mostrando ícones de filtros/segmentação, texto à direita.
+- **Bloco 3** (imagem à direita): "Dados Sempre Atualizados" — texto sobre conexão em tempo real, visual à direita com ícones de sync/conexão.
+- **Bloco 4** (imagem à esquerda): "Feito Sob Medida" — texto sobre personalização, visual à esquerda.
+
+As "imagens" serão elementos decorativos criados com CSS/SVG (mockups abstratos de dashboards com barras, linhas, cards internos), sem depender de imagens externas.
+
+**2. Adicionar uma seção "Como Funciona" antes do iframe**
+
+Uma mini-timeline horizontal com 3 passos simples: "Conectamos seus dados" → "Criamos seus dashboards" → "Você explora e decide". Layout horizontal com ícones e setas conectando os passos. Quebra a monotonia e prepara o contexto antes do iframe.
+
+**3. Melhorar o container do iframe**
+
+Adicionar um "browser chrome" fake (barra de título com dots coloridos estilo macOS) em volta do iframe para dar mais realismo e sofisticação visual.
+
+**4. Manter Hero e CTA como estão** — já funcionam bem.
 
 ### Detalhes técnicos
 
-- Header precisará distinguir entre hash links (`#sobre`) e route links (`/demonstracao`), usando `<a>` para hash e `<Link>` para rotas.
-- A página Demo reutilizará o Header e Footer existentes.
-- O iframe do Power BI usará `allowFullScreen` e será responsivo via aspect-ratio container.
+- Tudo dentro de `src/pages/Demo.tsx` — arquivo único, sem criar novos componentes.
+- Zig-zag layout usando `flex-row` / `flex-row-reverse` alternado com `md:flex-row` responsivo (empilha no mobile).
+- Mockups visuais feitos com divs estilizadas (barras de gráfico com `bg-primary`, cards miniatura) — zero dependência de imagens externas.
+- Animações de entrada com `framer-motion` (fade + slide lateral, acompanhando a direção do layout).
 
