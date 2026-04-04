@@ -11,7 +11,7 @@ const deliverables = [
 const item = { hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } };
 
 const DeliverablesSection = () => (
-  <section className="section-padding bg-background">
+  <section className="section-padding bg-card">
     <div className="max-w-7xl mx-auto">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -34,7 +34,7 @@ const DeliverablesSection = () => (
         className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
       >
         {deliverables.map((d) => (
-          <motion.div key={d.title} variants={item} className="p-7 rounded-2xl bg-card border border-border hover-lift text-center">
+          <motion.div key={d.title} variants={item} className="p-7 rounded-2xl bg-background border border-border hover-lift text-center">
             <div className="w-14 h-14 rounded-xl bg-primary/15 flex items-center justify-center mx-auto mb-5">
               <d.icon className="text-primary" size={26} />
             </div>

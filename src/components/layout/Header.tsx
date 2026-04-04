@@ -10,10 +10,10 @@ interface NavLinkItem {
 }
 
 const navLinks: NavLinkItem[] = [
-  { label: "Sobre Nós", href: "#sobre" },
-  { label: "Valores", href: "#valores" },
-  { label: "Clientes", href: "#clientes" },
-  { label: "Demonstração", href: "/demonstracao", isRoute: true },
+  { label: "Sobre Nós", href: "/#sobre" },
+  { label: "Metodologia", href: "/#abordagem" },
+  { label: "Clientes", href: "/#clientes" },
+  // { label: "Demonstração", href: "/demonstracao", isRoute: true },
 ];
 
 const WHATSAPP_LINK = "https://wa.me/5521996101868?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20os%20serviços%20da%20DATAMAT";
@@ -36,7 +36,7 @@ const Header = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 md:px-12 py-4">
-      <Link to="/" className="flex items-end gap-3" aria-label="DataMat - Página Inicial">
+        <Link to="/#" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="flex items-end gap-3" aria-label="DataMat - Página Inicial">
         <span className="text-2xl font-extrabold tracking-tight text-foreground">
           DATA<span className="text-primary">MAT</span>
         </span>
@@ -115,7 +115,7 @@ const Header = () => {
                 )
               )}
               <a
-                href="#contato"
+                href="/#contato"
                 onClick={closeMenu}
                 className="mt-2 px-5 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-semibold text-center hover:brightness-110 transition-all"
               >

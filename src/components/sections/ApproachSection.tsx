@@ -11,7 +11,7 @@ const steps = [
 const item = { hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } };
 
 const ApproachSection = () => (
-  <section className="section-padding">
+  <section id="abordagem" className="section-padding bg-card">
     <div className="max-w-7xl mx-auto">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -37,7 +37,7 @@ const ApproachSection = () => (
         className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
       >
         {steps.map((s) => (
-          <motion.div key={s.step} variants={item} className="relative p-7 rounded-2xl bg-card border border-border hover-lift text-center">
+          <motion.div key={s.step} variants={item} className="relative p-7 rounded-2xl bg-background border border-border hover-lift text-center">
             <span className="text-5xl font-extrabold text-primary/15 absolute top-4 right-5">{s.step}</span>
             <div className="w-14 h-14 rounded-xl bg-primary/15 flex items-center justify-center mx-auto mb-5">
               <s.icon className="text-primary" size={26} />

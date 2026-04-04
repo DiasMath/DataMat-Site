@@ -18,7 +18,7 @@ const biItems = [
 ];
 
 const ComparisonSection = () => (
-  <section className="section-padding bg-card">
+  <section className="section-padding bg-background">
     <div className="max-w-7xl mx-auto">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -39,7 +39,7 @@ const ComparisonSection = () => (
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.5 }}
-          className="p-8 rounded-2xl bg-background border border-border"
+          className="p-8 rounded-2xl bg-card border border-border"
         >
           <h3 className="text-lg font-bold text-muted-foreground mb-6">ERP Padrão</h3>
           <ul className="space-y-4">

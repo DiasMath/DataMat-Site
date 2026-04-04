@@ -8,7 +8,7 @@ const results = [
 ];
 
 const ResultsSection = () => (
-  <section className="section-padding bg-card">
+  <section className="section-padding bg-background">
     <div className="max-w-7xl mx-auto">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -34,7 +34,7 @@ const ResultsSection = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.5, delay: i * 0.15 }}
-            className="p-8 rounded-2xl bg-background border border-border hover-lift text-center"
+            className="p-8 rounded-2xl bg-card border border-border hover-lift text-center"
           >
             <div className="w-14 h-14 rounded-xl bg-primary/15 flex items-center justify-center mx-auto mb-4">
               <r.icon className="text-primary" size={26} />

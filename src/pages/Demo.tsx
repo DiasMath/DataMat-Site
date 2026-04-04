@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { BarChart3, SlidersHorizontal, Zap, MonitorPlay, ArrowRight, Paintbrush, Database, Sparkles } from "lucide-react";
 import Header from "@/components/layout/Header";
@@ -156,7 +157,12 @@ const steps = [
   { icon: MonitorPlay, title: "Você explora e decide", desc: "Dados vivos, acessíveis e acionáveis." },
 ];
 
-const Demo = () => (
+const Demo = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  return (
   <>
     <Header />
 
@@ -407,6 +413,7 @@ const Demo = () => (
 
     <Footer />
   </>
-);
+  );
+};
 
 export default Demo;

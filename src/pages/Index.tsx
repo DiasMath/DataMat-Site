@@ -16,7 +16,12 @@ import TimelineSection from "@/components/sections/TimelineSection";
 import ContactSection from "@/components/sections/ContactSection";
 import Footer from "@/components/layout/Footer";
 
-const Index = () => (
+import { useScrollToHash } from "@/hooks/use-scroll-to-hash";
+
+const Index = () => {
+  useScrollToHash();
+
+  return (
   <>
     <Header />
     <HeroSection />
@@ -26,16 +31,17 @@ const Index = () => (
     <MarketRealitySection />
     <WithoutBISection />
     <AboutSection />
+    <ValuesSection />
     <ApproachSection />
     <ComparisonSection />
     <DeliverablesSection />
     <ResultsSection />
-    <ValuesSection />
     <WhyUsSection />
     <TimelineSection />
     <ContactSection />
     <Footer />
   </>
-);
+  );
+};
 
 export default Index;
