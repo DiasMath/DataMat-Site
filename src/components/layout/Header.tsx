@@ -93,16 +93,27 @@ const Header = () => {
             className="md:hidden overflow-hidden bg-background border-b border-border"
           >
             <nav className="flex flex-col gap-4 px-6 py-6" role="navigation" aria-label="Menu mobile">
-              {navLinks.map((l) => (
-                <a
-                  key={l.href}
-                  href={l.href}
-                  onClick={closeMenu}
-                  className="text-base font-medium text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  {l.label}
-                </a>
-              ))}
+              {navLinks.map((l) =>
+                l.isRoute ? (
+                  <Link
+                    key={l.href}
+                    to={l.href}
+                    onClick={closeMenu}
+                    className="text-base font-medium text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {l.label}
+                  </Link>
+                ) : (
+                  <a
+                    key={l.href}
+                    href={l.href}
+                    onClick={closeMenu}
+                    className="text-base font-medium text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {l.label}
+                  </a>
+                )
+              )}
               <a
                 href="#contato"
                 onClick={closeMenu}
