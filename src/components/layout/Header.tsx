@@ -1,16 +1,19 @@
 import { useState, useCallback } from "react";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
-interface NavLink {
+interface NavLinkItem {
   label: string;
   href: string;
+  isRoute?: boolean;
 }
 
-const navLinks: NavLink[] = [
+const navLinks: NavLinkItem[] = [
   { label: "Sobre Nós", href: "#sobre" },
   { label: "Valores", href: "#valores" },
   { label: "Clientes", href: "#clientes" },
+  { label: "Demonstração", href: "/demonstracao", isRoute: true },
 ];
 
 const WHATSAPP_LINK = "https://wa.me/5521996101868?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20os%20serviços%20da%20DATAMAT";
