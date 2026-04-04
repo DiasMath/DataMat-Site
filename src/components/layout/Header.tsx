@@ -62,8 +62,6 @@ const Header = () => {
               </a>
             )
           )}
-            </a>
-          ))}
           <a
             href={WHATSAPP_LINK}
             target="_blank"
