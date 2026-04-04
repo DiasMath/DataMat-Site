@@ -36,12 +36,11 @@ const Header = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 md:px-12 py-4">
-      <a href="#" className="flex items-end gap-3" aria-label="DataMat - Página Inicial">
-        {/* <img src="/logo.ico" alt="DATAMAT" className="h-10 w-auto" /> */}
+      <Link to="/" className="flex items-end gap-3" aria-label="DataMat - Página Inicial">
         <span className="text-2xl font-extrabold tracking-tight text-foreground">
           DATA<span className="text-primary">MAT</span>
         </span>
-      </a>
+      </Link>
 
         <nav className="hidden md:flex items-center gap-8" role="navigation" aria-label="Navegação principal">
           {navLinks.map((l) => (
