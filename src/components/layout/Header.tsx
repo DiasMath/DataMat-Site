@@ -1,16 +1,19 @@
 import { useState, useCallback } from "react";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
-interface NavLink {
+interface NavLinkItem {
   label: string;
   href: string;
+  isRoute?: boolean;
 }
 
-const navLinks: NavLink[] = [
+const navLinks: NavLinkItem[] = [
   { label: "Sobre Nós", href: "#sobre" },
   { label: "Valores", href: "#valores" },
   { label: "Clientes", href: "#clientes" },
+  { label: "Demonstração", href: "/demonstracao", isRoute: true },
 ];
 
 const WHATSAPP_LINK = "https://wa.me/5521996101868?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20os%20serviços%20da%20DATAMAT";
@@ -33,23 +36,32 @@ const Header = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 md:px-12 py-4">
-      <a href="#" className="flex items-end gap-3" aria-label="DataMat - Página Inicial">
-        {/* <img src="/logo.ico" alt="DATAMAT" className="h-10 w-auto" /> */}
+      <Link to="/" className="flex items-end gap-3" aria-label="DataMat - Página Inicial">
         <span className="text-2xl font-extrabold tracking-tight text-foreground">
           DATA<span className="text-primary">MAT</span>
         </span>
-      </a>
+      </Link>
 
         <nav className="hidden md:flex items-center gap-8" role="navigation" aria-label="Navegação principal">
-          {navLinks.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-            >
-              {l.label}
-            </a>
-          ))}
+          {navLinks.map((l) =>
+            l.isRoute ? (
+              <Link
+                key={l.href}
+                to={l.href}
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {l.label}
+              </Link>
+            ) : (
+              <a
+                key={l.href}
+                href={l.href}
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {l.label}
+              </a>
+            )
+          )}
           <a
             href={WHATSAPP_LINK}
             target="_blank"
@@ -81,16 +93,27 @@ const Header = () => {
             className="md:hidden overflow-hidden bg-background border-b border-border"
           >
             <nav className="flex flex-col gap-4 px-6 py-6" role="navigation" aria-label="Menu mobile">
-              {navLinks.map((l) => (
-                <a
-                  key={l.href}
-                  href={l.href}
-                  onClick={closeMenu}
-                  className="text-base font-medium text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  {l.label}
-                </a>
-              ))}
+              {navLinks.map((l) =>
+                l.isRoute ? (
+                  <Link
+                    key={l.href}
+                    to={l.href}
+                    onClick={closeMenu}
+                    className="text-base font-medium text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {l.label}
+                  </Link>
+                ) : (
+                  <a
+                    key={l.href}
+                    href={l.href}
+                    onClick={closeMenu}
+                    className="text-base font-medium text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {l.label}
+                  </a>
+                )
+              )}
               <a
                 href="#contato"
                 onClick={closeMenu}
