@@ -43,13 +43,25 @@ const Header = () => {
       </Link>
 
         <nav className="hidden md:flex items-center gap-8" role="navigation" aria-label="Navegação principal">
-          {navLinks.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-            >
-              {l.label}
+          {navLinks.map((l) =>
+            l.isRoute ? (
+              <Link
+                key={l.href}
+                to={l.href}
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {l.label}
+              </Link>
+            ) : (
+              <a
+                key={l.href}
+                href={l.href}
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {l.label}
+              </a>
+            )
+          )}
             </a>
           ))}
           <a
