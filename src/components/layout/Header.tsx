@@ -12,8 +12,8 @@ interface NavLinkItem {
 const navLinks: NavLinkItem[] = [
   { label: "Sobre Nós", href: "/#sobre" },
   { label: "Metodologia", href: "/#abordagem" },
+  // { label: "Cases", href: "/cases", isRoute: true },
   { label: "Clientes", href: "/#clientes" },
-  // { label: "Demonstração", href: "/demonstracao", isRoute: true },
 ];
 
 const WHATSAPP_LINK = "https://wa.me/5521996101868?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20os%20serviços%20da%20DATAMAT";
