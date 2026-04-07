@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 interface NavLinkItem {
   label: string;
@@ -13,6 +13,7 @@ const navLinks: NavLinkItem[] = [
   { label: "Sobre Nós", href: "/#sobre" },
   { label: "Metodologia", href: "/#abordagem" },
   // { label: "Cases", href: "/cases", isRoute: true },
+  // { label: "Demonstração", href: "/demonstracao", isRoute: true },
   { label: "Clientes", href: "/#clientes" },
 ];
 
@@ -28,10 +29,6 @@ const Header = () => {
   const closeMenu = useCallback(() => {
     setOpen(false);
   }, []);
-
-  const isValidHashLink = (href: string): boolean => {
-    return href.startsWith("#") && href.length > 1;
-  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">

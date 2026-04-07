@@ -8,6 +8,7 @@ const Footer = () => (
         <a href="#sobre" className="hover:text-background transition-colors">Sobre Nós</a>
         <a href="/#abordagem" className="hover:text-background transition-colors">Metodologia</a>
         {/* <a href="/cases" className="hover:text-background transition-colors">Cases</a> */}
+        {/* <a href="/demonstracao" className="hover:text-background transition-colors">Demonstração</a> */}
         <a href="#clientes" className="hover:text-background transition-colors">Clientes</a>
       </nav>
       <p className="text-xs text-background/40">© 2026 DATAMAT. Todos os direitos reservados.</p>
