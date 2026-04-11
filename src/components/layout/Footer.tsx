@@ -7,7 +7,7 @@ const Footer = () => (
       <nav className="flex gap-6 text-sm">
         <a href="#sobre" className="hover:text-background transition-colors">Sobre Nós</a>
         <a href="/#abordagem" className="hover:text-background transition-colors">Metodologia</a>
-        {/* <a href="/cases" className="hover:text-background transition-colors">Cases</a> */}
+        <a href="/cases" className="hover:text-background transition-colors">Cases</a>
         {/* <a href="/demonstracao" className="hover:text-background transition-colors">Demonstração</a> */}
         <a href="#clientes" className="hover:text-background transition-colors">Clientes</a>
       </nav>

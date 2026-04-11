@@ -12,7 +12,7 @@ interface NavLinkItem {
 const navLinks: NavLinkItem[] = [
   { label: "Sobre Nós", href: "/#sobre" },
   { label: "Metodologia", href: "/#abordagem" },
-  // { label: "Cases", href: "/cases", isRoute: true },
+  { label: "Cases", href: "/cases", isRoute: true },
   // { label: "Demonstração", href: "/demonstracao", isRoute: true },
   { label: "Clientes", href: "/#clientes" },
 ];
