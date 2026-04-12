@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, TrendingUp, Clock, BarChart3, Target, Rocket } from "lucide-react";
 import Header from "@/components/layout/Header";
@@ -112,6 +113,10 @@ const CaseCard = ({ caseData, index }: { caseData: typeof cases[0]; index: numbe
 };
 
 const Cases = () => {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, []);
+
   return (
     <>
       <Header />
