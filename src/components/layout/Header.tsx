@@ -45,6 +45,7 @@ const Header = () => {
               <Link
                 key={l.href}
                 to={l.href}
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
               >
                 {l.label}
@@ -95,7 +96,7 @@ const Header = () => {
                   <Link
                     key={l.href}
                     to={l.href}
-                    onClick={closeMenu}
+                    onClick={() => { closeMenu(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                     className="text-base font-medium text-muted-foreground hover:text-foreground transition-colors"
                   >
                     {l.label}
