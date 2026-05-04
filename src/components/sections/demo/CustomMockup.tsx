@@ -93,7 +93,7 @@ const CustomMockup = () => (
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4, delay: 1 }}
-          className="text-lg font-bold text-primary"
+          className="text-2xl font-semibold text-primary"
         >
           98%
         </motion.p>

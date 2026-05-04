@@ -5,11 +5,19 @@ const Footer = () => (
         DATA<span className="text-primary">MAT</span>
       </a>
       <nav className="flex gap-6 text-sm">
-        <a href="/#sobre" className="hover:text-background transition-colors">Sobre Nós</a>
-        <a href="/#abordagem" className="hover:text-background transition-colors">Metodologia</a>
-        <a href="/cases" className="hover:text-background transition-colors">Cases</a>
-        {/* <a href="/demonstracao" className="hover:text-background transition-colors">Demonstração</a> */}
-        <a href="/#clientes" className="hover:text-background transition-colors">Clientes</a>
+        <a href="/#sobre" className="nav-link hover:text-background transition-colors relative pb-1">
+          Sobre Nós<span className="nav-link-bar" />
+        </a>
+        <a href="/#abordagem" className="nav-link hover:text-background transition-colors relative pb-1">
+          Metodologia<span className="nav-link-bar" />
+        </a>
+        <a href="/cases" className="nav-link hover:text-background transition-colors relative pb-1">
+          Cases<span className="nav-link-bar" />
+        </a>
+        {/* <a href="/demonstracao" className="nav-link hover:text-background transition-colors relative pb-1">Demonstração<span className="nav-link-bar" /></a> */}
+        <a href="/#clientes" className="nav-link hover:text-background transition-colors relative pb-1">
+          Clientes<span className="nav-link-bar" />
+        </a>
       </nav>
       <p className="text-xs text-background/40">© 2026 DATAMAT. Todos os direitos reservados.</p>
     </div>

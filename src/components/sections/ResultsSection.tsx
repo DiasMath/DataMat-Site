@@ -15,12 +15,20 @@ const ResultsSection = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.5 }}
-        className="text-center max-w-2xl mx-auto mb-16"
+        className="text-center mb-6"
       >
         <p className="text-base font-semibold text-primary uppercase tracking-widest mb-3">Resultados</p>
-        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+        <h2 className="text-3xl md:text-5xl font-bold text-foreground">
           Resultados que Transformam
         </h2>
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.5 }}
+        className="text-center max-w-2xl mx-auto mb-16"
+      >
         <p className="text-lg text-muted-foreground leading-relaxed">
           Impactos reais que nossos clientes experimentam após a implementação de BI personalizado.
         </p>
@@ -40,7 +48,7 @@ const ResultsSection = () => (
               <r.icon className="text-primary" size={26} />
             </div>
             <span className="text-4xl font-extrabold text-primary block mb-2">{r.metric}</span>
-            <h3 className="text-base font-bold text-foreground mb-2">{r.label}</h3>
+            <h3 className="text-xl font-semibold text-foreground mb-2">{r.label}</h3>
             <p className="text-sm text-muted-foreground leading-relaxed">{r.desc}</p>
           </motion.div>
         ))}

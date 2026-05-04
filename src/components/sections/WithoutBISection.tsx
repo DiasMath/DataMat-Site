@@ -18,12 +18,20 @@ const WithoutBISection = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.5 }}
-        className="max-w-2xl mb-10"
+        className="mb-6"
       >
         <p className="text-base font-semibold text-primary uppercase tracking-widest mb-3">O Custo da Inércia</p>
-        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+        <h2 className="text-3xl md:text-5xl font-bold text-foreground">
           O que você perde sem BI personalizado
         </h2>
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.5 }}
+        className="max-w-2xl mb-16"
+      >
         <p className="text-lg text-muted-foreground leading-relaxed">
           Cada dia sem inteligência de dados é um dia de decisões baseadas em suposições.
         </p>
@@ -42,7 +50,7 @@ const WithoutBISection = () => (
               <p.icon className="text-secondary" size={20} />
             </div>
             <div>
-              <h3 className="text-base font-bold text-foreground mb-1">{p.title}</h3>
+              <h3 className="text-xl font-semibold text-foreground mb-1">{p.title}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">{p.desc}</p>
             </div>
           </motion.div>

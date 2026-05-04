@@ -11,12 +11,20 @@ const ContactSection = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="max-w-2xl mx-auto"
+        className="mb-6"
       >
         <p className="text-base font-semibold text-primary uppercase tracking-widest mb-3">Contato</p>
-        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+        <h2 className="text-3xl md:text-5xl font-bold text-foreground">
           Pronto para transformar seus dados?
         </h2>
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="max-w-2xl mx-auto mb-16"
+      >
         <p className="text-muted-foreground mb-10">
           Fale conosco pelo WhatsApp. Nossa equipe está pronta para entender sua necessidade.
         </p>

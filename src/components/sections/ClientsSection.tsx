@@ -12,10 +12,10 @@ const ClientsSection = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.5 }}
-        className="text-center max-w-2xl mx-auto mb-14"
+        className="text-center max-w-3xl mx-auto mb-10"
       >
         <p className="text-base font-semibold text-primary uppercase tracking-widest mb-3">Nossos Clientes</p>
-        <h2 className="text-3xl md:text-4xl font-bold text-foreground">Empresas que confiam na DATA<span className="text-primary">MAT</span></h2>
+        <h2 className="text-3xl md:text-5xl font-bold text-foreground">Empresas que confiam na <span className="font-logo">DATA<span className="text-primary">MAT</span></span></h2>
       </motion.div>
 
       <div className="flex justify-center items-center gap-12 flex-wrap">

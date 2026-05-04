@@ -18,10 +18,10 @@ const DeliverablesSection = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.5 }}
-        className="text-center max-w-2xl mx-auto mb-16"
+        className="text-center max-w-3xl mx-auto mb-10"
       >
         <p className="text-base font-semibold text-primary uppercase tracking-widest mb-3">O que Entregamos</p>
-        <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+        <h2 className="text-3xl md:text-5xl font-bold text-foreground">
           Ferramentas que geram impacto real
         </h2>
       </motion.div>
@@ -38,7 +38,7 @@ const DeliverablesSection = () => (
             <div className="w-14 h-14 rounded-xl bg-primary/15 flex items-center justify-center mx-auto mb-5">
               <d.icon className="text-primary" size={26} />
             </div>
-            <h3 className="text-base font-bold text-foreground mb-2">{d.title}</h3>
+            <h3 className="text-xl font-semibold text-foreground mb-2">{d.title}</h3>
             <p className="text-sm text-muted-foreground leading-relaxed">{d.desc}</p>
           </motion.div>
         ))}

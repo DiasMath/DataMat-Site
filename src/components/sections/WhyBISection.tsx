@@ -17,12 +17,20 @@ const WhyBISection = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.5 }}
-        className="max-w-2xl mb-16"
+        className="mb-6"
       >
         <p className="text-base font-semibold text-primary uppercase tracking-widest mb-3">Por que ter BI?</p>
-        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+        <h2 className="text-3xl md:text-5xl font-bold text-foreground">
           A informação certa no momento certo muda tudo.
         </h2>
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.5 }}
+        className="max-w-2xl mb-16"
+      >
         <p className="text-lg text-muted-foreground leading-relaxed">
           Em um mundo onde dados são gerados a cada segundo, quem sabe interpretá-los sai na frente. 
           Business Intelligence não é luxo — é a base para decisões mais rápidas, precisas e lucrativas.
@@ -41,7 +49,7 @@ const WhyBISection = () => (
             <div className="w-12 h-12 rounded-xl bg-primary/15 flex items-center justify-center mb-5">
               <p.icon className="text-primary" size={24} />
             </div>
-            <h3 className="text-lg font-bold text-foreground mb-2">{p.title}</h3>
+            <h3 className="text-2xl font-semibold text-foreground mb-2">{p.title}</h3>
             <p className="text-muted-foreground text-sm leading-relaxed">{p.desc}</p>
           </motion.div>
         ))}

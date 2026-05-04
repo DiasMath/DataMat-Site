@@ -4,7 +4,7 @@ import { Heart, Users, Fingerprint } from "lucide-react";
 const WhyUsSection = () => (
   <section className="section-padding bg-card">
     <div className="max-w-7xl mx-auto">
-      <div className="grid md:grid-cols-2 gap-12 items-center">
+      <div className="grid md:grid-cols-2 gap-12 items-start">
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -12,14 +12,14 @@ const WhyUsSection = () => (
           transition={{ duration: 0.5 }}
         >
           <p className="text-base font-semibold text-primary uppercase tracking-widest mb-3">Por que nós?</p>
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+          <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6">
             Focados em excelência. Dedicados a você.
           </h2>
-          <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+          <p className="font-sans text-lg text-muted-foreground leading-relaxed mb-6">
             Somos uma consultoria focada: atendemos os clientes com atenção total. 
             Sem burocracia, sem modelos prontos.
           </p>
-          <p className="text-muted-foreground leading-relaxed">
+          <p className="font-sans text-lg text-muted-foreground leading-relaxed">
             Enquanto grandes consultorias demoram meses e entregam o mesmo para todos, nós mergulhamos 
             nos seus dados e no seu negócio para entregar algo verdadeiramente personalizado.
           </p>
@@ -42,7 +42,7 @@ const WhyUsSection = () => (
                 <item.icon className="text-primary" size={20} />
               </div>
               <div>
-                <h3 className="text-base font-bold text-foreground mb-1">{item.title}</h3>
+                <h3 className="text-xl font-semibold text-foreground mb-1">{item.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
               </div>
             </div>
