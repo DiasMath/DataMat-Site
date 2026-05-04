@@ -32,12 +32,20 @@ const AboutSection = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.5 }}
-        className="max-w-2xl mb-16"
+        className="mb-6"
       >
         <p className="text-base font-semibold text-primary uppercase tracking-widest mb-3">Sobre Nós</p>
-        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+        <h2 className="text-3xl md:text-5xl font-bold text-foreground">
           Transformamos complexidade em resultados práticos.
         </h2>
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.5 }}
+        className="max-w-2xl mb-16"
+      >
         <p className="text-lg text-muted-foreground leading-relaxed">
           Somos uma consultoria de Business Intelligence jovem e dinâmica, dedicada a ajudar empresas a
           tomarem decisões mais inteligentes. Traduzimos dados complexos em estratégias claras e
@@ -61,7 +69,7 @@ const AboutSection = () => (
             <div className="w-12 h-12 rounded-xl bg-primary/15 flex items-center justify-center mb-5 group-hover:bg-primary/25 transition-colors">
               <s.icon className="text-primary" size={24} />
             </div>
-            <h3 className="text-lg font-bold text-foreground mb-2">{s.title}</h3>
+            <h3 className="text-2xl font-semibold text-foreground mb-2">{s.title}</h3>
             <p className="text-muted-foreground text-sm leading-relaxed">{s.desc}</p>
           </motion.div>
         ))}

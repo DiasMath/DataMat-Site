@@ -18,12 +18,20 @@ const ERPProblemSection = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.5 }}
-        className="text-center max-w-2xl mx-auto mb-16"
+        className="text-center mb-6"
       >
         <p className="text-base font-semibold text-primary uppercase tracking-widest mb-3">O Problema</p>
-        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+        <h2 className="text-3xl md:text-5xl font-bold text-foreground">
           O que os ERPs entregam hoje
         </h2>
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.5 }}
+        className="text-center max-w-2xl mx-auto mb-16"
+      >
         <p className="text-lg text-muted-foreground leading-relaxed">
           Seu ERP foi feito para operar, não para analisar. Os dashboards que vêm de fábrica mostram 
           o básico — e o básico não é suficiente para competir.
@@ -43,7 +51,7 @@ const ERPProblemSection = () => (
               <p.icon className="text-destructive" size={22} />
             </div>
             <div>
-              <h3 className="text-base font-bold text-foreground mb-1">{p.title}</h3>
+              <h3 className="text-xl font-semibold text-foreground mb-1">{p.title}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">{p.desc}</p>
             </div>
           </motion.div>

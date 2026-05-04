@@ -18,12 +18,20 @@ const TimelineSection = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.5 }}
-        className="text-center max-w-2xl mx-auto mb-16"
+        className="text-center mb-6"
       >
         <p className="text-base font-semibold text-primary uppercase tracking-widest mb-3">Do Contrato aos Primeiros Visuais</p>
-        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+        <h2 className="text-3xl md:text-5xl font-bold text-foreground">
           Você sabe exatamente o que esperar e quando
         </h2>
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.5 }}
+        className="text-center max-w-2xl mx-auto mb-16"
+      >
         <p className="text-lg text-muted-foreground leading-relaxed">
           Um processo transparente, do primeiro aperto de mão até os dashboards rodando na sua tela.
         </p>
@@ -41,7 +49,7 @@ const TimelineSection = () => (
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.4, delay: i * 0.1 }}
-              className={`relative flex items-start gap-5 md:gap-8 ${i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"} md:text-${i % 2 === 0 ? "right" : "left"}`}
+              className={`relative flex items-start gap-5 md:gap-8 ${i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"}`}
             >
               {/* Content - desktop alternating */}
               <div className="hidden md:block flex-1" />
@@ -53,7 +61,7 @@ const TimelineSection = () => (
 
               {/* Content */}
               <div className="flex-1 pb-2">
-                <h3 className="text-base font-bold text-foreground mb-1">{t.title}</h3>
+                <h3 className="text-xl font-semibold text-foreground mb-1">{t.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{t.desc}</p>
               </div>
             </motion.div>

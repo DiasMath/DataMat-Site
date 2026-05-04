@@ -99,12 +99,19 @@ const Demo = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-6"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+          <h2 className="text-3xl md:text-5xl font-bold text-foreground">
             Dashboard de Demonstração
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center max-w-2xl mx-auto mb-16"
+        >
+          <p className="text-muted-foreground">
             Interaja com o painel abaixo para explorar dados fictícios e entender
             o poder de um BI personalizado. Filtre, clique e descubra.
           </p>
@@ -171,7 +178,7 @@ const Demo = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-3xl md:text-4xl font-bold text-foreground text-center mb-20"
+          className="text-3xl md:text-5xl font-bold text-foreground text-center mb-20"
         >
           Funcionalidades em ação
         </motion.h2>
@@ -195,7 +202,7 @@ const Demo = () => {
                   <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
                     <f.icon className="w-6 h-6 text-primary" />
                   </div>
-                  <h3 className="text-2xl md:text-3xl font-bold text-foreground">{f.title}</h3>
+                  <h3 className="text-2xl md:text-3xl font-semibold text-foreground">{f.title}</h3>
                   <p className="text-muted-foreground leading-relaxed text-base md:text-lg">{f.description}</p>
                 </motion.div>
 
@@ -231,7 +238,7 @@ const Demo = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-3xl md:text-4xl font-bold text-foreground text-center mb-16"
+          className="text-3xl md:text-5xl font-bold text-foreground text-center mb-16"
         >
           Do dado bruto à decisão estratégica
         </motion.h2>
@@ -249,7 +256,7 @@ const Demo = () => {
                 <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-4">
                   <step.icon className="w-7 h-7 text-primary" />
                 </div>
-                <h3 className="text-lg font-bold text-foreground mb-1">{step.title}</h3>
+                <h3 className="text-2xl font-semibold text-foreground mb-1">{step.title}</h3>
                 <p className="text-sm text-muted-foreground max-w-[200px]">{step.desc}</p>
               </motion.div>
 

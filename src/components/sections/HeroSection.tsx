@@ -12,10 +12,10 @@ const HeroSection = () => (
         transition={{ duration: 0.7 }}
         className="space-y-8"
       >
-        <h1 className="text-6xl md:text-7xl lg:text-8xl font-logo font-bold tracking-tighter text-foreground leading-none">
+        <h1 className="text-5xl md:text-6xl lg:text-7xl font-logo font-bold tracking-tighter text-foreground -ml-1">
           DATA<span className="text-primary">MAT</span>
         </h1>
-        <h2 className="text-2xl md:text-3xl font-semibold text-foreground/80">
+        <h2 className="text-2xl md:text-3xl font-semibold text-foreground/80 -mt-2">
           Do Dado à Decisão.
         </h2>
 

@@ -61,7 +61,7 @@ const CaseCard = ({ caseData, index }: { caseData: typeof cases[0]; index: numbe
         className="flex-1 space-y-6 flex flex-col justify-center h-full"
       >
         <div>
-          <h3 className="text-2xl font-bold text-foreground">{caseData.caseTitle}</h3>
+          <h3 className="text-2xl font-semibold text-foreground">{caseData.caseTitle}</h3>
         </div>
 
         <div className="space-y-4">
@@ -192,26 +192,28 @@ const Cases = () => {
 
       {/* CTA */}
       <section className="py-20 md:py-28 bg-muted/30">
-        <div className="max-w-3xl mx-auto px-6 md:px-12 text-center">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 text-center">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-bold text-foreground mb-4"
+            className="text-3xl md:text-5xl font-bold text-foreground mb-6"
           >
             Pronto para transformar{" "}
             <span className="text-primary">sua história</span> também?
           </motion.h2>
-          <motion.p
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-muted-foreground mb-8 max-w-xl mx-auto"
+            className="max-w-2xl mx-auto mb-16"
           >
-            Milhares de empresas já descobriram o poder dos dados. Venha descobrir
-            o que a nossa consultoria de BI pode fazer pelo seu negócio.
-          </motion.p>
+            <p className="text-muted-foreground mb-8">
+              Milhares de empresas já descobriram o poder dos dados. Venha descobrir
+              o que a nossa consultoria de BI pode fazer pelo seu negócio.
+            </p>
+          </motion.div>
           <motion.a
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}

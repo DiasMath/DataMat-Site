@@ -19,6 +19,35 @@ const navLinks: NavLinkItem[] = [
 
 const WHATSAPP_LINK = "https://wa.me/5521996101868?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20os%20serviços%20da%20DATAMAT";
 
+const navLinkClass = "nav-link text-sm font-medium text-muted-foreground hover:text-foreground transition-colors relative pb-1 flex items-center";
+
+const NavLink = ({ item }: { item: NavLinkItem }) => {
+  const content = (
+    <>
+      {item.label}
+      <span className="nav-link-bar" />
+    </>
+  );
+
+  if (item.isRoute) {
+    return (
+      <Link
+        to={item.href}
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        className={navLinkClass}
+      >
+        {content}
+      </Link>
+    );
+  }
+
+  return (
+    <a href={item.href} className={navLinkClass}>
+      {content}
+    </a>
+  );
+};
+
 const Header = () => {
   const [open, setOpen] = useState(false);
 
@@ -34,32 +63,15 @@ const Header = () => {
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 md:px-12 py-4">
         <Link to="/#" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="flex items-end gap-3" aria-label="DataMat - Página Inicial">
-        <span className="text-2xl font-logo font-bold tracking-tight text-foreground">
+        <span className="text-2xl font-logo font-black tracking-tight text-foreground">
           DATA<span className="text-primary">MAT</span>
         </span>
       </Link>
 
         <nav className="hidden md:flex items-center gap-8" role="navigation" aria-label="Navegação principal">
-          {navLinks.map((l) =>
-            l.isRoute ? (
-              <Link
-                key={l.href}
-                to={l.href}
-                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-              >
-                {l.label}
-              </Link>
-            ) : (
-              <a
-                key={l.href}
-                href={l.href}
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-              >
-                {l.label}
-              </a>
-            )
-          )}
+          {navLinks.map((l) => (
+            <NavLink key={l.href} item={l} />
+          ))}
           <a
             href={WHATSAPP_LINK}
             target="_blank"
@@ -91,27 +103,33 @@ const Header = () => {
             className="md:hidden overflow-hidden bg-background border-b border-border"
           >
             <nav className="flex flex-col gap-4 px-6 py-6" role="navigation" aria-label="Menu mobile">
-              {navLinks.map((l) =>
-                l.isRoute ? (
+              {navLinks.map((l) => {
+                const content = (
+                  <>
+                    {l.label}
+                    <span className="nav-link-bar" />
+                  </>
+                );
+                return l.isRoute ? (
                   <Link
                     key={l.href}
                     to={l.href}
                     onClick={() => { closeMenu(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                    className="text-base font-medium text-muted-foreground hover:text-foreground transition-colors"
+                    className="nav-link text-base font-medium text-muted-foreground hover:text-foreground transition-colors relative pb-1"
                   >
-                    {l.label}
+                    {content}
                   </Link>
                 ) : (
                   <a
                     key={l.href}
                     href={l.href}
                     onClick={closeMenu}
-                    className="text-base font-medium text-muted-foreground hover:text-foreground transition-colors"
+                    className="nav-link text-base font-medium text-muted-foreground hover:text-foreground transition-colors relative pb-1"
                   >
-                    {l.label}
+                    {content}
                   </a>
-                )
-              )}
+                );
+              })}
               <a
                 href="/#contato"
                 onClick={closeMenu}
