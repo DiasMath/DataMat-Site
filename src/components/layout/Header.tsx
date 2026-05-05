@@ -19,7 +19,7 @@ const navLinks: NavLinkItem[] = [
 
 const WHATSAPP_LINK = "https://wa.me/5521996101868?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20os%20serviços%20da%20DATAMAT";
 
-const navLinkClass = "nav-link text-sm font-medium text-muted-foreground hover:text-foreground transition-colors relative pb-1 flex items-center";
+const navLinkClass = "nav-link text-base font-heading font-semibold text-muted-foreground hover:text-foreground transition-colors relative pb-1 flex items-center";
 
 const NavLink = ({ item }: { item: NavLinkItem }) => {
   const content = (
@@ -61,14 +61,15 @@ const Header = () => {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 md:px-12 py-4">
-        <Link to="/#" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="flex items-end gap-3" aria-label="DataMat - Página Inicial">
-        <span className="text-2xl font-logo font-black tracking-tight text-foreground">
-          DATA<span className="text-primary">MAT</span>
-        </span>
-      </Link>
+      <div className="max-w-7xl mx-auto flex items-end justify-between px-6 md:px-12 py-4">
+<Link to="/#" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="flex items-end gap-3" aria-label="DataMat - Página Inicial">
+          <img src="/logo-aba.png" alt="DataMat" className="h-8 w-auto mb-0.5" />
+          <span className="text-2xl font-logo font-black tracking-tight text-foreground">
+            DATA<span className="text-primary">MAT</span>
+          </span>
+        </Link>
 
-        <nav className="hidden md:flex items-center gap-8" role="navigation" aria-label="Navegação principal">
+        <nav className="hidden md:flex items-end gap-8" role="navigation" aria-label="Navegação principal">
           {navLinks.map((l) => (
             <NavLink key={l.href} item={l} />
           ))}
@@ -76,7 +77,7 @@ const Header = () => {
             href={WHATSAPP_LINK}
             target="_blank"
             rel="noopener noreferrer"
-            className="ml-2 px-5 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:brightness-110 transition-all"
+            className="ml-2 px-5 py-1.5 rounded-lg bg-primary text-primary-foreground text-base font-heading font-bold hover:brightness-110 transition-all"
           >
             Fale Conosco
           </a>
@@ -133,7 +134,7 @@ const Header = () => {
               <a
                 href="/#contato"
                 onClick={closeMenu}
-                className="mt-2 px-5 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-semibold text-center hover:brightness-110 transition-all"
+                className="mt-2 px-5 py-2.5 rounded-lg bg-primary text-primary-foreground text-xl font-heading font-semibold text-center hover:brightness-110 transition-all"
               >
                 Fale Conosco
               </a>

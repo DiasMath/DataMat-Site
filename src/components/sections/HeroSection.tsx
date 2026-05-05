@@ -23,8 +23,8 @@ const HeroSection = () => (
           <p className="text-base md:text-lg italic text-muted-foreground leading-relaxed">
             "Sem dados, você é apenas mais uma pessoa com uma opinião."
           </p>
-          <cite className="text-sm font-medium text-foreground/60 not-italic mt-2 block">
-            — W. Edwards Deming
+          <cite className="text-base font-heading font-semibold text-foreground/60 not-italic mt-2 block">
+            — W. Edwards Deming 
           </cite>
         </blockquote>
 
@@ -33,13 +33,13 @@ const HeroSection = () => (
             href={WHATSAPP_LINK}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-8 py-4 rounded-lg bg-primary text-primary-foreground font-bold text-base hover:brightness-110 hover:shadow-xl transition-all text-center"
+            className="px-8 py-3 rounded-lg bg-primary text-primary-foreground text-xl font-heading font-bold hover:brightness-110 hover:shadow-xl transition-all text-center"
           >
             Fale no WhatsApp
           </a>
           <a
             href="#sobre"
-            className="px-8 py-4 rounded-lg border-2 border-foreground/15 text-foreground font-semibold text-base hover:border-primary hover:text-primary transition-all text-center"
+            className="px-8 py-3 rounded-lg border-2 border-foreground/15 text-xl font-heading font-semibold hover:border-primary hover:text-primary transition-all text-center"
           >
             Saiba Mais
           </a>
