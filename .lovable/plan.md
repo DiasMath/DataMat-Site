@@ -1,12 +1,12 @@
 # Datamat — Redesign completo do site institucional
 
-Reformulação visual total da Datamat: de consultoria genérica para marca de tecnologia jovem, ousada e visualmente rica. Identidade própria (nada de clone da ROQT), estrutura moderna em bento grid, vídeo no hero, microanimações e conteúdo enxuto.
+Reformulação visual total da Datamat: de consultoria genérica para marca de tecnologia jovem, ousada e visualmente rica — mas com credibilidade suficiente para um público de gestores/C-level que vai confiar dados sensíveis da empresa à Datamat. Identidade própria (nada de clone da ROQT), estrutura moderna em bento grid, vídeo no hero, microanimações e conteúdo enxuto.
 
 ## Direção visual (decidida)
 
 - **Paleta Âmbar Noir**: base preta `#0D0D0D`, superfícies `#1A1A1A`, âmbar `#FFA928` como cor de marca, laranja-brasa `#FF6B35` como acento secundário. Texto claro sobre fundo escuro, com seções pontuais em off-white para respiro.
 - **Tipografia com intenção**: Syne apenas em títulos de seção e no headline do hero, com escala tipográfica saltada e não-linear (hero ~clamp 3.5–7rem; H2 ~2.5rem; kickers em 0.75rem caixa alta com tracking largo) — nada de incrementos lineares. Plus Jakarta Sans no corpo, e seu **itálico** reservado para citações e depoimentos.
-- **Bento assimétrico, sem simetria repetida**: o conceito de bento fica, mas nenhuma seção repete o padrão de grade da anterior (nada de 2x2 seguido de 2x2). Alturas variam de verdade (spans irregulares), e cada seção tem ao menos um elemento que rompe a grade: card sobreposto ao vizinho, imagem que vaza do container, ou bloco com rotação de 1–2 graus.
+- **Bento assimétrico, sem simetria repetida**: o conceito de bento fica, mas nenhuma seção repete o padrão de grade da anterior (nada de 2x2 seguido de 2x2). Alturas variam de verdade (spans irregulares), e cada seção tem ao menos um elemento que rompe a grade: card sobreposto ao vizinho, imagem que vaza do container, ou bloco com rotação de 1–2 graus. Exceção deliberada: "Como trabalhamos" não segue essa regra — é o respiro sóbrio da página.
 - **Visual central é dado real estilizado**: mockups de dashboard com dados fictícios, composições antes/depois (planilha bagunçada → painel limpo), gráficos de linha/barra estilizados. **Proibido**: cérebro brilhante, rede neural, circuito, robô, gráfico de pizza genérico de estoque.
 - **Textura gráfica como assinatura**: grid de pontos e linhas de dados aparecem sempre ancorados aos mesmos elementos — atrás dos números/estatísticas e como marca d'água nos headers de seção. Em nenhum outro lugar.
 - **Movimento contido**: parallax e brilho **só** no hero e no CTA final. Nas demais seções, no máximo fade + slide sutil ao entrar em viewport. Hover discreto (leve elevação ou mudança de cor), sem glow. Respeita `prefers-reduced-motion`.
@@ -15,9 +15,9 @@ Reformulação visual total da Datamat: de consultoria genérica para marca de t
 
 1. **Header fixo** — logo Datamat, menu (Soluções, Cases, Sobre, Blog, Contato), CTA "Fale com um especialista". Fundo transparente no topo do hero, escurece com blur ao rolar. Menu mobile em overlay full-screen.
 2. **Hero** — vídeo em loop de fundo (mp4 placeholder, mudo, `playsinline`) com overlay escuro + poster estático como fallback em mobile e conexões lentas. Headline definitiva: **"Menos planilha. Mais decisão."**, com quebra de linha e alinhamento assimétrico (à esquerda, deslocada da coluna central, segunda linha recuada), subheadline de uma linha, CTA primário e secundário. Parallax leve no vídeo.
-3. **Prova social** — faixa com carrossel automático e infinito de logos, em escala de cinza com cor no hover.
+3. **Prova social** — tratada como elemento de peso, não decorativo (é o principal sinal de credibilidade para esse público): título curto de contexto acima ("Empresas que confiam na Datamat"), carrossel automático e infinito de logos em escala de cinza com cor no hover, e logos em tamanho legível — nada pequeno a ponto de parecer preenchimento; ao inserir os logos reais, priorizar reconhecibilidade.
 4. **Soluções (bento assimétrico)** — 4 blocos de proporções distintas para Business Intelligence, Engenharia de Dados, Ciência de Dados e IA. Um dos blocos avança sobre a faixa vizinha e o mockup de dashboard vaza da borda do card. Título curto, 1–2 linhas, link para a página da solução.
-5. **Como trabalhamos** — timeline horizontal escaneável (scroll horizontal no mobile), numeração enorme em Syne, linha de progresso. Layout deliberadamente diferente da grade da seção anterior.
+5. **Como trabalhamos (seção sóbria)** — timeline horizontal escaneável (scroll horizontal no mobile), numeração enorme em Syne, linha de progresso. Zero rotações, zero sobreposições, composição alinhada e simétrica: mantém paleta e tipografia da marca, mas com tom deliberadamente contido — "somos dinâmicos, mas rigorosos com o que entregamos".
 6. **Resultados em números** — 3 números grandes com contador animado, ancorados na textura de grid de pontos; um dos blocos com rotação leve para quebrar o alinhamento.
 7. **Depoimentos/Cases** — carrossel horizontal: foto do cliente, nome, cargo, frase em Plus Jakarta itálico e resultado numérico em destaque ao lado.
 8. **CTA final** — seção full-width com mídia de fundo diferente do hero, headline grande e botão de agendamento. Único outro lugar com parallax/brilho.
