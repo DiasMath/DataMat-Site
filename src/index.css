@@ -1,6 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -8,51 +6,48 @@
 
 @layer base {
   :root {
-    --background: 40 33% 97%;
-    --foreground: 220 10% 18%;
+    /* ---- Âmbar Noir ---- */
+    --background: 0 0% 5%;          /* #0D0D0D */
+    --foreground: 40 20% 96%;
 
-    --card: 40 20% 95%;
-    --card-foreground: 220 10% 18%;
+    --surface: 0 0% 10%;            /* #1A1A1A */
+    --surface-2: 0 0% 14%;
 
-    --popover: 40 33% 97%;
-    --popover-foreground: 220 10% 18%;
+    --card: 0 0% 10%;
+    --card-foreground: 40 20% 96%;
 
-    --primary: 36 100% 62%;
-    --primary-foreground: 220 10% 14%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 40 20% 96%;
 
-    --secondary: 16 45% 55%;
-    --secondary-foreground: 40 33% 97%;
+    --primary: 38 100% 58%;         /* #FFA928 */
+    --primary-foreground: 0 0% 5%;
 
-    --muted: 35 20% 91%;
-    --muted-foreground: 220 8% 46%;
+    --secondary: 16 100% 60%;       /* #FF6B35 */
+    --secondary-foreground: 0 0% 5%;
 
-    --accent: 36 100% 62%;
-    --accent-foreground: 220 10% 14%;
+    --muted: 0 0% 14%;
+    --muted-foreground: 40 6% 66%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --accent: 38 100% 58%;
+    --accent-foreground: 0 0% 5%;
 
-    --border: 35 15% 85%;
-    --input: 35 15% 85%;
-    --ring: 36 100% 62%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 40 20% 96%;
+
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 38 100% 58%;
+
+    /* Seções de respiro em off-white */
+    --paper: 40 24% 94%;
+    --paper-foreground: 0 0% 8%;
 
     --radius: 0.75rem;
 
-    --hero-gradient: linear-gradient(135deg, hsl(40 33% 97%) 0%, hsl(35 30% 93%) 100%);
-    --contact-bg: 30 25% 93%;
-    --terracotta: 16 45% 55%;
-    --amber-glow: 36 100% 62% / 0.15;
-    --brown: 25 60% 35%;
-
-    --highlight: 36 100% 48%;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --gradient-amber: linear-gradient(135deg, hsl(38 100% 58%), hsl(16 100% 60%));
+    --gradient-veil: linear-gradient(180deg, hsl(0 0% 5% / 0.35) 0%, hsl(0 0% 5% / 0.78) 55%, hsl(0 0% 5%) 100%);
+    --shadow-lift: 0 18px 40px -24px hsl(0 0% 0% / 0.9);
+    --shadow-amber: 0 0 60px -12px hsl(38 100% 58% / 0.45);
   }
 }
 
@@ -69,43 +64,85 @@
     @apply bg-background text-foreground font-sans antialiased;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-heading font-bold;
+  h1, h2, h3 {
+    @apply font-display;
+  }
+
+  ::selection {
+    @apply bg-primary text-primary-foreground;
+  }
+}
+
+@layer components {
+  /* Escala tipográfica saltada (não-linear) */
+  .t-hero {
+    font-size: clamp(3.5rem, 9vw, 7rem);
+    line-height: 0.88;
+    letter-spacing: -0.04em;
+    @apply font-display font-extrabold;
+  }
+
+  .t-section {
+    font-size: clamp(2rem, 3.4vw, 2.5rem);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    @apply font-display font-bold;
+  }
+
+  .t-kicker {
+    font-size: 0.75rem;
+    letter-spacing: 0.28em;
+    @apply uppercase font-sans font-semibold text-primary;
+  }
+
+  .t-quote {
+    @apply font-sans italic text-lg md:text-xl leading-relaxed;
+  }
+
+  .surface-card {
+    @apply rounded-2xl border border-border bg-[hsl(var(--surface))];
   }
 }
 
 @layer utilities {
   .section-padding {
-    @apply py-20 md:py-28 px-6 md:px-12 lg:px-20;
+    @apply py-24 md:py-32 px-6 md:px-12 lg:px-20;
   }
 
-  .hover-lift {
-    @apply transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg;
+  /* Assinatura gráfica: usada SOMENTE atrás de números e em headers de seção */
+  .texture-dots {
+    background-image: radial-gradient(hsl(38 100% 58% / 0.22) 1px, transparent 1px);
+    background-size: 18px 18px;
   }
 
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary;
+  .texture-lines {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      hsl(0 0% 100% / 0.05) 0px,
+      hsl(0 0% 100% / 0.05) 1px,
+      transparent 1px,
+      transparent 26px
+    );
   }
 
-  .nav-link-bar {
-    @apply absolute bottom-0 left-0 w-full h-0.5 bg-primary;
-    transform: scaleX(0);
-    transition: transform 0.3s ease-out;
-    transform-origin: left;
+  .mask-fade-x {
+    -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
   }
 
-  .nav-link:hover .nav-link-bar {
-    transform: scaleX(1);
-    transform-origin: left;
-  }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-  .nav-link:not(:hover) .nav-link-bar {
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.3s ease-in;
+  .hover-raise {
+    @apply transition-[transform,border-color,background-color,color] duration-300 ease-out hover:-translate-y-1 hover:border-primary/50;
   }
+}
 
-  ::selection {
-    @apply bg-primary/50 text-foreground;
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

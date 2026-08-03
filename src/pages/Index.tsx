@@ -1,46 +1,31 @@
 import Header from "@/components/layout/Header";
-import HeroSection from "@/components/sections/HeroSection";
-import ClientsSection from "@/components/sections/ClientsSection";
-import WhyBISection from "@/components/sections/WhyBISection";
-import ERPProblemSection from "@/components/sections/ERPProblemSection";
-import MarketRealitySection from "@/components/sections/MarketRealitySection";
-import WithoutBISection from "@/components/sections/WithoutBISection";
-import AboutSection from "@/components/sections/AboutSection";
-import ApproachSection from "@/components/sections/ApproachSection";
-import ComparisonSection from "@/components/sections/ComparisonSection";
-import DeliverablesSection from "@/components/sections/DeliverablesSection";
-import ResultsSection from "@/components/sections/ResultsSection";
-import ValuesSection from "@/components/sections/ValuesSection";
-import WhyUsSection from "@/components/sections/WhyUsSection";
-import TimelineSection from "@/components/sections/TimelineSection";
-import ContactSection from "@/components/sections/ContactSection";
 import Footer from "@/components/layout/Footer";
-
+import HeroSection from "@/components/home/HeroSection";
+import SocialProofSection from "@/components/home/SocialProofSection";
+import SolutionsSection from "@/components/home/SolutionsSection";
+import HowWeWorkSection from "@/components/home/HowWeWorkSection";
+import ResultsSection from "@/components/home/ResultsSection";
+import TestimonialsSection from "@/components/home/TestimonialsSection";
+import FinalCTASection from "@/components/home/FinalCTASection";
 import { useScrollToHash } from "@/hooks/use-scroll-to-hash";
 
 const Index = () => {
   useScrollToHash();
 
   return (
-  <>
-    <Header />
-    <HeroSection />
-    <ClientsSection />
-    <WhyBISection />
-    <ERPProblemSection />
-    <MarketRealitySection />
-    <WithoutBISection />
-    <AboutSection />
-    <ValuesSection />
-    <ApproachSection />
-    <ComparisonSection />
-    <DeliverablesSection />
-    <ResultsSection />
-    <WhyUsSection />
-    <TimelineSection />
-    <ContactSection />
-    <Footer />
-  </>
+    <>
+      <Header />
+      <main>
+        <HeroSection />
+        <SocialProofSection />
+        <SolutionsSection />
+        <HowWeWorkSection />
+        <ResultsSection />
+        <TestimonialsSection />
+        <FinalCTASection />
+      </main>
+      <Footer />
+    </>
   );
 };
 
