@@ -7,21 +7,15 @@ export default {
   theme: {
     container: {
       center: true,
-      padding: {
-        DEFAULT: "1rem",
-        sm: "1.5rem",
-        lg: "2rem",
-        xl: "2rem",
-      },
-      screens: {
-        "2xl": "1400px",
-      },
+      padding: { DEFAULT: "1rem", sm: "1.5rem", lg: "2rem", xl: "2rem" },
+      screens: { "2xl": "1400px" },
     },
     extend: {
       fontFamily: {
-        sans: ['"Inter"', 'system-ui', 'sans-serif'],
-        heading: ['"Rajdhani"', 'system-ui', 'sans-serif'],
-        logo: ['"Orbitron"', 'system-ui', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', "system-ui", "sans-serif"],
+        display: ['"Syne"', "system-ui", "sans-serif"],
+        heading: ['"Syne"', "system-ui", "sans-serif"],
+        logo: ['"Syne"', "system-ui", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -29,6 +23,14 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        surface: {
+          DEFAULT: "hsl(var(--surface))",
+          2: "hsl(var(--surface-2))",
+        },
+        paper: {
+          DEFAULT: "hsl(var(--paper))",
+          foreground: "hsl(var(--paper-foreground))",
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -57,42 +59,33 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        contact: "hsl(var(--contact-bg))",
-        terracotta: "hsl(var(--terracotta))",
-        highlight: "hsl(var(--highlight))",
-        sidebar: {
-          DEFAULT: "hsl(var(--sidebar-background))",
-          foreground: "hsl(var(--sidebar-foreground))",
-          primary: "hsl(var(--sidebar-primary))",
-          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
-          accent: "hsl(var(--sidebar-accent))",
-          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
-          border: "hsl(var(--sidebar-border))",
-          ring: "hsl(var(--sidebar-ring))",
-        },
+        highlight: "hsl(var(--primary))",
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      boxShadow: {
+        lift: "var(--shadow-lift)",
+        amber: "var(--shadow-amber)",
+      },
+      backgroundImage: {
+        "gradient-amber": "var(--gradient-amber)",
+        "gradient-veil": "var(--gradient-veil)",
+      },
       keyframes: {
-        "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
-        },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
+        marquee: {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(-50%)" },
         },
         "fade-up": {
-          "0%": { opacity: "0", transform: "translateY(30px)" },
+          "0%": { opacity: "0", transform: "translateY(24px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
       },
       animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
+        marquee: "marquee 38s linear infinite",
         "fade-up": "fade-up 0.6s ease-out forwards",
       },
     },
