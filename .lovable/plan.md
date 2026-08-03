@@ -1,6 +1,6 @@
 # Datamat — Redesign completo do site institucional
 
-Reformulação visual total da Datamat: de consultoria genérica para marca de tecnologia jovem, ousada e visualmente rica. Identidade própria (nada de clone da ROQT), estrutura moderna em bento grid, vídeo no hero, microanimações e conteúdo enxuto.
+Reformulação visual total da Datamat: de consultoria genérica para marca de tecnologia jovem, ousada e visualmente rica — mas com credibilidade suficiente para um público de gestores/C-level que vai confiar dados sensíveis da empresa à Datamat. Identidade própria (nada de clone da ROQT), estrutura moderna em bento grid, vídeo no hero, microanimações e conteúdo enxuto.
 
 ## Direção visual (decidida)
 
