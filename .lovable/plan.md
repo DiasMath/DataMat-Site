@@ -38,4 +38,8 @@ Quatro páginas internas (`/solucoes/business-intelligence`, `/engenharia-de-dad
 - Rotas novas em `App.tsx` para as 4 páginas de solução, com template compartilhado.
 - Performance: vídeo do hero comprimido e só em desktop, `poster` como fallback, `loading="lazy"` + `width/height` em todas as imagens, fontes com `display=swap`.
 - SEO: title/meta description por página, H1 único, headings semânticos, alt text, JSON-LD Organization atualizado, sitemap ajustado com as novas rotas.
-- Todos os pontos de troca de conteúdo marcados com comentários `{/* TODO CONTEÚDO: ... */}` (vídeos, imagens, logos de clientes, números, depoimentos, textos).
+- Todos os pontos de troca de conteúdo marcados com comentários `{/* TODO CONTEÚDO: ... */}`, com prioridade explícita para material real:
+  - fotos de depoimento → "usar foto real do cliente, não banco de imagens";
+  - logos → "logos reais de clientes/parceiros, não placeholders genéricos";
+  - fotos de equipe (seção Sobre futura) → "foto real da equipe, não banco de imagens".
+
