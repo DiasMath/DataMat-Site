@@ -5,23 +5,24 @@ Reformulação visual total da Datamat: de consultoria genérica para marca de t
 ## Direção visual (decidida)
 
 - **Paleta Âmbar Noir**: base preta `#0D0D0D`, superfícies `#1A1A1A`, âmbar `#FFA928` como cor de marca, laranja-brasa `#FF6B35` como acento secundário. Texto claro sobre fundo escuro, com seções pontuais em off-white para respiro.
-- **Tipografia**: Syne (títulos, bold/extrabold, tracking apertado, tamanhos grandes) + Plus Jakarta Sans (corpo, enxuto).
-- **Layout**: bento grid como assinatura — blocos de tamanhos variados em soluções, diferenciais e números.
-- **Textura gráfica**: grids de pontos, linhas de dados estilizadas, bordas sutis com brilho âmbar, ruído leve. Sem ícones genéricos de estoque como protagonistas.
-- **Movimento**: fade/slide ao entrar em viewport, parallax leve, hover com elevação e brilho, contadores animados. Tudo respeitando `prefers-reduced-motion`.
+- **Tipografia com intenção**: Syne apenas em títulos de seção e no headline do hero, com escala tipográfica saltada e não-linear (hero ~clamp 3.5–7rem; H2 ~2.5rem; kickers em 0.75rem caixa alta com tracking largo) — nada de incrementos lineares. Plus Jakarta Sans no corpo, e seu **itálico** reservado para citações e depoimentos.
+- **Bento assimétrico, sem simetria repetida**: o conceito de bento fica, mas nenhuma seção repete o padrão de grade da anterior (nada de 2x2 seguido de 2x2). Alturas variam de verdade (spans irregulares), e cada seção tem ao menos um elemento que rompe a grade: card sobreposto ao vizinho, imagem que vaza do container, ou bloco com rotação de 1–2 graus.
+- **Visual central é dado real estilizado**: mockups de dashboard com dados fictícios, composições antes/depois (planilha bagunçada → painel limpo), gráficos de linha/barra estilizados. **Proibido**: cérebro brilhante, rede neural, circuito, robô, gráfico de pizza genérico de estoque.
+- **Textura gráfica como assinatura**: grid de pontos e linhas de dados aparecem sempre ancorados aos mesmos elementos — atrás dos números/estatísticas e como marca d'água nos headers de seção. Em nenhum outro lugar.
+- **Movimento contido**: parallax e brilho **só** no hero e no CTA final. Nas demais seções, no máximo fade + slide sutil ao entrar em viewport. Hover discreto (leve elevação ou mudança de cor), sem glow. Respeita `prefers-reduced-motion`.
 
 ## Estrutura da home
 
 1. **Header fixo** — logo Datamat, menu (Soluções, Cases, Sobre, Blog, Contato), CTA "Fale com um especialista". Fundo transparente no topo do hero, escurece com blur ao rolar. Menu mobile em overlay full-screen.
-2. **Hero** — vídeo em loop de fundo (mp4 placeholder, mudo, `playsinline`) com overlay escuro + poster estático usado como fallback em mobile e conexões lentas. Headline curta e forte, subheadline de uma linha, CTA primário e secundário.
-   Variações de headline propostas: "Do dado à decisão, sem complicação." / "Dados que decidem por você — quase." / "Menos planilha. Mais decisão."
-3. **Prova social** — faixa com carrossel automático e infinito de logos (placeholders), em escala de cinza com cor no hover.
-4. **Soluções (bento grid)** — 4 blocos de tamanhos diferentes: Business Intelligence, Engenharia de Dados, Ciência de Dados, Inteligência Artificial. Cada um com imagem/visual grande, título curto, 1–2 linhas e link para sua página própria.
-5. **Como trabalhamos** — timeline horizontal escaneável (scroll horizontal no mobile) com 4–5 passos, numeração grande e linha de progresso animada.
-6. **Resultados em números** — 3 números grandes com contador animado ao entrar na tela (placeholders).
-7. **Depoimentos/Cases** — carrossel horizontal de cards com foto, nome, cargo, frase curta e resultado numérico em destaque.
-8. **CTA final** — seção full-width com imagem/vídeo de fundo diferente do hero, headline grande e botão de agendamento.
+2. **Hero** — vídeo em loop de fundo (mp4 placeholder, mudo, `playsinline`) com overlay escuro + poster estático como fallback em mobile e conexões lentas. Headline definitiva: **"Menos planilha. Mais decisão."**, com quebra de linha e alinhamento assimétrico (à esquerda, deslocada da coluna central, segunda linha recuada), subheadline de uma linha, CTA primário e secundário. Parallax leve no vídeo.
+3. **Prova social** — faixa com carrossel automático e infinito de logos, em escala de cinza com cor no hover.
+4. **Soluções (bento assimétrico)** — 4 blocos de proporções distintas para Business Intelligence, Engenharia de Dados, Ciência de Dados e IA. Um dos blocos avança sobre a faixa vizinha e o mockup de dashboard vaza da borda do card. Título curto, 1–2 linhas, link para a página da solução.
+5. **Como trabalhamos** — timeline horizontal escaneável (scroll horizontal no mobile), numeração enorme em Syne, linha de progresso. Layout deliberadamente diferente da grade da seção anterior.
+6. **Resultados em números** — 3 números grandes com contador animado, ancorados na textura de grid de pontos; um dos blocos com rotação leve para quebrar o alinhamento.
+7. **Depoimentos/Cases** — carrossel horizontal: foto do cliente, nome, cargo, frase em Plus Jakarta itálico e resultado numérico em destaque ao lado.
+8. **CTA final** — seção full-width com mídia de fundo diferente do hero, headline grande e botão de agendamento. Único outro lugar com parallax/brilho.
 9. **Footer** — logo, colunas (Soluções, Empresa, Contato), redes sociais, endereço, copyright.
+
 
 ## Páginas de soluções
 
@@ -37,4 +38,8 @@ Quatro páginas internas (`/solucoes/business-intelligence`, `/engenharia-de-dad
 - Rotas novas em `App.tsx` para as 4 páginas de solução, com template compartilhado.
 - Performance: vídeo do hero comprimido e só em desktop, `poster` como fallback, `loading="lazy"` + `width/height` em todas as imagens, fontes com `display=swap`.
 - SEO: title/meta description por página, H1 único, headings semânticos, alt text, JSON-LD Organization atualizado, sitemap ajustado com as novas rotas.
-- Todos os pontos de troca de conteúdo marcados com comentários `{/* TODO CONTEÚDO: ... */}` (vídeos, imagens, logos de clientes, números, depoimentos, textos).
+- Todos os pontos de troca de conteúdo marcados com comentários `{/* TODO CONTEÚDO: ... */}`, com prioridade explícita para material real:
+  - fotos de depoimento → "usar foto real do cliente, não banco de imagens";
+  - logos → "logos reais de clientes/parceiros, não placeholders genéricos";
+  - fotos de equipe (seção Sobre futura) → "foto real da equipe, não banco de imagens".
+
