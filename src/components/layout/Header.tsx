@@ -1,91 +1,68 @@
-import { useState, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { SOLUTIONS, WHATSAPP_LINK } from "@/lib/site";
 
-interface NavLinkItem {
-  label: string;
-  href: string;
-  isRoute?: boolean;
-}
-
-const navLinks: NavLinkItem[] = [
-  { label: "Sobre Nós", href: "/#sobre" },
-  { label: "Metodologia", href: "/#abordagem" },
+const navLinks = [
+  { label: "Soluções", href: "/#solucoes" },
   { label: "Cases", href: "/cases", isRoute: true },
-  // { label: "Demonstração", href: "/demonstracao", isRoute: true },
-  { label: "Clientes", href: "/#clientes" },
+  { label: "Sobre", href: "/#como-trabalhamos" },
+  { label: "Contato", href: "/#contato" },
 ];
-
-const WHATSAPP_LINK = "https://wa.me/5521996101868?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20os%20serviços%20da%20DATAMAT";
-
-const navLinkClass = "nav-link text-base font-heading font-semibold text-muted-foreground hover:text-foreground transition-colors relative pb-1 flex items-center";
-
-const NavLink = ({ item }: { item: NavLinkItem }) => {
-  const content = (
-    <>
-      {item.label}
-      <span className="nav-link-bar" />
-    </>
-  );
-
-  if (item.isRoute) {
-    return (
-      <Link
-        to={item.href}
-        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className={navLinkClass}
-      >
-        {content}
-      </Link>
-    );
-  }
-
-  return (
-    <a href={item.href} className={navLinkClass}>
-      {content}
-    </a>
-  );
-};
 
 const Header = () => {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  const toggleMenu = useCallback(() => {
-    setOpen((prev) => !prev);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const closeMenu = useCallback(() => {
-    setOpen(false);
-  }, []);
+  const close = useCallback(() => setOpen(false), []);
+
+  const linkClass =
+    "font-sans text-sm font-medium text-muted-foreground transition-colors hover:text-foreground";
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
-      <div className="max-w-7xl mx-auto flex items-end justify-between px-6 md:px-12 py-4">
-<Link to="/#" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="flex items-end gap-3" aria-label="DataMat - Página Inicial">
-          <img src="/logo-aba.png" alt="DataMat" className="h-8 w-auto mb-0.5" />
-          <span className="text-2xl font-logo font-black tracking-tight text-foreground">
-            DATA<span className="text-primary">MAT</span>
-          </span>
+    <header
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
+        scrolled ? "border-b border-border bg-background/80 backdrop-blur-md" : "bg-transparent"
+      }`}
+    >
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 md:px-12">
+        <Link to="/" className="font-display text-xl font-extrabold tracking-tight text-foreground">
+          DATA<span className="text-primary">MAT</span>
         </Link>
 
-        <nav className="hidden md:flex items-end gap-8" role="navigation" aria-label="Navegação principal">
-          {navLinks.map((l) => (
-            <NavLink key={l.href} item={l} />
-          ))}
+        <nav className="hidden items-center gap-9 md:flex" aria-label="Navegação principal">
+          {navLinks.map((l) =>
+            l.isRoute ? (
+              <Link key={l.href} to={l.href} className={linkClass}>
+                {l.label}
+              </Link>
+            ) : (
+              <a key={l.href} href={l.href} className={linkClass}>
+                {l.label}
+              </a>
+            ),
+          )}
           <a
             href={WHATSAPP_LINK}
             target="_blank"
             rel="noopener noreferrer"
-            className="ml-2 px-5 py-1.5 rounded-lg bg-primary text-primary-foreground text-base font-heading font-bold hover:brightness-110 transition-all"
+            className="rounded-xl bg-primary px-5 py-2.5 font-sans text-sm font-semibold text-primary-foreground transition-colors duration-300 hover:bg-secondary"
           >
-            Fale Conosco
+            Fale com um especialista
           </a>
         </nav>
 
-        <button 
-          className="md:hidden text-foreground" 
-          onClick={toggleMenu}
+        <button
+          className="text-foreground md:hidden"
+          onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
           aria-controls="mobile-menu"
           aria-label={open ? "Fechar menu" : "Abrir menu"}
@@ -98,47 +75,47 @@ const Header = () => {
         {open && (
           <motion.div
             id="mobile-menu"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="md:hidden overflow-hidden bg-background border-b border-border"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 top-0 z-40 flex flex-col bg-background px-6 pb-10 pt-24 md:hidden"
           >
-            <nav className="flex flex-col gap-4 px-6 py-6" role="navigation" aria-label="Menu mobile">
-              {navLinks.map((l) => {
-                const content = (
-                  <>
+            <nav className="flex flex-col gap-6" aria-label="Menu mobile">
+              {navLinks.map((l) =>
+                l.isRoute ? (
+                  <Link key={l.href} to={l.href} onClick={close} className="font-display text-3xl font-bold">
                     {l.label}
-                    <span className="nav-link-bar" />
-                  </>
-                );
-                return l.isRoute ? (
-                  <Link
-                    key={l.href}
-                    to={l.href}
-                    onClick={() => { closeMenu(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                    className="nav-link text-base font-medium text-muted-foreground hover:text-foreground transition-colors relative pb-1"
-                  >
-                    {content}
                   </Link>
                 ) : (
-                  <a
-                    key={l.href}
-                    href={l.href}
-                    onClick={closeMenu}
-                    className="nav-link text-base font-medium text-muted-foreground hover:text-foreground transition-colors relative pb-1"
-                  >
-                    {content}
+                  <a key={l.href} href={l.href} onClick={close} className="font-display text-3xl font-bold">
+                    {l.label}
                   </a>
-                );
-              })}
-              <a
-                href="/#contato"
-                onClick={closeMenu}
-                className="mt-2 px-5 py-2.5 rounded-lg bg-primary text-primary-foreground text-xl font-heading font-semibold text-center hover:brightness-110 transition-all"
-              >
-                Fale Conosco
-              </a>
+                ),
+              )}
+              <div className="mt-2 flex flex-col gap-3 border-t border-border pt-6">
+                {SOLUTIONS.map((s) => (
+                  <Link
+                    key={s.slug}
+                    to={`/solucoes/${s.slug}`}
+                    onClick={close}
+                    className="text-sm text-muted-foreground"
+                  >
+                    {s.label}
+                  </Link>
+                ))}
+              </div>
             </nav>
+
+            <a
+              href={WHATSAPP_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={close}
+              className="mt-auto rounded-xl bg-primary px-6 py-4 text-center font-sans font-semibold text-primary-foreground"
+            >
+              Fale com um especialista
+            </a>
           </motion.div>
         )}
       </AnimatePresence>

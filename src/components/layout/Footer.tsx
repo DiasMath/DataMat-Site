@@ -1,26 +1,72 @@
+import { Link } from "react-router-dom";
+import { Instagram, Linkedin } from "lucide-react";
+import { SOLUTIONS, WHATSAPP_LINK } from "@/lib/site";
+
 const Footer = () => (
-  <footer className="bg-foreground text-background/70 py-12 px-6 md:px-12">
-    <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-      <a href="#" className="text-xl font-logo font-black tracking-tight text-background">
-        DATA<span className="text-primary">MAT</span>
-      </a>
-      <nav className="flex gap-6 text-sm">
-        <a href="/#sobre" className="nav-link hover:text-background transition-colors relative pb-1">
-          Sobre Nós<span className="nav-link-bar" />
-        </a>
-        <a href="/#abordagem" className="nav-link hover:text-background transition-colors relative pb-1">
-          Metodologia<span className="nav-link-bar" />
-        </a>
-        <a href="/cases" className="nav-link hover:text-background transition-colors relative pb-1">
-          Cases<span className="nav-link-bar" />
-        </a>
-        {/* <a href="/demonstracao" className="nav-link hover:text-background transition-colors relative pb-1">Demonstração<span className="nav-link-bar" /></a> */}
-        <a href="/#clientes" className="nav-link hover:text-background transition-colors relative pb-1">
-          Clientes<span className="nav-link-bar" />
-        </a>
-      </nav>
-      <p className="text-xs text-background/40">© 2026 DATAMAT. Todos os direitos reservados.</p>
+  <footer className="border-t border-border bg-background px-6 py-16 md:px-12 lg:px-20">
+    <div className="mx-auto grid max-w-7xl gap-12 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+      <div>
+        <Link to="/" className="font-display text-2xl font-extrabold tracking-tight text-foreground">
+          DATA<span className="text-primary">MAT</span>
+        </Link>
+        <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
+          Consultoria de dados e IA aplicada a decisões de negócio.
+        </p>
+        <div className="mt-6 flex gap-4">
+          {/* TODO CONTEÚDO: links reais das redes sociais da Datamat */}
+          <a href="#" aria-label="LinkedIn da Datamat" className="text-muted-foreground transition-colors hover:text-primary">
+            <Linkedin size={20} />
+          </a>
+          <a href="#" aria-label="Instagram da Datamat" className="text-muted-foreground transition-colors hover:text-primary">
+            <Instagram size={20} />
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <p className="t-kicker">Soluções</p>
+        <ul className="mt-5 space-y-3 text-sm text-muted-foreground">
+          {SOLUTIONS.map((s) => (
+            <li key={s.slug}>
+              <Link to={`/solucoes/${s.slug}`} className="transition-colors hover:text-foreground">
+                {s.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <p className="t-kicker">Empresa</p>
+        <ul className="mt-5 space-y-3 text-sm text-muted-foreground">
+          <li><Link to="/cases" className="transition-colors hover:text-foreground">Cases</Link></li>
+          <li><a href="/#como-trabalhamos" className="transition-colors hover:text-foreground">Como trabalhamos</a></li>
+          <li><a href="/#resultados" className="transition-colors hover:text-foreground">Resultados</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p className="t-kicker">Contato</p>
+        {/* TODO CONTEÚDO: e-mail e endereço finais da Datamat */}
+        <ul className="mt-5 space-y-3 text-sm text-muted-foreground">
+          <li>
+            <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-foreground">
+              +55 21 99610-1868
+            </a>
+          </li>
+          <li>
+            <a href="mailto:contato@datamat.com.br" className="transition-colors hover:text-foreground">
+              contato@datamat.com.br
+            </a>
+          </li>
+          <li>Rio de Janeiro, RJ</li>
+        </ul>
+      </div>
     </div>
+
+    <p className="mx-auto mt-14 max-w-7xl border-t border-border pt-8 text-xs text-muted-foreground">
+      © {new Date().getFullYear()} DATAMAT. Todos os direitos reservados.
+    </p>
   </footer>
 );
 
