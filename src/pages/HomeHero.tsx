@@ -1,12 +1,9 @@
-import { useLayoutEffect, useRef } from "react";
-import gsap from "gsap";
-import { SplitText } from "gsap/SplitText";
+import { useRef } from "react";
+import { gsap, SplitText, useGSAP } from "../motion/gsap";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { Container, Eyebrow } from "../components/ui";
 import { ContactAction } from "../components/contact";
 import { skipIntro } from "../lib/boot";
-
-gsap.registerPlugin(SplitText);
 
 const sources = [
   { key: "a", label: "DADOS DISPERSOS" },
@@ -23,11 +20,11 @@ const sources = [
 export function HomeHero() {
   const root = useRef<HTMLElement>(null);
 
-  useLayoutEffect(() => {
-    const section = root.current;
-    if (!section) return;
-
-    const ctx = gsap.context(() => {
+  // Peça especial (fora do catálogo de data-reveal): a história da órbita.
+  useGSAP(
+    () => {
+      const section = root.current;
+      if (!section) return;
       const q = gsap.utils.selector(section);
       const core = q(".motion-core")[0];
       const cards = q(".motion-source");
@@ -178,10 +175,9 @@ export function HomeHero() {
         window.removeEventListener("scroll", onScroll);
         window.clearTimeout(idle);
       };
-    }, section);
-
-    return () => ctx.revert();
-  }, []);
+    },
+    { scope: root },
+  );
 
   return (
     <section className="home-hero" ref={root}>

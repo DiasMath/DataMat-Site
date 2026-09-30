@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
-import gsap from "gsap";
+import { gsap, useGSAP } from "../motion/gsap";
+import { skipIntro } from "../lib/boot";
 import { Container, Eyebrow, SectionIntro } from "../components/ui";
 import { DashboardMock } from "../components/mocks";
 import { CTA } from "../components/contact";
@@ -31,13 +32,28 @@ function SourceFlow() {
 }
 
 function DataHero() {
+  const frame = useRef<HTMLDivElement>(null);
+  // Peça especial: as barras do gráfico crescem quando o quadro aparece.
+  useGSAP(
+    () => {
+      if (skipIntro()) return;
+      gsap.from(".bar-set b", {
+        scaleY: 0,
+        transformOrigin: "bottom",
+        stagger: 0.05,
+        clearProps: "all",
+        scrollTrigger: { trigger: frame.current, start: "top 82%", once: true },
+      });
+    },
+    { scope: frame },
+  );
   return (
     <section className="product-hero data-hero">
       <Container>
         <div className="data-hero-head">
           <div>
             <Eyebrow>01 / DADOS & BI</Eyebrow>
-            <h1>
+            <h1 data-reveal="heading">
               Veja sua empresa
               <br />
               <em>por inteiro.</em>
@@ -52,7 +68,7 @@ function DataHero() {
             </a>
           </div>
         </div>
-        <div className="data-hero-frame" data-reveal>
+        <div className="data-hero-frame" data-reveal ref={frame}>
           <div className="frame-caption">
             <span>DATAMAT / VISÃO DE GESTÃO</span>
             <span>EXEMPLO ILUSTRATIVO</span>

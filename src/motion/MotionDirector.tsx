@@ -1,20 +1,28 @@
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import gsap from "gsap";
-import { ScrollSmoother } from "gsap/ScrollSmoother";
-import { ScrollToPlugin } from "gsap/ScrollToPlugin";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { gsap, ScrollSmoother, ScrollTrigger } from "./gsap";
+import { applyReveals } from "./reveal";
 import { markNavigated, skipIntro } from "../lib/boot";
 
-gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrollToPlugin);
+/**
+ * Orquestra o movimento do site: cria o scroll suave, volta ao topo ao
+ * trocar de página, aplica o catálogo de animações (src/motion/reveal.ts)
+ * e trata os links âncora (#secao).
+ */
 
 export function MotionDirector() {
   const { pathname, hash } = useLocation();
-  const pagePath = pathname.replace(/\/+$/, "") || "/";
   const navigate = useNavigate();
   const previousPath = useRef(pathname);
 
   useLayoutEffect(() => {
+    // Em desenvolvimento, abra o site com ?markers para ver onde cada
+    // animação de scroll começa e termina.
+    ScrollTrigger.defaults({
+      markers:
+        import.meta.env.DEV &&
+        new URLSearchParams(window.location.search).has("markers"),
+    });
     const smoother = ScrollSmoother.create({
       wrapper: "#smooth-wrapper",
       content: "#smooth-content",
@@ -37,60 +45,9 @@ export function MotionDirector() {
 
     const root = document.getElementById("smooth-content");
     if (!root) return;
-    // Primeira carga pré-renderizada: o que já está na tela não "pisca".
-    const firstPaint = skipIntro();
-    const inView = (el: Element) =>
-      el.getBoundingClientRect().top < window.innerHeight;
-
     const context = gsap.context(() => {
-      const hero = root.querySelector<HTMLElement>(
-        ".product-hero h1, .simple-hero h1",
-      );
-      if (hero && !firstPaint)
-        gsap.from(hero, {
-          autoAlpha: 0,
-          y: 22,
-          duration: 0.8,
-          ease: "power3.out",
-          clearProps: "all",
-        });
-
-      gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((item) => {
-        if (firstPaint && inView(item)) return;
-        gsap.from(item, {
-          autoAlpha: 0,
-          y: 18,
-          duration: 0.65,
-          ease: "power3.out",
-          clearProps: "all",
-          scrollTrigger: { trigger: item, start: "top 88%", once: true },
-        });
-      });
-
-      if (pagePath === "/dados-bi") {
-        gsap.from(".data-hero-frame .bar-set b", {
-          scaleY: 0,
-          transformOrigin: "bottom",
-          stagger: 0.05,
-          duration: 0.65,
-          ease: "power3.out",
-          clearProps: "all",
-          scrollTrigger: {
-            trigger: ".data-hero-frame",
-            start: "top 82%",
-            once: true,
-          },
-        });
-      }
-      if (pagePath === "/sites") {
-        gsap.from(".sites-hero .site-viewport", {
-          autoAlpha: 0,
-          x: 36,
-          duration: 0.9,
-          ease: "power3.out",
-          clearProps: "all",
-        });
-      }
+      // Primeira carga pré-renderizada: o que já está na tela não "pisca".
+      applyReveals(root, { skipInView: skipIntro() });
     }, root);
 
     const refresh = requestAnimationFrame(() => ScrollTrigger.refresh());
@@ -98,7 +55,7 @@ export function MotionDirector() {
       context.revert();
       cancelAnimationFrame(refresh);
     };
-  }, [pathname, pagePath]);
+  }, [pathname]);
 
   useEffect(() => {
     if (!hash) return;

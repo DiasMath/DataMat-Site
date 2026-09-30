@@ -6,7 +6,7 @@ import { CTA } from "../components/contact";
 function SiteViewport() {
   const [device, setDevice] = useState<"desktop" | "mobile">("desktop");
   return (
-    <div className="site-viewport">
+    <div className="site-viewport" data-reveal="slide-left">
       <div className="viewport-bar">
         <span>PRÉVIA RESPONSIVA / EXEMPLO</span>
         <div role="tablist" aria-label="Visualizar dispositivo">
@@ -44,7 +44,7 @@ function SitesHero() {
       <Container>
         <div className="sites-hero-head">
           <Eyebrow>04 / SITES & PRESENÇA DIGITAL</Eyebrow>
-          <h1>
+          <h1 data-reveal="heading">
             Seu site precisa
             <br />
             <em>trabalhar pela empresa.</em>

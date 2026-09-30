@@ -26,3 +26,9 @@
     translate: 0 -13px;
   }
 }
+
+/* data-pause-offscreen (src/motion/reveal.ts): pausa animações CSS fora da tela */
+.is-paused,
+.is-paused * {
+  animation-play-state: paused;
+}

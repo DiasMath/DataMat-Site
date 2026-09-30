@@ -5,7 +5,7 @@ export function PrivacyPage() {
     <section className="simple-hero privacy-page">
       <Container>
         <Eyebrow>PRIVACIDADE</Eyebrow>
-        <h1>Tratamento de dados neste protótipo.</h1>
+        <h1 data-reveal="heading">Tratamento de dados neste protótipo.</h1>
         <p>
           O formulário de contato desta versão ainda não envia dados para a
           DATAMAT. As informações digitadas permanecem no seu navegador durante

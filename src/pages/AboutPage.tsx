@@ -10,7 +10,9 @@ export function AboutPage() {
       <section className="simple-hero">
         <Container>
           <Eyebrow>DATAMAT / INTELIGÊNCIA PARA NEGÓCIOS</Eyebrow>
-          <h1>Tecnologia, estratégia e execução mais próximas do negócio.</h1>
+          <h1 data-reveal="heading">
+            Tecnologia, estratégia e execução mais próximas do negócio.
+          </h1>
           <p>Começamos pelo problema. A ferramenta vem depois.</p>
         </Container>
       </section>

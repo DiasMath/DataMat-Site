@@ -5,7 +5,7 @@ export function NotFound() {
     <section className="simple-hero not-found">
       <Container>
         <Eyebrow>404 / PÁGINA NÃO ENCONTRADA</Eyebrow>
-        <h1>Esta página não existe.</h1>
+        <h1 data-reveal="heading">Esta página não existe.</h1>
         <Button to="/">Voltar ao início</Button>
       </Container>
     </section>

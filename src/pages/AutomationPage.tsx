@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Check } from "lucide-react";
-import gsap from "gsap";
+import { gsap } from "../motion/gsap";
 import { Container, Eyebrow, SectionIntro } from "../components/ui";
 import { CTA } from "../components/contact";
 
@@ -89,7 +89,7 @@ function AutomationHero() {
       <Container>
         <Eyebrow>02 / IA & AUTOMAÇÃO</Eyebrow>
         <div className="automation-title">
-          <h1>
+          <h1 data-reveal="heading">
             Menos tarefa manual.
             <br />
             <em>Mais processo funcionando.</em>

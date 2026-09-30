@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowDown } from "lucide-react";
-import gsap from "gsap";
+import { gsap } from "../motion/gsap";
 import { Container, Eyebrow, SectionIntro } from "../components/ui";
 import { BrandMock } from "../components/mocks";
 import { CTA } from "../components/contact";
@@ -120,7 +120,7 @@ function BrandHero() {
       <Container className="brand-hero-layout">
         <div className="brand-hero-copy">
           <Eyebrow>03 / MARCA & GROWTH</Eyebrow>
-          <h1>
+          <h1 data-reveal="heading">
             Uma marca forte
             <br />
             começa com <em>clareza.</em>
