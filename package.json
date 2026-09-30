@@ -1,33 +1,31 @@
 {
-  "name": "datamat-site",
+  "name": "datamat-institucional",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "build:dev": "vite build --mode development",
-    "lint": "eslint .",
-    "preview": "vite preview",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "dev": "vite --host 0.0.0.0",
+    "build": "tsc -b && vite build && node scripts/route-shells.mjs",
+    "preview": "vite preview --host 0.0.0.0",
+    "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
+    "typecheck": "tsc -b"
   },
   "dependencies": {
-    "framer-motion": "^12.38.0",
-    "lucide-react": "^0.462.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^7.13.2"
+    "@fontsource-variable/dm-sans": "^5.3.0",
+    "@tailwindcss/vite": "^4.1.13",
+    "gsap": "^3.15.0",
+    "lucide-react": "^0.468.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-router-dom": "^7.9.3",
+    "tailwindcss": "^4.1.13"
   },
   "devDependencies": {
-    "@types/node": "^22.16.5",
-    "@types/react": "^18.3.23",
-    "@types/react-dom": "^18.3.7",
-    "@vitejs/plugin-react-swc": "^3.11.0",
-    "autoprefixer": "^10.4.21",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^3.4.17",
-    "typescript": "^5.8.3",
-    "vite": "^5.4.19"
+    "@types/react": "^19.1.13",
+    "@types/react-dom": "^19.1.9",
+    "@vitejs/plugin-react": "^5.0.4",
+    "prettier": "^3.9.9",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.7"
   }
 }

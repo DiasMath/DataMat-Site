@@ -1,0 +1,34 @@
+{
+  "/": {
+    "title": "DATAMAT — Inteligência para Negócios",
+    "description": "Dados, automação, marca e presença digital conectados à realidade do seu negócio."
+  },
+  "/dados-bi": {
+    "title": "Dados & BI | DATAMAT",
+    "description": "Conectamos sistemas e planilhas para transformar dados espalhados em uma visão pronta para gestão."
+  },
+  "/ia-automacao": {
+    "title": "IA & Automação | DATAMAT",
+    "description": "Automações e soluções com IA para reduzir tarefas repetitivas e organizar processos."
+  },
+  "/marca-growth": {
+    "title": "Marca & Growth | DATAMAT",
+    "description": "Estratégia, posicionamento, conteúdo e gestão da presença digital para a sua empresa."
+  },
+  "/sites": {
+    "title": "Sites & Presença Digital | DATAMAT",
+    "description": "Sites claros e profissionais que apresentam melhor o negócio."
+  },
+  "/sobre": {
+    "title": "Sobre a DATAMAT | Inteligência para Negócios",
+    "description": "Conheça a abordagem da DATAMAT em dados, automação, marca e presença digital."
+  },
+  "/contato": {
+    "title": "Contato | DATAMAT",
+    "description": "Converse com a DATAMAT sobre o que a sua empresa precisa melhorar."
+  },
+  "/privacidade": {
+    "title": "Privacidade | DATAMAT",
+    "description": "Informações sobre o formulário de contato desta primeira versão."
+  }
+}
