@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import { casesTeaser } from "../../content/home";
+import { clients } from "../../content/clients";
 import { gsap, useGSAP } from "../../motion/gsap";
 import { motionDisabled } from "../../motion/tokens";
 
@@ -70,8 +71,15 @@ export function CasesTeaser() {
         >
           <div className="flex h-full flex-col">
             <div className="flex items-center justify-between">
-              <span className="text-xs tracking-widest text-text-muted">
-                DRE DO MÊS
+              <span className="flex items-center gap-2.5 text-xs tracking-widest text-text-muted">
+                <img
+                  src={clients[0].logo}
+                  alt=""
+                  width={28}
+                  height={28}
+                  className="size-7 rounded-md"
+                />
+                DRE DO MÊS · {clients[0].name.toUpperCase()}
               </span>
               <ArrowUpRight
                 size={22}

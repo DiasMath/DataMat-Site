@@ -1,3 +1,5 @@
+import { clients } from "./clients";
+
 /**
  * Cases de clientes (página /cases e chamada na home).
  * Números e fatos: só o que o cliente confirmou. Nada inventado.
@@ -14,14 +16,8 @@ export type ClientCase = {
   visual: "timeline" | "factors";
 };
 
-export const client = {
-  name: "Loja Juntos.com",
-  segment: "Distribuidora B2B · Varejo",
-  // Logo: coloque o arquivo em public/clientes/ e preencha, ex.:
-  // logo: "/clientes/lojajuntos.png",
-  logo: undefined as string | undefined,
-  initials: "LJ",
-};
+/** Cliente dos cases desta página. */
+export const client = clients[0];
 
 export const cases: ClientCase[] = [
   {

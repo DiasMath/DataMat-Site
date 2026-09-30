@@ -189,17 +189,13 @@ export function CasesPage() {
           </h1>
 
           <div className="mt-12 flex items-center gap-5 rounded-2xl border border-white/10 bg-graphite p-5 md:max-w-lg">
-            {client.logo ? (
-              <img
-                src={client.logo}
-                alt={client.name}
-                className="h-14 w-14 object-contain"
-              />
-            ) : (
-              <span className="flex h-14 w-14 items-center justify-center rounded-xl bg-amber text-lg font-black text-graphite">
-                {client.initials}
-              </span>
-            )}
+            <img
+              src={client.logo}
+              alt={`Logo ${client.name}`}
+              width={56}
+              height={56}
+              className="size-14 rounded-xl"
+            />
             <div>
               <p className="text-xl font-semibold text-cream">{client.name}</p>
               <p className="text-sm text-text-muted">{client.segment}</p>

@@ -1,36 +1,3 @@
-.client-preview .container {
-  display: grid;
-  grid-template-columns: 220px 1fr;
-  align-items: center;
-  gap: 40px;
-}
-.client-copy {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.client-copy strong {
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-.client-placeholder {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-}
-.client-mark {
-  min-height: 54px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.83rem;
-  font-weight: 700;
-  color: #b6aea5;
-  border-color: #ffffff35;
-  border: 0;
-  border-left: 1px solid #ffffff20;
-}
 .home-about {
   padding: 120px 0 90px;
   background: #202022;
@@ -94,10 +61,6 @@
   margin-top: -20px;
 }
 @media (max-width: 950px) {
-  .client-preview .container {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
   .home-about-grid {
     gap: 40px;
   }
@@ -106,13 +69,6 @@
   }
 }
 @media (max-width: 650px) {
-  .client-placeholder {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .client-mark {
-    min-height: 45px;
-    font-size: 0.75rem;
-  }
   .home-about {
     padding: 85px 0 60px;
   }
@@ -143,21 +99,6 @@
     padding-left: 0;
   }
 }
-.client-preview {
-  padding: 32px 0;
-  border-bottom: 1px solid #ded9cf;
-  background: var(--color-graphite);
-  color: var(--color-cream);
-  border-color: #ffffff21;
-}
-.client-copy > span {
-  font-weight: 700;
-  letter-spacing: 0.17em;
-  color: var(--color-amber-light);
-}
-.client-copy small {
-  color: #b5ada3;
-}
 .home-about h2 em {
   font-style: normal;
   color: var(--color-amber);
@@ -174,22 +115,5 @@
 .about-capabilities span {
   font-size: 0.7rem;
   color: #ffbe62;
-}
-.client-copy small,
-.client-copy > span {
-  font-size: 0.75rem;
-}
-.client-glyph {
-  width: 17px;
-  height: 17px;
-  border: 2px solid currentColor;
-  border-radius: 40% 60% 25% 75%;
-  transform: rotate(-22deg);
-  display: none;
-}
-@media (max-width: 450px) {
-  .client-preview .container {
-    gap: 20px;
-  }
 }
 /* Número da aba ativa na demonstração com contraste suficiente. */
