@@ -1,7 +1,4 @@
-/* Só o reset (preflight) e os tokens do Tailwind: o site usa CSS próprio, sem classes utilitárias. */
-@layer theme, base, components, utilities;
-@import "tailwindcss/theme.css" layer(theme);
-@import "tailwindcss/preflight.css" layer(base);
+@import "./styles/reset.css";
 :root {
   font-family: "DM Sans Variable", "DM Sans", Arial, sans-serif;
   font-synthesis: none;
