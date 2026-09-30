@@ -8,6 +8,8 @@ import { defineConfig, devices } from "@playwright/test";
 export default defineConfig({
   testDir: "tests",
   fullyParallel: true,
+  // Poucos processos em paralelo: prints de páginas longas ficam mais estáveis.
+  workers: 2,
   reporter: [["list"], ["html", { open: "never" }]],
   use: {
     baseURL: "http://localhost:4173",
@@ -15,7 +17,10 @@ export default defineConfig({
       ? { executablePath: process.env.CHROMIUM_PATH }
       : {},
   },
+  retries: 1,
   expect: {
+    // Páginas longas levam alguns segundos para o print ficar estável.
+    timeout: 20_000,
     // Pequena margem: a animação de barras em Dados & BI varia alguns pixels.
     toHaveScreenshot: { maxDiffPixels: 300, animations: "disabled" },
   },
