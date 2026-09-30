@@ -77,7 +77,7 @@ mude `PERMITIR_INDEXACAO` para `true`.
 ## Variáveis de ambiente
 
 Copie `.env.example` para `.env.local` (não vai para o Git):
-`VITE_WHATSAPP_NUMBER`, `VITE_POWER_BI_EMBED_URL` e as do Firebase
+`VITE_WHATSAPP_NUMBER` e as do Firebase
 (`firebase/LEIA-ME.md`).
 
 ## Segurança
@@ -88,4 +88,3 @@ Copie `.env.example` para `.env.local` (não vai para o Git):
   mesmos cabeçalhos precisam ser configurados no formato dela.
 - Se mudar o `<script>` embutido do `index.html`, o hash é refeito sozinho
   no build.
-- O relatório de Power BI "Publicar na Web" é público: só dados fictícios.

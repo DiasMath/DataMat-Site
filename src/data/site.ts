@@ -44,32 +44,6 @@ export const solutions: Solution[] = [
   },
 ];
 
-export const needs: Record<
-  Kind,
-  { label: string; outcome: string; detail: string }
-> = {
-  dados: {
-    label: "Não enxergo meus números",
-    outcome: "Enxergue antes de decidir.",
-    detail: "Indicadores claros, no ritmo da sua operação.",
-  },
-  ia: {
-    label: "Minha operação é manual",
-    outcome: "Devolva tempo à equipe.",
-    detail: "Fluxos que tiram tarefas repetitivas do caminho.",
-  },
-  marca: {
-    label: "Minha marca não se destaca",
-    outcome: "Seja lembrado pelo que importa.",
-    detail: "Uma presença coerente com o seu valor.",
-  },
-  sites: {
-    label: "Meu site não converte",
-    outcome: "Transforme visitas em conversas.",
-    detail: "Uma experiência clara, rápida e feita para o seu público.",
-  },
-};
-
 // Defina o número com DDI e DDD, apenas dígitos, antes de ativar o canal.
 const whatsappNumber = (import.meta.env.VITE_WHATSAPP_NUMBER || "").replace(
   /\D/g,
@@ -79,6 +53,3 @@ const whatsappNumber = (import.meta.env.VITE_WHATSAPP_NUMBER || "").replace(
 export const whatsappUrl = whatsappNumber
   ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Olá, conheci a DATAMAT pelo site e gostaria de conversar sobre minha empresa.")}`
   : null;
-
-// Cole aqui a URL pública de incorporação do relatório quando ele estiver pronto.
-export const powerBiEmbedUrl = import.meta.env.VITE_POWER_BI_EMBED_URL || "";

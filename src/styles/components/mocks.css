@@ -1,5 +1,4 @@
 .dashboard-mock,
-.automation-mock,
 .brand-mock,
 .site-mock {
   height: 100%;
@@ -219,84 +218,6 @@
 }
 .legend span:nth-child(3) i {
   background: #e6e6e2;
-}
-.automation-mock {
-  background: #f8f8f5;
-}
-.running {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: #d9dace;
-}
-.automation-body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  height: calc(100% - 44px);
-}
-.flow-node {
-  border: 1px solid #d7d9d8;
-  background: #fff;
-  padding: 16px 18px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  min-width: 185px;
-  box-shadow: 0 2px 0 #ececea;
-}
-.flow-node.trigger {
-  border-left: 3px solid var(--color-amber);
-}
-.flow-node.result {
-  border-left: 3px solid var(--color-graphite);
-  padding-right: 48px;
-}
-.node-tag {
-  font-size: 0.56rem;
-  font-weight: 700;
-  color: #a86e1c;
-  letter-spacing: 0.09em;
-}
-.flow-node strong {
-  font-size: 0.8rem;
-}
-.flow-node small {
-  color: #898c94;
-  font-size: 0.6rem;
-}
-.flow-connector {
-  height: 23px;
-  width: 1px;
-  background: #9d9fa6;
-  position: relative;
-}
-.flow-connector:after {
-  content: "";
-  width: 5px;
-  height: 5px;
-  background: #9d9fa6;
-  border-radius: 50%;
-  position: absolute;
-  bottom: 0;
-  left: -2px;
-}
-.flow-split {
-  display: flex;
-  gap: 20px;
-}
-.flow-split .flow-node {
-  min-width: 0;
-  width: 190px;
-}
-.result-check {
-  position: absolute;
-  right: 15px;
-  top: 28px;
-  color: #a3650e;
 }
 .brand-mock {
   background: #f9f8f5;
@@ -623,31 +544,6 @@
     font-size: 0.38rem;
     gap: 3px;
   }
-  .automation-mock .automation-body {
-    padding: 5px;
-  }
-  .automation-mock .flow-node {
-    padding: 7px !important;
-    min-width: 100px !important;
-  }
-  .automation-mock .flow-split {
-    gap: 5px;
-  }
-  .automation-mock .flow-split .flow-node {
-    width: 112px !important;
-  }
-  .automation-mock .flow-node strong {
-    font-size: 0.55rem !important;
-  }
-  .automation-mock .flow-node small {
-    font-size: 0.43rem !important;
-  }
-  .automation-mock .node-tag {
-    font-size: 0.42rem;
-  }
-  .automation-mock .flow-connector {
-    height: 9px;
-  }
   .brand-mock .brand-body {
     padding: 5px;
     gap: 5px;
@@ -722,21 +618,11 @@
     gap: 10px;
   }
 }
-.running i {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--color-amber);
-}
 .sample-image {
   height: 80%;
   display: grid;
   place-items: center;
   background: #ddd5c8;
-}
-.powerbi-embed {
-  border: 0;
-  background: #fff;
 }
 
 /* Illustrative interfaces are intentionally light within the dark editorial shell. */

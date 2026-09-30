@@ -1,7 +1,5 @@
-import { Check, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import symbol from "../assets/brand/datamat-symbol.svg";
-import { powerBiEmbedUrl } from "../data/site";
-import type { Kind } from "../data/site";
 
 export function DashboardMock() {
   return (
@@ -88,48 +86,6 @@ export function DashboardMock() {
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function AutomationMock() {
-  return (
-    <div className="automation-mock" aria-hidden="true">
-      <div className="mock-bar">
-        <span className="mock-brand">FLUXO / COMERCIAL</span>
-        <span className="running">
-          <i /> Ativo
-        </span>
-      </div>
-      <div className="automation-body">
-        <div className="flow-node trigger">
-          <span className="node-tag">GATILHO</span>
-          <strong>Novo contato recebido</strong>
-          <small>Formulário, mensagem ou sistema</small>
-        </div>
-        <div className="flow-connector" />
-        <div className="flow-split">
-          <div className="flow-node">
-            <span className="node-tag">01 · INTERPRETAR</span>
-            <strong>Identificar a solicitação</strong>
-            <small>Regras e IA conforme o caso</small>
-          </div>
-          <div className="flow-node">
-            <span className="node-tag">02 · CONSULTAR</span>
-            <strong>Verificar informações</strong>
-            <small>Dados da operação</small>
-          </div>
-        </div>
-        <div className="flow-connector" />
-        <div className="flow-node result">
-          <span className="node-tag">SAÍDA</span>
-          <strong>Registrar e direcionar</strong>
-          <small>A equipe recebe o próximo passo</small>
-          <span className="result-check">
-            <Check size={17} />
-          </span>
         </div>
       </div>
     </div>
@@ -259,32 +215,4 @@ export function SiteMock() {
       </div>
     </div>
   );
-}
-
-export function Visual({ kind }: { kind: Kind }) {
-  return kind === "dados" ? (
-    <DashboardMock />
-  ) : kind === "ia" ? (
-    <AutomationMock />
-  ) : kind === "marca" ? (
-    <BrandMock />
-  ) : (
-    <SiteMock />
-  );
-}
-
-export function PowerBiPanel() {
-  if (powerBiEmbedUrl) {
-    return (
-      <iframe
-        className="powerbi-embed"
-        title="Demonstração DATAMAT no Power BI"
-        src={powerBiEmbedUrl}
-        loading="lazy"
-        allowFullScreen
-        referrerPolicy="strict-origin-when-cross-origin"
-      />
-    );
-  }
-  return <DashboardMock />;
 }
