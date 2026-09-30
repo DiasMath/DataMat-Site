@@ -4,6 +4,7 @@ import gsap from "gsap";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { markNavigated, skipIntro } from "../lib/boot";
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrollToPlugin);
 
@@ -31,15 +32,21 @@ export function MotionDirector() {
       if (smoother) smoother.scrollTo(0, false);
       else window.scrollTo(0, 0);
       previousPath.current = pathname;
+      markNavigated();
     }
 
     const root = document.getElementById("smooth-content");
     if (!root) return;
+    // Primeira carga pré-renderizada: o que já está na tela não "pisca".
+    const firstPaint = skipIntro();
+    const inView = (el: Element) =>
+      el.getBoundingClientRect().top < window.innerHeight;
+
     const context = gsap.context(() => {
       const hero = root.querySelector<HTMLElement>(
         ".product-hero h1, .simple-hero h1",
       );
-      if (hero)
+      if (hero && !firstPaint)
         gsap.from(hero, {
           autoAlpha: 0,
           y: 22,
@@ -49,6 +56,7 @@ export function MotionDirector() {
         });
 
       gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((item) => {
+        if (firstPaint && inView(item)) return;
         gsap.from(item, {
           autoAlpha: 0,
           y: 18,

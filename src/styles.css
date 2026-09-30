@@ -4210,6 +4210,15 @@ body {
   font-weight: 700;
 }
 
+/* Com JavaScript, a órbita começa escondida e entra animada (HomeHero.tsx).
+   Sem JavaScript, aparece parada. A classe .js é posta no <html> pelo index.html. */
+.js .orbit-ring,
+.js .motion-core,
+.js .motion-source,
+.js .motion-result {
+  visibility: hidden;
+}
+
 /* Pausa as animações decorativas durante o scroll e fora da tela
    (controlado em HomeHero.tsx). */
 .home-hero.is-paused .motion-orbit,

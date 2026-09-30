@@ -1,10 +1,24 @@
 // Roda depois do `vite build`. Gera um index.html por rota com título,
 // descrição, tags de compartilhamento (WhatsApp, LinkedIn...) e SEO,
 // além de robots.txt e sitemap.xml.
+// Também faz o pré-render: o HTML de cada página já sai com o conteúdo
+// pronto (bom para o Google e para a primeira pintura no celular).
 // Textos das páginas: src/data/pages.json | Domínio: site.config.mjs
-import { readFileSync, writeFileSync, mkdirSync, readdirSync } from "node:fs";
-import { join } from "node:path";
+import {
+  readFileSync,
+  writeFileSync,
+  mkdirSync,
+  readdirSync,
+  rmSync,
+} from "node:fs";
+import { join, resolve } from "node:path";
+import { pathToFileURL } from "node:url";
 import { SITE_URL, PERMITIR_INDEXACAO } from "../site.config.mjs";
+
+// Pré-render: o conteúdo de cada página já vai dentro do HTML.
+const { render: renderApp } = await import(
+  pathToFileURL(resolve("dist-ssr/entry-server.js")).href
+);
 
 const root = "dist";
 const pages = JSON.parse(readFileSync("src/data/pages.json", "utf8"));
@@ -72,7 +86,11 @@ function render({ path, title, description, noindex = false, home = false }) {
       /<meta property="og:description" content="[^"]*"\s*\/?>/,
       `<meta property="og:description" content="${esc(description)}">`,
     )
-    .replace("</head>", `${tags}</head>`);
+    .replace("</head>", `${tags}</head>`)
+    .replace(
+      '<div id="root"></div>',
+      `<div id="root" data-path="${path}">${renderApp(path)}</div>`,
+    );
 }
 
 for (const [path, { title, description }] of Object.entries(pages)) {
@@ -114,7 +132,9 @@ writeFileSync(
     `\n</urlset>\n`,
 );
 
+rmSync("dist-ssr", { recursive: true, force: true });
+
 console.log(
-  `route-shells: ${Object.keys(pages).length} páginas, robots.txt, sitemap.xml` +
+  `pré-render: ${Object.keys(pages).length} páginas + 404, robots.txt, sitemap.xml` +
     (PERMITIR_INDEXACAO ? "" : " (indexação DESLIGADA)"),
 );

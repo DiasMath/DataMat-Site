@@ -4,6 +4,7 @@ import { SplitText } from "gsap/SplitText";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { Container, Eyebrow } from "../components/ui";
 import { ContactAction } from "../components/contact";
+import { skipIntro } from "../lib/boot";
 
 gsap.registerPlugin(SplitText);
 
@@ -80,6 +81,9 @@ export function HomeHero() {
             ease: "power2.out",
           });
 
+      // Na primeira carga pré-renderizada o texto já está na tela (e é o que o
+      // Google mede como carregamento): só a órbita entra animada.
+      const animateText = !skipIntro();
       const intro = gsap.timeline({ defaults: { ease: "power3.out" } });
       intro
         .from(q(".orbit-ring"), {
@@ -95,16 +99,6 @@ export function HomeHero() {
           0.2,
         )
         .from(
-          q(".hero-copy .eyebrow"),
-          { autoAlpha: 0, y: 12, duration: 0.6 },
-          0.1,
-        )
-        .from(
-          q(".hero-copy > p, .hero-actions"),
-          { autoAlpha: 0, y: 18, duration: 0.7, stagger: 0.1 },
-          0.75,
-        )
-        .from(
           cards,
           { autoAlpha: 0, scale: 0.8, y: 16, duration: 0.6, stagger: 0.12 },
           0.9,
@@ -112,20 +106,33 @@ export function HomeHero() {
         .set(result, { autoAlpha: 0 }, 0)
         .add(story(), 2.2);
 
-      // Título entra linha por linha; refaz a divisão se a fonte ou a largura mudar.
-      SplitText.create(q(".hero-copy h1")[0], {
-        type: "lines",
-        mask: "lines",
-        autoSplit: true,
-        onSplit: (self) =>
-          gsap.from(self.lines, {
-            yPercent: 105,
-            duration: 1,
-            stagger: 0.09,
-            ease: "power4.out",
-            delay: 0.2,
-          }),
-      });
+      if (animateText) {
+        intro
+          .from(
+            q(".hero-copy .eyebrow"),
+            { autoAlpha: 0, y: 12, duration: 0.6 },
+            0.1,
+          )
+          .from(
+            q(".hero-copy > p, .hero-actions"),
+            { autoAlpha: 0, y: 18, duration: 0.7, stagger: 0.1 },
+            0.75,
+          );
+        // Título entra linha por linha; refaz a divisão se a fonte ou a largura mudar.
+        SplitText.create(q(".hero-copy h1")[0], {
+          type: "lines",
+          mask: "lines",
+          autoSplit: true,
+          onSplit: (self) =>
+            gsap.from(self.lines, {
+              yPercent: 105,
+              duration: 1,
+              stagger: 0.09,
+              ease: "power4.out",
+              delay: 0.2,
+            }),
+        });
+      }
 
       // Repete a história a cada ~6 s.
       let loop: gsap.core.Tween | null = null;
