@@ -5,7 +5,7 @@ import { Container, Eyebrow, SectionIntro } from "../components/ui";
 import { BrandMock } from "../components/mocks";
 import { CTA } from "../components/contact";
 
-export const editorialWeeks = [
+const editorialWeeks = [
   {
     name: "Semana 01",
     theme: "Posicionamento",
@@ -36,7 +36,7 @@ export const editorialWeeks = [
   },
 ];
 
-export function EditorialCarousel() {
+function EditorialCarousel() {
   const [index, setIndex] = useState(0);
   const preview = useRef<HTMLDivElement>(null);
   const item = editorialWeeks[index];
@@ -114,7 +114,7 @@ export function EditorialCarousel() {
   );
 }
 
-export function BrandHero() {
+function BrandHero() {
   return (
     <section className="product-hero brand-hero">
       <Container className="brand-hero-layout">

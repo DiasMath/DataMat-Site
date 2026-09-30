@@ -8,7 +8,7 @@ import { Visual, PowerBiPanel } from "../components/mocks";
 import { CTA } from "../components/contact";
 import { HomeHero } from "./HomeHero";
 
-export function Demo({ id }: { id?: string }) {
+function Demo({ id }: { id?: string }) {
   const [active, setActive] = useState<Kind>("dados");
   const item = solutions.find((s) => s.key === active)!;
   return (

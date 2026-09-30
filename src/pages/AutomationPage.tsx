@@ -4,7 +4,7 @@ import gsap from "gsap";
 import { Container, Eyebrow, SectionIntro } from "../components/ui";
 import { CTA } from "../components/contact";
 
-export function AutomationRunner() {
+function AutomationRunner() {
   const [step, setStep] = useState(-1);
   const runner = useRef<HTMLDivElement>(null);
   const steps = [
@@ -82,7 +82,7 @@ export function AutomationRunner() {
   );
 }
 
-export function AutomationHero() {
+function AutomationHero() {
   return (
     <section className="product-hero automation-hero">
       <Container>
@@ -104,7 +104,7 @@ export function AutomationHero() {
   );
 }
 
-export const automationExamples: { label: string; steps: string[] }[] = [
+const automationExamples: { label: string; steps: string[] }[] = [
   {
     label: "Atendimento",
     steps: [

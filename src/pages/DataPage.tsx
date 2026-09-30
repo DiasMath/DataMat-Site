@@ -6,7 +6,7 @@ import { DashboardMock } from "../components/mocks";
 import { CTA } from "../components/contact";
 import { Comparison } from "../components/Comparison";
 
-export function SourceFlow() {
+function SourceFlow() {
   return (
     <div className="source-flow">
       <div className="source-list">
@@ -30,7 +30,7 @@ export function SourceFlow() {
   );
 }
 
-export function DataHero() {
+function DataHero() {
   return (
     <section className="product-hero data-hero">
       <Container>
@@ -71,7 +71,7 @@ export function DataHero() {
   );
 }
 
-export const dataLenses = [
+const dataLenses = [
   {
     name: "Financeiro",
     question: "Como o resultado está evoluindo?",
@@ -92,7 +92,7 @@ export const dataLenses = [
   },
 ];
 
-export function DataLens() {
+function DataLens() {
   const [active, setActive] = useState(0);
   const stage = useRef<HTMLDivElement>(null);
   const lens = dataLenses[active];

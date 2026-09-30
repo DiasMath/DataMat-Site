@@ -1,6 +1,6 @@
 export type Kind = "dados" | "ia" | "marca" | "sites";
 
-export type Solution = {
+type Solution = {
   key: Kind;
   number: string;
   title: string;

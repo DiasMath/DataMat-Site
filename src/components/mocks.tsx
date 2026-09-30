@@ -97,7 +97,7 @@ export function DashboardMock({ compact = false }: { compact?: boolean }) {
   );
 }
 
-export function AutomationMock({ compact = false }: { compact?: boolean }) {
+function AutomationMock({ compact = false }: { compact?: boolean }) {
   return (
     <div
       className={`automation-mock ${compact ? "compact" : ""}`}

@@ -3,7 +3,7 @@ import { Container, Eyebrow, SectionIntro } from "../components/ui";
 import { SiteMock } from "../components/mocks";
 import { CTA } from "../components/contact";
 
-export function SiteViewport() {
+function SiteViewport() {
   const [device, setDevice] = useState<"desktop" | "mobile">("desktop");
   return (
     <div className="site-viewport">
@@ -38,7 +38,7 @@ export function SiteViewport() {
   );
 }
 
-export function SitesHero() {
+function SitesHero() {
   return (
     <section className="product-hero sites-hero">
       <Container>
@@ -60,7 +60,7 @@ export function SitesHero() {
   );
 }
 
-export function SiteComparison() {
+function SiteComparison() {
   const [split, setSplit] = useState(50);
   return (
     <div

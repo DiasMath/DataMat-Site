@@ -24,9 +24,6 @@ export const bootedFromPrerender =
 
 let firstView = true;
 
-/** true enquanto o visitante está na primeira página que abriu. */
-export const isFirstView = () => firstView;
-
 /** Chamado pelo MotionDirector na primeira troca de rota. */
 export const markNavigated = () => {
   firstView = false;

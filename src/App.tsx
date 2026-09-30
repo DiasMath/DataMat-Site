@@ -19,8 +19,8 @@ export default function App() {
     <>
       <a
         className="skip-link"
-        href="#conteudo"
-        onClick={() => document.getElementById("conteudo")?.focus()}
+        href="#principal"
+        onClick={() => document.getElementById("principal")?.focus()}
       >
         Pular para o conteúdo
       </a>
@@ -31,7 +31,7 @@ export default function App() {
       <WhatsAppPreview />
       <div id="smooth-wrapper">
         <div id="smooth-content">
-          <main id="conteudo" tabIndex={-1}>
+          <main id="principal" tabIndex={-1}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/dados-bi" element={<DataPage />} />

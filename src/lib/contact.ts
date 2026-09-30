@@ -39,7 +39,7 @@ const collection = "contatos";
 
 export const contactConfigured = Boolean(projectId && apiKey);
 
-export class ContactError extends Error {}
+class ContactError extends Error {}
 
 const str = (v: string) => ({ stringValue: v });
 
