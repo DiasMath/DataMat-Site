@@ -4377,3 +4377,42 @@ main:focus {
 .journey-choices button.active > span {
   opacity: 1;
 }
+
+/* ============================================================
+   FORMULÁRIO DE CONTATO — estados e antispam (src/pages/ContactPage.tsx)
+   ============================================================ */
+.form-trap {
+  position: absolute !important;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.contact-form .form-consent {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 10px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+.contact-form .form-consent input {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  margin-top: 2px;
+  padding: 0;
+  accent-color: #ffb03f;
+}
+.contact-form .form-consent a,
+.form-status-link {
+  color: #ffb03f;
+  text-decoration: underline;
+  font: inherit;
+}
+.contact-form button[disabled] {
+  opacity: 0.6;
+  cursor: wait;
+}
+.form-status.is-error {
+  border-left-color: #e5484d;
+}
