@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Check } from "lucide-react";
 import { gsap } from "../motion/gsap";
 import { Container, Eyebrow, SectionIntro } from "../components/ui";
-import { CTA } from "../components/contact";
+import { CTA } from "../components/FinalCta";
 
 const steps = [
   "Novo contato",

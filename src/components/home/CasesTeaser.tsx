@@ -1,50 +1,22 @@
-import { useRef } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import { casesTeaser } from "../../content/home";
 import { clients } from "../../content/clients";
-import { gsap, useGSAP } from "../../motion/gsap";
-import { motionDisabled } from "../../motion/tokens";
-
-const days = Array.from({ length: 30 }, (_, i) => i + 1);
+import { DreScene } from "../scenes/DreScene";
+import { useInView } from "../scenes/useInView";
 
 /**
- * Chamada para a página de cases: texto à esquerda e, à direita, um cartão
- * clicável com um "trailer" animado do case (quando o resultado aparece:
- * antes, só depois do fim do mês; agora, todo dia).
+ * Chamada para a página de cases: texto à esquerda e, à direita, o "trailer"
+ * do case do DRE (cena com legenda). O cartão inteiro leva a /cases.
  */
 export function CasesTeaser() {
-  const card = useRef<HTMLAnchorElement>(null);
-
-  useGSAP(
-    () => {
-      if (motionDisabled) return;
-      gsap
-        .timeline({
-          repeat: -1,
-          repeatDelay: 1.2,
-          scrollTrigger: { trigger: card.current, start: "top 85%" },
-        })
-        .from(".day", { autoAlpha: 0.15, stagger: 0.04, duration: 0.2 })
-        .from(".late", { autoAlpha: 0, x: -12, duration: 0.4 }, "+=0.2")
-        .from(
-          ".daily",
-          {
-            scaleY: 0,
-            transformOrigin: "bottom",
-            stagger: 0.03,
-            duration: 0.25,
-          },
-          "-=0.2",
-        )
-        .from(".now", { autoAlpha: 0, y: 8, duration: 0.4 });
-    },
-    { scope: card },
-  );
+  const [ref, inView] = useInView<HTMLAnchorElement>();
+  const [round, setRound] = useState(0);
 
   return (
     <section className="bg-bg-hero py-20 md:py-28">
-      <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 md:px-8 lg:grid-cols-2 lg:gap-16">
+      <div className="mx-auto grid max-w-screen-2xl grid-cols-[minmax(0,1fr)] items-center gap-12 px-5 md:px-8 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-14">
         <div data-reveal>
           <p className="text-xs font-semibold tracking-widest text-amber">
             {casesTeaser.eyebrow}
@@ -57,67 +29,41 @@ export function CasesTeaser() {
           </p>
           <Link
             to="/cases"
-            className="mt-8 inline-flex items-center gap-2 bg-amber px-6 py-3.5 font-semibold text-graphite transition hover:brightness-110"
+            className="group mt-8 inline-flex items-center gap-3 rounded-full bg-amber py-2 pr-2 pl-6 font-semibold text-graphite transition hover:brightness-110"
           >
-            {casesTeaser.cta} <ArrowUpRight size={18} aria-hidden="true" />
+            {casesTeaser.cta}
+            <span className="flex size-9 items-center justify-center rounded-full bg-graphite text-amber transition-transform duration-500 ease-brand-out group-hover:rotate-45">
+              <ArrowUpRight size={17} aria-hidden="true" />
+            </span>
           </Link>
         </div>
 
         <Link
-          ref={card}
+          ref={ref}
           to="/cases"
           aria-label="Abrir os cases"
-          className="group mx-auto block aspect-square w-full max-w-md rounded-3xl border border-white/10 bg-graphite p-7 transition duration-300 hover:-translate-y-1.5 hover:border-amber/50"
+          className="group block rounded-3xl border border-white/10 bg-graphite/40 p-4 transition duration-300 hover:-translate-y-1.5 hover:border-amber/50 md:p-6"
         >
-          <div className="flex h-full flex-col">
-            <div className="flex items-center justify-between">
-              <span className="flex items-center gap-2.5 text-xs tracking-widest text-text-muted">
-                <img
-                  src={clients[0].logo}
-                  alt=""
-                  width={28}
-                  height={28}
-                  className="size-7 rounded-md"
-                />
-                DRE DO MÊS · {clients[0].name.toUpperCase()}
-              </span>
-              <ArrowUpRight
-                size={22}
-                className="text-text-muted transition group-hover:text-amber"
-                aria-hidden="true"
+          <div className="mb-4 flex items-center justify-between">
+            <span className="flex items-center gap-3 text-sm font-semibold text-cream">
+              <img
+                src={clients[0].logo}
+                alt=""
+                width={36}
+                height={36}
+                className="size-9 rounded-lg"
               />
-            </div>
-
-            <div className="mt-6 grid grid-cols-10 gap-1.5">
-              {days.map((d) => (
-                <span
-                  key={d}
-                  className="day flex aspect-square items-center justify-center rounded bg-white/10 text-[10px] text-text-muted"
-                >
-                  {d}
-                </span>
-              ))}
-            </div>
-
-            <p className="late mt-5 text-sm text-text-muted">
-              <span className="text-cream">Antes:</span> resultado só dias
-              depois do fim do mês.
-            </p>
-
-            <div className="mt-auto flex h-16 items-end gap-1">
-              {days.map((d) => (
-                <span
-                  key={d}
-                  className="daily flex-1 rounded-sm bg-amber"
-                  style={{ height: `${30 + ((d * 37) % 70)}%` }}
-                />
-              ))}
-            </div>
-            <p className="now mt-3 text-sm text-cream">
-              <strong className="text-amber">Agora:</strong> acompanhado todo
-              dia.
-            </p>
+              {clients[0].name} · DRE automatizado
+            </span>
+            <span className="flex items-center gap-1.5 text-sm font-semibold text-text-muted transition group-hover:text-amber">
+              Ver case <ArrowUpRight size={16} aria-hidden="true" />
+            </span>
           </div>
+          <DreScene
+            key={round}
+            playing={inView}
+            onEnd={() => window.setTimeout(() => setRound((r) => r + 1), 1500)}
+          />
         </Link>
       </div>
     </section>

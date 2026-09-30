@@ -25,6 +25,10 @@
   --color-text-muted: #b9b6b1;
   --color-cream: #f1e8d9;
 
+  /* Medidas fixas */
+  --spacing-header: 82px; /* altura do cabeçalho (celular: 68px) */
+  --spacing-header-mobile: 68px;
+
   /* Tipografia */
   --font-sans: "DM Sans Variable", "DM Sans", Arial, sans-serif;
 

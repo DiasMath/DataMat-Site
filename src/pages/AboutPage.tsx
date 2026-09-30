@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import { solutions } from "../data/site";
 import { Container, Eyebrow, Button, SectionIntro } from "../components/ui";
-import { CTA } from "../components/contact";
+import { CTA } from "../components/FinalCta";
 
 export function AboutPage() {
   return (

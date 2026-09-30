@@ -5,7 +5,7 @@ import { skipIntro } from "../lib/boot";
 import { motionDisabled } from "../motion/tokens";
 import { Container, Eyebrow, SectionIntro } from "../components/ui";
 import { DashboardMock } from "../components/mocks";
-import { CTA } from "../components/contact";
+import { CTA } from "../components/FinalCta";
 import { Comparison } from "../components/Comparison";
 
 function SourceFlow() {

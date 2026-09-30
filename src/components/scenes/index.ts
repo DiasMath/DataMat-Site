@@ -1,10 +1,10 @@
 import type { ComponentType } from "react";
 import type { Kind } from "../../data/site";
 import type { SceneProps } from "./useScene";
-import { DadosScene } from "./DadosScene";
-import { IaScene } from "./IaScene";
-import { MarcaScene } from "./MarcaScene";
-import { SitesScene } from "./SitesScene";
+import { DadosScene, LENGTH as dadosLength } from "./DadosScene";
+import { IaScene, LENGTH as iaLength } from "./IaScene";
+import { MarcaScene, LENGTH as marcaLength } from "./MarcaScene";
+import { SitesScene, LENGTH as sitesLength } from "./SitesScene";
 
 /**
  * Cenas animadas (os "vídeos" da home), feitas em código: leves, nítidas em
@@ -16,5 +16,12 @@ export const scenes: Record<Kind, ComponentType<SceneProps>> = {
   ia: IaScene,
   marca: MarcaScene,
   sites: SitesScene,
+};
+/** Duração de cada cena, em segundos. */
+export const sceneLengths: Record<Kind, number> = {
+  dados: dadosLength,
+  ia: iaLength,
+  marca: marcaLength,
+  sites: sitesLength,
 };
 export type { SceneProps };

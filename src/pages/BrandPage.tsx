@@ -3,7 +3,7 @@ import { ArrowDown } from "lucide-react";
 import { gsap } from "../motion/gsap";
 import { Container, Eyebrow, SectionIntro } from "../components/ui";
 import { BrandMock } from "../components/mocks";
-import { CTA } from "../components/contact";
+import { CTA } from "../components/FinalCta";
 
 const editorialWeeks = [
   {

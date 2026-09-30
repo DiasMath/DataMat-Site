@@ -57,6 +57,12 @@ Leia o `README.md` para a estrutura. Regras deste projeto:
 - Evite efeitos caros em áreas animadas (backdrop-filter, mask-image,
   sombras muito grandes): o hero já foi otimizado por causa disso.
 
+## Cenas animadas
+
+- Novas cenas seguem o padrão de `src/components/scenes/` (`useScene` +
+  `Screen` com legendas + `LENGTH`). Não use nomes de classe que sejam
+  utilitários do Tailwind como gancho de animação (ex.: `table`, `hidden`).
+
 ## Formulário de contato
 
 - `src/lib/contact.ts` + `firebase/firestore.rules`. Os limites de tamanho

@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import { ArrowUpRight, X } from "lucide-react";
-import symbol from "../assets/brand/datamat-symbol.svg";
+import { X } from "lucide-react";
 import { whatsappUrl } from "../data/site";
-import { Container, Eyebrow } from "./ui";
 
 export function ContactAction({
   className,
@@ -86,32 +84,6 @@ export function WhatsAppPreview() {
         </button>
       </div>
     </div>
-  );
-}
-
-export function CTA({
-  title = "Vamos conversar sobre o que vem a seguir?",
-}: {
-  title?: string;
-}) {
-  return (
-    <section className="cta-section">
-      <Container>
-        <div>
-          <Eyebrow>PRÓXIMO PASSO</Eyebrow>
-          <h2>{title}</h2>
-          <p>
-            Conte o que está acontecendo na sua empresa. A conversa começa pelo
-            seu desafio.
-          </p>
-          <ContactAction className="button button-orange">
-            {whatsappUrl ? "Conversar no WhatsApp" : "Falar com a DATAMAT"}
-            <ArrowUpRight size={18} />
-          </ContactAction>
-        </div>
-        <img src={symbol} alt="" />
-      </Container>
-    </section>
   );
 }
 

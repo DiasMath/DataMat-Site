@@ -2,19 +2,54 @@ import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
 import logo from "../assets/brand/datamat-horizontal.svg";
-import { solutions } from "../data/site";
-import { Container } from "./ui";
+import { menuFeatured, menuLinks, menuSolutions } from "../content/navigation";
+import { clients } from "../content/clients";
 import { ContactAction } from "./contact";
+
+/** Botão principal de contato: pílula âmbar com seta que gira no hover. */
+export function ContactButton({ className = "" }: { className?: string }) {
+  return (
+    <ContactAction
+      className={`group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-amber py-2 pr-2 pl-5 text-sm font-semibold text-graphite shadow-[0_0_0_0_var(--color-amber)] transition-all duration-300 hover:shadow-[0_0_28px_-4px_var(--color-amber)] active:scale-[0.97] ${className}`}
+    >
+      <span
+        aria-hidden="true"
+        className="absolute inset-0 -translate-x-full bg-cream transition-transform duration-500 ease-brand-out group-hover:translate-x-0"
+      />
+      <span className="relative">Fale conosco</span>
+      <span className="relative flex size-8 items-center justify-center rounded-full bg-graphite text-amber transition-transform duration-500 ease-brand-out group-hover:rotate-45">
+        <ArrowUpRight size={16} aria-hidden="true" />
+      </span>
+    </ContactAction>
+  );
+}
+
+const linkClass = ({ isActive }: { isActive: boolean }) =>
+  `relative py-2 text-sm font-medium transition-colors hover:text-amber after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:bg-amber after:transition-transform after:duration-300 ${isActive ? "text-cream after:scale-x-100" : "text-cream/80 after:scale-x-0 hover:after:scale-x-100"}`;
 
 export function Header() {
   const [open, setOpen] = useState(false);
-  const [dropdown, setDropdown] = useState(false);
+  const [menu, setMenu] = useState(false);
+  const closeTimer = useRef(0);
   const progressBar = useRef<HTMLDivElement>(null);
   const { pathname, hash } = useLocation();
+
   useEffect(() => {
     setOpen(false);
-    setDropdown(false);
+    setMenu(false);
   }, [pathname, hash]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMenu(false);
+        setOpen(false);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
   // Barra de progresso: escreve direto no DOM, sem re-renderizar o header a cada scroll.
   useEffect(() => {
     let frame = 0;
@@ -38,77 +73,192 @@ export function Header() {
       window.removeEventListener("resize", schedule);
     };
   }, [pathname]);
+
+  // Abre no hover com um pequeno atraso para fechar (não some ao atravessar o vão).
+  const openMenu = () => {
+    window.clearTimeout(closeTimer.current);
+    setMenu(true);
+  };
+  const closeMenu = () => {
+    closeTimer.current = window.setTimeout(() => setMenu(false), 160);
+  };
+
   return (
-    <header className="site-header">
-      <Container className="header-inner">
-        <Link to="/" className="logo-box" aria-label="DATAMAT, início">
-          <img src={logo} alt="DATAMAT" />
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-bg-hero/90 text-cream backdrop-blur-xl">
+      <div className="mx-auto flex h-header max-w-7xl items-center px-5 max-[800px]:h-header-mobile md:px-8">
+        <Link to="/" aria-label="DATAMAT, início" className="shrink-0">
+          <img
+            src={logo}
+            alt="DATAMAT"
+            width={218}
+            height={60}
+            className="h-12 w-auto max-[800px]:h-10"
+          />
         </Link>
-        <nav className="desktop-nav" aria-label="Navegação principal">
-          <div
-            className="nav-dropdown"
-            onMouseEnter={() => setDropdown(true)}
-            onMouseLeave={() => setDropdown(false)}
-          >
+
+        <nav
+          aria-label="Navegação principal"
+          className="ml-auto hidden items-center gap-9 min-[801px]:flex"
+        >
+          <div onMouseEnter={openMenu} onMouseLeave={closeMenu}>
             <button
-              onClick={() => setDropdown((v) => !v)}
-              aria-expanded={dropdown}
-              aria-controls="solutions-menu"
+              type="button"
+              onClick={() => setMenu((v) => !v)}
+              aria-expanded={menu}
+              aria-controls="menu-solucoes"
+              className="flex items-center gap-1.5 py-2 text-sm font-medium text-cream/80 transition-colors hover:text-amber aria-expanded:text-amber"
             >
-              Soluções <ChevronDown size={14} />
+              Soluções
+              <ChevronDown
+                size={15}
+                aria-hidden="true"
+                className={`transition-transform duration-300 ${menu ? "rotate-180" : ""}`}
+              />
             </button>
-            {dropdown && (
-              <div className="dropdown-panel" id="solutions-menu">
-                {solutions.map((s) => (
-                  <Link key={s.key} to={s.path}>
-                    <span>{s.number}</span>
-                    {s.title}
-                    <ArrowUpRight size={15} />
-                  </Link>
-                ))}
+
+            <div
+              id="menu-solucoes"
+              className={`absolute inset-x-0 top-full border-b border-white/10 bg-graphite shadow-2xl shadow-black/40 transition duration-300 ease-brand-out ${menu ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0"}`}
+            >
+              <div className="mx-auto grid max-w-7xl gap-8 px-5 py-8 md:px-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+                <ul className="grid gap-3 sm:grid-cols-2">
+                  {menuSolutions.map(
+                    ({ title, path, description, icon: Icon }) => (
+                      <li key={path}>
+                        <Link
+                          to={path}
+                          className="group flex h-full gap-4 rounded-2xl border border-transparent p-4 transition hover:border-white/10 hover:bg-white/5"
+                        >
+                          <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-amber/10 text-amber transition group-hover:bg-amber group-hover:text-graphite">
+                            <Icon size={20} aria-hidden="true" />
+                          </span>
+                          <span>
+                            <span className="flex items-center gap-1.5 font-semibold text-cream">
+                              {title}
+                              <ArrowUpRight
+                                size={15}
+                                aria-hidden="true"
+                                className="opacity-0 transition group-hover:translate-x-0.5 group-hover:opacity-100"
+                              />
+                            </span>
+                            <span className="mt-1 block text-sm leading-relaxed text-text-muted">
+                              {description}
+                            </span>
+                          </span>
+                        </Link>
+                      </li>
+                    ),
+                  )}
+                </ul>
+                <Link
+                  to={menuFeatured.to}
+                  className="group flex flex-col justify-between rounded-2xl bg-bg-hero p-6 transition hover:ring-1 hover:ring-amber/50"
+                >
+                  <span className="text-xs font-semibold tracking-widest text-amber">
+                    {menuFeatured.eyebrow}
+                  </span>
+                  <span className="mt-6 flex items-center gap-3">
+                    <img
+                      src={clients[0].logo}
+                      alt=""
+                      width={44}
+                      height={44}
+                      className="size-11 rounded-lg"
+                    />
+                    <span className="font-semibold text-cream">
+                      {menuFeatured.title}
+                    </span>
+                  </span>
+                  <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-cream group-hover:text-amber">
+                    Ver cases <ArrowUpRight size={15} aria-hidden="true" />
+                  </span>
+                </Link>
               </div>
-            )}
+            </div>
           </div>
-          <NavLink to="/#demonstracoes">Demonstrações</NavLink>
-          <NavLink to="/sobre">Sobre</NavLink>
+
+          {menuLinks.map((l) => (
+            <NavLink
+              key={l.to}
+              to={l.to}
+              end
+              // Links para âncoras (#) nunca ficam marcados como página atual.
+              className={({ isActive }) =>
+                linkClass({ isActive: isActive && !l.to.includes("#") })
+              }
+            >
+              {l.label}
+            </NavLink>
+          ))}
+
+          <ContactButton className="ml-2" />
         </nav>
-        <ContactAction className="header-cta">
-          Falar com a DATAMAT <ArrowUpRight size={16} />
-        </ContactAction>
+
         <button
-          className="menu-toggle"
+          type="button"
+          className="menu-toggle ml-auto flex size-11 items-center justify-center rounded-full text-cream transition hover:bg-white/10 min-[801px]:hidden"
           onClick={() => setOpen((v) => !v)}
           aria-label={open ? "Fechar menu" : "Abrir menu"}
           aria-expanded={open}
         >
-          {open ? <X /> : <Menu />}
+          {open ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
         </button>
-      </Container>
+      </div>
+
       {open && (
         <nav
-          className="mobile-nav"
           aria-label="Navegação mobile"
+          className="max-h-[calc(100svh-var(--spacing-header-mobile))] overflow-y-auto border-t border-white/10 bg-bg-hero px-5 pt-4 pb-8 min-[801px]:hidden"
           onClick={(event) => {
             if ((event.target as Element).closest("a, button")) setOpen(false);
           }}
         >
-          <span className="mobile-nav-label">Soluções</span>
-          {solutions.map((s) => (
-            <Link key={s.key} to={s.path}>
-              {s.title}
-              <ArrowUpRight size={16} />
-            </Link>
-          ))}
-          <Link to="/#demonstracoes">Demonstrações</Link>
-          <Link to="/sobre">Sobre</Link>
-          <ContactAction className="mobile-contact">
-            Falar com a DATAMAT <ArrowUpRight size={16} />
-          </ContactAction>
+          <p className="text-xs font-semibold tracking-widest text-text-muted">
+            SOLUÇÕES
+          </p>
+          <ul className="mt-3 grid gap-1">
+            {menuSolutions.map(({ title, path, description, icon: Icon }) => (
+              <li key={path}>
+                <Link
+                  to={path}
+                  className="flex gap-3 rounded-xl p-3 active:bg-white/5"
+                >
+                  <Icon
+                    size={20}
+                    className="mt-0.5 text-amber"
+                    aria-hidden="true"
+                  />
+                  <span>
+                    <span className="block font-semibold text-cream">
+                      {title}
+                    </span>
+                    <span className="text-sm text-text-muted">
+                      {description}
+                    </span>
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <ul className="mt-4 grid border-t border-white/10 pt-4">
+            {menuLinks.map((l) => (
+              <li key={l.to}>
+                <Link
+                  to={l.to}
+                  className="block py-3 text-lg font-semibold text-cream"
+                >
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <ContactButton className="mt-6" />
         </nav>
       )}
+
       <div
         ref={progressBar}
-        className="scroll-progress"
+        className="absolute inset-x-0 bottom-0 h-0.5 origin-left bg-amber"
         style={{ transform: "scaleX(0)" }}
         aria-hidden="true"
       />

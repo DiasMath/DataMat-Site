@@ -66,6 +66,15 @@ marca, definidas em `src/styles/tokens.css`. O CSS antigo de cada seção
 `data-pause-offscreen` (detalhes em `src/motion/reveal.ts`). Em
 desenvolvimento, abra o site com `?markers` para ver os pontos de início.
 
+**Cenas animadas ("vídeos" da home e dos cases):** ficam em
+`src/components/scenes/`. Cada cena tem legendas (passos), duração fixa
+(`LENGTH`, mostrada no relógio da aba) e usa `useScene`. Para trocar uma cena
+da home por um vídeo real, preencha `video` em `src/content/home.ts`.
+
+**Menu e botões:** itens e descrições do menu em `src/content/navigation.ts`;
+o botão "Fale conosco" é o `ContactButton` (`src/components/Header.tsx`); o
+"Próximo passo" em tela cheia é o `CTA` de `src/components/FinalCta.tsx`.
+
 **Mudar cores, fonte ou ritmo das animações:** `src/styles/tokens.css` e
 `src/motion/tokens.ts`.
 

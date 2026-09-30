@@ -1,47 +1,3 @@
-.cta-section {
-  padding: 100px 0;
-  overflow: hidden;
-  border-top: 1px solid #d8cec1;
-  background: #e9dcc8;
-  color: #241c17;
-  border-color: #cdbda5;
-}
-.cta-section .container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 60px;
-}
-.cta-section h2 {
-  font-size: clamp(2.6rem, 5vw, 5rem);
-  line-height: 1.08;
-  letter-spacing: -0.065em;
-  font-weight: 600;
-  max-width: 860px;
-  margin: 20px 0;
-}
-.cta-section p {
-  max-width: 550px;
-  line-height: 1.6;
-  margin-bottom: 30px;
-}
-@media (max-width: 560px) {
-  .cta-section .container {
-    display: block;
-  }
-  .cta-section h2 {
-    font-size: 2.65rem;
-  }
-  .cta-section img {
-    display: none;
-  }
-}
-.cta-section img {
-  opacity: 0.95;
-  transform: rotate(-8deg);
-  flex: none;
-  width: 125px;
-}
 .whatsapp-float {
   position: fixed;
   z-index: 80;
@@ -83,18 +39,6 @@
     width: 54px;
     height: 54px;
   }
-}
-.cta-section .eyebrow,
-.cta-section p {
-  color: #5c4a3a;
-}
-.cta-section .button-orange {
-  background: #2b2726;
-  color: #fff3e3;
-  border-color: #2b2726;
-}
-.cta-section .button-orange:hover {
-  background: #443428;
 }
 
 /* WhatsApp stays a safe local demo until a real business number is supplied. */
@@ -167,9 +111,6 @@
   font-weight: 700;
 }
 @media (max-width: 800px) {
-  .cta-section {
-    padding: 75px 0;
-  }
   .whatsapp-float {
     width: 48px;
     height: 48px;

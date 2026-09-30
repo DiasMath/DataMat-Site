@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import { solutions } from "../data/site";
 import { Container, Eyebrow } from "../components/ui";
-import { CTA } from "../components/contact";
+import { CTA } from "../components/FinalCta";
 import { HomeHero } from "./HomeHero";
 import { clients } from "../content/clients";
 import { PainSolutions } from "../components/home/PainSolutions";

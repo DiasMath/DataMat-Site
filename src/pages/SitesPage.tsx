@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Container, Eyebrow, SectionIntro } from "../components/ui";
 import { SiteMock } from "../components/mocks";
-import { CTA } from "../components/contact";
+import { CTA } from "../components/FinalCta";
 
 function SiteViewport() {
   const [device, setDevice] = useState<"desktop" | "mobile">("desktop");
