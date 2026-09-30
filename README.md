@@ -5,14 +5,21 @@ em GSAP e páginas pré-renderizadas no build.
 
 ## Comandos
 
-| Comando | Para quê |
-|---|---|
-| `npm install` | instala as dependências (Node 20.19+; versão em `.nvmrc`) |
-| `npm run dev` | site em desenvolvimento em `http://localhost:5173` |
-| `npm run build` | gera o site final em `dist/` (com pré-render, SEO, sitemap) |
-| `npm run preview` | serve o `dist/` para testar (abra as páginas com `/` no fim: `/sobre/`) |
-| `npm run check` | TypeScript + lint + formatação + build — **rode antes de cada commit** |
-| `npm run format` | formata o código automaticamente |
+| Comando               | Para quê                                                                |
+| --------------------- | ----------------------------------------------------------------------- |
+| `npm install`         | instala as dependências (Node 20.19+; versão em `.nvmrc`)               |
+| `npm run dev`         | site em desenvolvimento em `http://localhost:5173`                      |
+| `npm run build`       | gera o site final em `dist/` (com pré-render, SEO, sitemap)             |
+| `npm run preview`     | serve o `dist/` para testar (abra as páginas com `/` no fim: `/sobre/`) |
+| `npm run check`       | TypeScript + lint + formatação + build — **rode antes de cada commit**  |
+| `npm run test`        | testes automáticos: páginas, formulário e comparação visual             |
+| `npm run test:update` | grava novas referências visuais (após mudar o visual de propósito)      |
+| `npm run format`      | formata o código automaticamente                                        |
+
+**Testes (primeira vez):** rode `npx playwright install chromium` e depois
+`npm run test:update` para gravar as referências visuais do seu computador;
+faça commit da pasta `tests/visual.spec.ts-snapshots/`. Daí em diante,
+`npm run test` avisa se alguma página mudou sem querer.
 
 A hospedagem atual publica a pasta `dist/`, então ela é versionada: depois de
 mudar o código, rode `npm run build` e inclua o `dist/` no commit.
@@ -34,9 +41,11 @@ src/
   data/site.ts          soluções, textos de apoio, links de WhatsApp/Power BI
   components/           peças reutilizadas (Header, Footer, ui, mocks...)
   pages/                uma página por arquivo
-  motion/               scroll suave (ScrollSmoother) e animações por rota
+  motion/               GSAP: gsap.ts (plugins), tokens.ts (ritmo),
+                        reveal.ts (catálogo data-reveal), MotionDirector
   lib/                  lógica sem tela (envio do contato, estado da carga)
-  styles/               CSS — ver src/styles/index.css
+  styles/               CSS e tema do Tailwind — ver src/styles/index.css
+tests/                  testes automáticos (Playwright)
   assets/               imagens importadas pelo código
 ```
 
@@ -46,7 +55,19 @@ src/
 `src/data/pages.json`, rota em `src/routes.tsx`, estilos em
 `src/styles/pages/<pagina>.css` (importado em `src/styles/index.css`).
 
-**Mudar cores ou fonte:** `src/styles/tokens.css`.
+**Estilizar:** seções novas ou redesenhadas usam classes do **Tailwind**
+no JSX (`bg-graphite text-cream py-24`). As cores disponíveis são as da
+marca, definidas em `src/styles/tokens.css`. O CSS antigo de cada seção
+(`src/styles/pages/`, `components/`) é apagado quando ela for refeita.
+
+**Animar:** use os atributos do catálogo, sem escrever GSAP:
+`data-reveal`, `data-reveal="fade|heading|scale|slide-left"`, `data-delay`,
+`data-stagger`, `data-split="lines"`, `data-speed="0.85"`,
+`data-pause-offscreen` (detalhes em `src/motion/reveal.ts`). Em
+desenvolvimento, abra o site com `?markers` para ver os pontos de início.
+
+**Mudar cores, fonte ou ritmo das animações:** `src/styles/tokens.css` e
+`src/motion/tokens.ts`.
 
 **Mudar título/descrição de uma página:** `src/data/pages.json`.
 
