@@ -127,19 +127,50 @@ export function HomeHero() {
           }),
       });
 
-      // Repete a história a cada ~6 s, só enquanto o hero estiver na tela.
+      // Repete a história a cada ~6 s.
       let loop: gsap.core.Tween | null = null;
+      let current: gsap.core.Timeline | null = null;
       const schedule = () => {
         loop = gsap.delayedCall(6, () => {
-          story().eventCallback("onComplete", schedule);
+          current = story().eventCallback("onComplete", schedule);
         });
       };
       intro.eventCallback("onComplete", schedule);
+
+      // Desempenho: a órbita é pesada de desenhar. Enquanto o visitante rola
+      // a página, ou quando o hero está fora da tela, as animações decorativas
+      // pausam (classe .is-paused) e voltam logo em seguida.
+      let visible = true;
+      let scrolling = false;
+      let idle = 0;
+      const apply = () => {
+        const pause = scrolling || !visible;
+        section.classList.toggle("is-paused", pause);
+        loop?.paused(pause);
+        current?.paused(pause);
+      };
+      const onScroll = () => {
+        if (!scrolling) {
+          scrolling = true;
+          apply();
+        }
+        window.clearTimeout(idle);
+        idle = window.setTimeout(() => {
+          scrolling = false;
+          apply();
+        }, 180);
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
       const observer = new IntersectionObserver(([entry]) => {
-        loop?.paused(!entry.isIntersecting);
+        visible = entry.isIntersecting;
+        apply();
       });
       observer.observe(section);
-      return () => observer.disconnect();
+      return () => {
+        observer.disconnect();
+        window.removeEventListener("scroll", onScroll);
+        window.clearTimeout(idle);
+      };
     }, section);
 
     return () => ctx.revert();
