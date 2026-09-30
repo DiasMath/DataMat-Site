@@ -94,6 +94,9 @@ function render({ path, title, description, noindex = false, home = false }) {
 }
 
 for (const [path, { title, description }] of Object.entries(pages)) {
+  // Garante que cada página do pages.json tem rota em src/routes.tsx.
+  if (path !== "/" && renderApp(path).includes('class="not-found'))
+    throw new Error(`Página "${path}" está no pages.json mas não tem rota.`);
   const dir = path === "/" ? root : join(root, path.slice(1));
   mkdirSync(dir, { recursive: true });
   writeFileSync(
