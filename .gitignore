@@ -11,6 +11,9 @@ dist-ssr
 
 # Arquivos gerados
 dist-ssr/
+dist-test/
+test-results/
+playwright-report/
 *.tsbuildinfo
 .sites-runtime/
 

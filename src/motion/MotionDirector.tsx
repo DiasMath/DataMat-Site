@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { gsap, ScrollSmoother, ScrollTrigger } from "./gsap";
 import { applyReveals } from "./reveal";
+import { motionDisabled } from "./tokens";
 import { markNavigated, skipIntro } from "../lib/boot";
 
 /**
@@ -23,6 +24,7 @@ export function MotionDirector() {
         import.meta.env.DEV &&
         new URLSearchParams(window.location.search).has("markers"),
     });
+    if (motionDisabled) return;
     const smoother = ScrollSmoother.create({
       wrapper: "#smooth-wrapper",
       content: "#smooth-content",
@@ -44,7 +46,7 @@ export function MotionDirector() {
     }
 
     const root = document.getElementById("smooth-content");
-    if (!root) return;
+    if (!root || motionDisabled) return;
     const context = gsap.context(() => {
       // Primeira carga pré-renderizada: o que já está na tela não "pisca".
       applyReveals(root, { skipInView: skipIntro() });

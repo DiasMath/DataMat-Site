@@ -20,3 +20,9 @@ export const motion = {
   /** Onde, na tela, uma seção começa a entrar ("top 88%" = 88% da altura). */
   start: "top 88%",
 } as const;
+
+/**
+ * Build de testes (npm run test) desliga as animações para os prints
+ * saírem sempre iguais. Visitantes nunca recebem esse build.
+ */
+export const motionDisabled = import.meta.env.VITE_DISABLE_MOTION === "1";

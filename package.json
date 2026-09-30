@@ -8,6 +8,9 @@
     "build": "tsc -b && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/route-shells.mjs",
     "preview": "vite preview --host 0.0.0.0",
     "check": "npm run typecheck && npm run lint && npm run format:check && npm run build",
+    "test": "playwright test",
+    "test:update": "playwright test --update-snapshots",
+    "build:test": "vite build --mode test --outDir dist-test && vite build --mode test --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/route-shells.mjs dist-test",
     "typecheck": "tsc -b",
     "lint": "eslint .",
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\" \"scripts/**/*.mjs\" \"*.{js,mjs,ts}\"",
@@ -26,6 +29,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",
+    "@playwright/test": "^1.63.0",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
     "@vitejs/plugin-react": "^5.0.4",

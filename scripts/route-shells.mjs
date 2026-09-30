@@ -21,7 +21,8 @@ const { render: renderApp } = await import(
   pathToFileURL(resolve("dist-ssr/entry-server.js")).href
 );
 
-const root = "dist";
+// Pasta do build: "dist" (padrão) ou outra passada na linha de comando.
+const root = process.argv[2] || "dist";
 const pages = JSON.parse(readFileSync("src/data/pages.json", "utf8"));
 const template = readFileSync(join(root, "index.html"), "utf8");
 

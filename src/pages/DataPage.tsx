@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { gsap, useGSAP } from "../motion/gsap";
 import { skipIntro } from "../lib/boot";
+import { motionDisabled } from "../motion/tokens";
 import { Container, Eyebrow, SectionIntro } from "../components/ui";
 import { DashboardMock } from "../components/mocks";
 import { CTA } from "../components/contact";
@@ -36,7 +37,7 @@ function DataHero() {
   // Peça especial: as barras do gráfico crescem quando o quadro aparece.
   useGSAP(
     () => {
-      if (skipIntro()) return;
+      if (skipIntro() || motionDisabled) return;
       gsap.from(".bar-set b", {
         scaleY: 0,
         transformOrigin: "bottom",

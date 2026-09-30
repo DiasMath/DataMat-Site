@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { gsap, SplitText, useGSAP } from "../motion/gsap";
+import { motionDisabled } from "../motion/tokens";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { Container, Eyebrow } from "../components/ui";
 import { ContactAction } from "../components/contact";
@@ -24,7 +25,7 @@ export function HomeHero() {
   useGSAP(
     () => {
       const section = root.current;
-      if (!section) return;
+      if (!section || motionDisabled) return;
       const q = gsap.utils.selector(section);
       const core = q(".motion-core")[0];
       const cards = q(".motion-source");

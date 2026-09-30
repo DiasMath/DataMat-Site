@@ -9,7 +9,7 @@ import { ScrollSmoother } from "gsap/ScrollSmoother";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { SplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
-import { motion } from "./tokens";
+import { motion, motionDisabled } from "./tokens";
 
 gsap.registerPlugin(
   useGSAP,
@@ -19,6 +19,9 @@ gsap.registerPlugin(
   SplitText,
 );
 gsap.defaults({ duration: motion.duration.base, ease: motion.ease.out });
+
+// Build de testes: toda animação GSAP termina na hora (prints estáveis).
+if (motionDisabled) gsap.globalTimeline.timeScale(1000);
 
 export {
   gsap,
