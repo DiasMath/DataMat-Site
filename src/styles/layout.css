@@ -8,7 +8,7 @@
   width: 100%;
   background: #171719ed;
   border-bottom-color: #ffffff1f;
-  color: var(--warm-white);
+  color: var(--color-cream);
   backdrop-filter: blur(22px);
 }
 .header-inner {
@@ -59,7 +59,7 @@
   align-items: center;
   font-size: 0.84rem;
   font-weight: 700;
-  background: var(--orange);
+  background: var(--color-amber);
   border: 0;
   color: #201a14;
 }
@@ -80,11 +80,11 @@
   font-size: 0.73rem;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  color: #ffb03f;
+  color: var(--color-amber);
   margin-bottom: 22px;
 }
 .footer a:hover {
-  color: #ffb03f;
+  color: var(--color-amber);
 }
 .footer-bottom {
   border-top: 1px solid #36384e;
@@ -202,7 +202,7 @@
 }
 .desktop-nav > a:hover,
 .nav-dropdown > button:hover {
-  color: #ffc36d;
+  color: var(--color-amber-light);
 }
 .dropdown-panel {
   position: absolute;
@@ -211,8 +211,8 @@
   width: 270px;
   padding: 9px;
   border: 1px solid #e2e0d9;
-  background: #242326;
-  color: var(--warm-white);
+  background: var(--color-graphite);
+  color: var(--color-cream);
   border-color: #ffffff2d;
   box-shadow: 0 24px 50px #0006;
 }
@@ -224,18 +224,18 @@
 }
 .dropdown-panel span {
   font-size: 0.68rem;
-  color: #ffc36d;
+  color: var(--color-amber-light);
 }
 .mobile-nav {
   background: #222124;
-  color: var(--warm-white);
+  color: var(--color-cream);
   border-color: #ffffff2d;
 }
 .mobile-nav a {
   border-color: #ffffff25;
 }
 .mobile-nav .mobile-contact {
-  background: #ffb03f;
+  background: var(--color-amber);
   color: #211b17;
   border: 0;
 }
@@ -248,13 +248,13 @@
   transform-origin: left center;
   pointer-events: none;
   transition: transform 0.1s linear;
-  background: #ffb03f;
+  background: var(--color-amber);
 }
 .footer {
   border-top: 1px solid #34364a;
   padding: 65px 0 22px;
-  background: #171719;
-  color: var(--warm-white);
+  background: var(--color-bg-hero);
+  color: var(--color-cream);
   border-color: #ffffff22;
 }
 .footer-top > div:not(:first-child) a {
@@ -273,7 +273,7 @@
   .mobile-nav .mobile-contact {
     padding: 16px;
     margin-top: 14px;
-    background: #ffb03f;
+    background: var(--color-amber);
     color: #211b17;
   }
 }

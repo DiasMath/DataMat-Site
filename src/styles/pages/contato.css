@@ -4,7 +4,7 @@
   letter-spacing: -0.07em;
   font-weight: 600;
   margin: 24px 0;
-  color: var(--warm-white);
+  color: var(--color-cream);
 }
 .contact-page {
   padding: 100px 0 130px;
@@ -91,12 +91,12 @@
   font-size: 1.12rem;
   max-width: 520px;
   margin-bottom: 30px;
-  color: var(--muted);
+  color: var(--color-text-muted);
 }
 .contact-aside span {
   font-size: 0.7rem;
   letter-spacing: 0.14em;
-  color: #ffc36d;
+  color: var(--color-amber-light);
 }
 .contact-aside small {
   color: #b7b1aa;
@@ -107,7 +107,7 @@
   font-weight: 700;
   display: block;
   margin-bottom: 28px;
-  color: #ffc36d;
+  color: var(--color-amber-light);
 }
 .contact-form input,
 .contact-form textarea,
@@ -119,14 +119,14 @@
   border-radius: 0;
   background: #211f21;
   border-color: #ffffff38;
-  color: var(--warm-white);
+  color: var(--color-cream);
 }
 .contact-form :is(input, textarea)::placeholder {
   color: #a9a5a0;
 }
 .contact-form option {
   background: #211f21;
-  color: var(--warm-white);
+  color: var(--color-cream);
 }
 .form-status {
   border-left: 3px solid #b7740b;
@@ -135,7 +135,7 @@
   margin: 16px 0 0 !important;
   background: #4f3923;
   color: #ffddaa !important;
-  border-color: #ffb03f;
+  border-color: var(--color-amber);
 }
 .form-trap {
   position: absolute !important;
@@ -157,11 +157,11 @@
   flex: none;
   margin-top: 2px;
   padding: 0;
-  accent-color: #ffb03f;
+  accent-color: var(--color-amber);
 }
 .contact-form .form-consent a,
 .form-status-link {
-  color: #ffb03f;
+  color: var(--color-amber);
   text-decoration: underline;
   font: inherit;
 }

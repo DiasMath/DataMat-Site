@@ -25,7 +25,7 @@
 }
 .steps-panel span {
   font-size: 0.7rem;
-  color: #ffb03f;
+  color: var(--color-amber);
 }
 .steps-panel strong {
   font-size: 1.2rem;
@@ -56,7 +56,7 @@
   background: #30302b;
   border-color: #736c57;
   box-shadow: 16px 16px 0 #29271f;
-  color: var(--warm-white);
+  color: var(--color-cream);
 }
 .runner-top {
   display: flex;
@@ -87,8 +87,8 @@
   display: flex;
   gap: 20px;
   align-items: center;
-  background: #ffb03f;
-  border-color: #ffb03f;
+  background: var(--color-amber);
+  border-color: var(--color-amber);
   color: #241c16;
 }
 .runner-track {
@@ -150,7 +150,7 @@
   padding: 45px;
   min-height: 300px;
   background: #34322e;
-  color: var(--warm-white);
+  color: var(--color-cream);
 }
 .ia-before-after span {
   font-size: 0.7rem;
@@ -262,23 +262,23 @@
   color: #d5ccb6;
 }
 .runner-top button:hover {
-  background: #ffc36d;
-  border-color: #ffc36d;
+  background: var(--color-amber-light);
+  border-color: var(--color-amber-light);
 }
 .runner-step {
   border-color: #777269;
 }
 .runner-step.done {
-  border-color: #ffb03f;
+  border-color: var(--color-amber);
 }
 .runner-step.done:before {
-  background: #ffb03f;
+  background: var(--color-amber);
 }
 .runner-step.current {
   background: #ffffff0e;
 }
 .runner-step > span {
-  color: #ffc36d;
+  color: var(--color-amber-light);
 }
 .ia-examples {
   background: #282722;
@@ -288,13 +288,13 @@
   background: transparent;
   padding: 12px 18px;
   font-size: 0.9rem;
-  color: var(--warm-white);
+  color: var(--color-cream);
   border-color: #ffffff39;
 }
 .examples-tabs button.active {
-  background: #ffb03f;
+  background: var(--color-amber);
   color: #241c16;
-  border-color: #ffb03f;
+  border-color: var(--color-amber);
 }
 .ia-before-after .container > div:last-child {
   background: #e4d3b6;

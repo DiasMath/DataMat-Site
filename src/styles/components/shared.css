@@ -57,7 +57,7 @@
 }
 .product-hero p,
 .simple-hero p {
-  color: var(--muted);
+  color: var(--color-text-muted);
 }
 .text-link {
   display: inline-flex;
@@ -68,19 +68,19 @@
   border-bottom: 1px solid currentColor;
   padding-bottom: 7px;
   transition: gap 0.2s;
-  color: var(--warm-white);
+  color: var(--color-cream);
 }
 .text-link:hover {
   gap: 17px;
-  color: #ffb03f;
+  color: var(--color-amber);
 }
 .product-hero h1,
 .simple-hero h1 {
-  color: var(--warm-white);
+  color: var(--color-cream);
 }
 .product-hero .text-link {
-  color: var(--warm-white);
+  color: var(--color-cream);
 }
 .product-hero .text-link:hover {
-  color: #ffb03f;
+  color: var(--color-amber);
 }

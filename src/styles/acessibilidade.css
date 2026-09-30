@@ -3,7 +3,7 @@
 /* ---------- Tablet e celular: órbita vira um visual próprio acima do texto ---------- */
 /* Contorno visível ao navegar pelo teclado (Tab). Não aparece no clique. */
 :where(a, button, input, select, textarea, [tabindex]):focus-visible {
-  outline: 2px solid #ffb03f;
+  outline: 2px solid var(--color-amber);
   outline-offset: 3px;
 }
 main:focus {
@@ -16,8 +16,8 @@ main:focus {
   left: 10px;
   z-index: 1000;
   padding: 12px 18px;
-  background: #ffb03f;
-  color: #171719;
+  background: var(--color-amber);
+  color: var(--color-bg-hero);
   font-weight: 700;
   transition: top 0.2s;
 }

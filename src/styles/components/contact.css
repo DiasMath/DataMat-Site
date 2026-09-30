@@ -161,7 +161,7 @@
 .wa-preview-close {
   width: 100%;
   border: 0;
-  background: #ffb03f;
+  background: var(--color-amber);
   color: #211b17;
   padding: 17px;
   font-weight: 700;

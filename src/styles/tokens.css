@@ -1,0 +1,24 @@
+/*
+  Tokens de design: as decisões visuais do site num lugar só.
+  Para mudar uma cor da marca no site inteiro, mude aqui.
+  (A fase de design vai ampliar esta lista: espaçamentos, tamanhos de
+  título, raios de borda etc.)
+*/
+:root {
+  /* Marca */
+  --color-amber: #ffb03f; /* laranja DATAMAT */
+  --color-amber-light: #ffc36d;
+
+  /* Fundos (tema escuro) */
+  --color-bg: #15161b; /* fundo geral das páginas */
+  --color-bg-hero: #171719; /* hero da home e cor do tema do navegador */
+  --color-graphite: #242326;
+
+  /* Texto */
+  --color-text: #f5f0e7;
+  --color-text-muted: #b9b6b1;
+  --color-cream: #f1e8d9;
+
+  /* Tipografia */
+  --font-sans: "DM Sans Variable", "DM Sans", Arial, sans-serif;
+}

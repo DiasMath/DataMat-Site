@@ -26,14 +26,14 @@
   font-size: 1rem;
 }
 .strategy-grid small {
-  color: #ffb03f;
+  color: var(--color-amber);
   margin-right: 13px;
   font-size: 0.7rem;
 }
 .measure-line {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  border-top: 1px solid #242326;
+  border-top: 1px solid var(--color-graphite);
   margin: 70px 0 25px;
   border-color: #ffffff6b;
 }
@@ -51,7 +51,7 @@
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: #ffb03f;
+  background: var(--color-amber);
 }
 .measure-line small {
   font-size: 0.72rem;
@@ -60,11 +60,11 @@
 .measure-line strong {
   font-size: 1.4rem;
   font-weight: 600;
-  color: var(--warm-white);
+  color: var(--color-cream);
 }
 .measure-section p {
   margin-left: 290px;
-  color: var(--muted);
+  color: var(--color-text-muted);
 }
 .brand-hero {
   padding: 75px 0 85px;
@@ -337,7 +337,7 @@
   border: 1px solid #b8ad9e;
   background: transparent;
   font-size: 1.3rem;
-  color: var(--warm-white);
+  color: var(--color-cream);
   border-color: #ffffff55;
 }
 .editorial-controls button:hover {
@@ -350,7 +350,7 @@
 .editorial-timeline button.active {
   background: #e6b985;
   color: #31251f;
-  box-shadow: inset 3px 0 #ffb03f;
+  box-shadow: inset 3px 0 var(--color-amber);
 }
 .editorial-timeline button.active small {
   color: #67401f;

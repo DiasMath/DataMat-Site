@@ -61,7 +61,7 @@
 }
 .mock-side .side-active {
   background: #eae9e3;
-  color: #242326;
+  color: var(--color-graphite);
   font-weight: 700;
 }
 .mock-main {
@@ -165,7 +165,7 @@
   background: #e6e5de;
 }
 .bar-set b {
-  background: #ffb03f;
+  background: var(--color-amber);
 }
 .chart-axis {
   display: flex;
@@ -182,7 +182,11 @@
   width: 76px;
   height: 76px;
   border-radius: 50%;
-  background: conic-gradient(#242326 0 42%, #ffb03f 42% 76%, #e6e6e2 76%);
+  background: conic-gradient(
+    var(--color-graphite) 0 42%,
+    var(--color-amber) 42% 76%,
+    #e6e6e2 76%
+  );
   position: relative;
   margin: auto;
 }
@@ -208,10 +212,10 @@
 .legend i {
   width: 5px;
   height: 5px;
-  background: #242326;
+  background: var(--color-graphite);
 }
 .legend span:nth-child(2) i {
-  background: #ffb03f;
+  background: var(--color-amber);
 }
 .legend span:nth-child(3) i {
   background: #e6e6e2;
@@ -245,10 +249,10 @@
   box-shadow: 0 2px 0 #ececea;
 }
 .flow-node.trigger {
-  border-left: 3px solid #ffb03f;
+  border-left: 3px solid var(--color-amber);
 }
 .flow-node.result {
-  border-left: 3px solid #242326;
+  border-left: 3px solid var(--color-graphite);
   padding-right: 48px;
 }
 .node-tag {
@@ -351,7 +355,7 @@
 .week-row i {
   width: 8px;
   height: 8px;
-  background: #ffb03f;
+  background: var(--color-amber);
   border-radius: 50%;
   margin-left: auto;
   flex: none;
@@ -368,8 +372,8 @@
   font-size: 0.58rem;
 }
 .preview-avatar {
-  background: #242326;
-  color: #ffb03f;
+  background: var(--color-graphite);
+  color: var(--color-amber);
   width: 18px;
   height: 18px;
   display: grid;
@@ -395,7 +399,7 @@
 .art-line {
   width: 55%;
   height: 5px;
-  background: #ffb03f;
+  background: var(--color-amber);
 }
 .preview-footer {
   display: flex;
@@ -506,7 +510,7 @@
   right: -5px;
   bottom: -10px;
   background: #f7f6f2;
-  border: 5px solid #242326;
+  border: 5px solid var(--color-graphite);
   border-radius: 13px;
   box-shadow: 0 6px 15px #2423262b;
   padding: 16px 9px 8px;
@@ -523,7 +527,7 @@
   width: 44px;
   height: 8px;
   border-radius: 0 0 6px 6px;
-  background: #242326;
+  background: var(--color-graphite);
 }
 .phone-preview b {
   font-size: 0.7rem;
@@ -722,7 +726,7 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--orange);
+  background: var(--color-amber);
 }
 .sample-image {
   height: 80%;

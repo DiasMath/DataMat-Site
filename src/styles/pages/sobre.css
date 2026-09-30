@@ -68,7 +68,7 @@
 .story-layout p {
   line-height: 1.7;
   font-size: 1.04rem;
-  color: var(--muted);
+  color: var(--color-text-muted);
 }
 .about-story {
   background: #292628;
@@ -85,5 +85,5 @@
   border-color: #ffffff37;
 }
 .about-fronts a:hover {
-  color: #ffc36d;
+  color: var(--color-amber-light);
 }

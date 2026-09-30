@@ -12,6 +12,7 @@
   pages/      → o que é exclusivo de cada página
 */
 @import "./reset.css";
+@import "./tokens.css";
 @import "./base.css";
 @import "./animations.css";
 @import "./layout.css";

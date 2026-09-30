@@ -18,7 +18,7 @@
 .eyebrow-mark {
   width: 17px;
   height: 2px;
-  background: #ffb03f;
+  background: var(--color-amber);
 }
 .button {
   display: inline-flex;
@@ -87,21 +87,21 @@
 }
 .section-label span,
 .eyebrow {
-  color: #ffc36d;
+  color: var(--color-amber-light);
 }
 .section-intro p {
   max-width: 610px;
   line-height: 1.65;
   margin: 20px 0 0;
   font-size: 1rem;
-  color: var(--muted);
+  color: var(--color-text-muted);
 }
 .button-orange {
-  background: #ffb03f;
+  background: var(--color-amber);
   color: #201a14;
 }
 .button-dark {
-  background: #ffb03f;
+  background: var(--color-amber);
   color: #201a14;
 }
 .button-dark:hover {

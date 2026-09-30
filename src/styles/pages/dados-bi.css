@@ -30,14 +30,14 @@
   flex: 1;
 }
 .source-mid strong {
-  background: #242326;
-  color: #ffb03f;
+  background: var(--color-graphite);
+  color: var(--color-amber);
   padding: 16px 10px;
   font-size: 0.67rem;
   letter-spacing: 0.08em;
 }
 .source-output {
-  border-left: 3px solid #ffb03f;
+  border-left: 3px solid var(--color-amber);
   color: #fff;
   padding: 29px;
   min-height: 160px;
@@ -49,7 +49,7 @@
 .source-output span {
   font-size: 0.64rem;
   letter-spacing: 0.1em;
-  color: #ffb03f;
+  color: var(--color-amber);
 }
 .source-output strong {
   font-size: 1.3rem;
@@ -193,7 +193,7 @@
 }
 .lens-chart i {
   width: 100%;
-  background: #ffb03f;
+  background: var(--color-amber);
   display: block;
   transition: height 0.45s ease;
 }
@@ -318,8 +318,8 @@
   background: #222123;
 }
 .data-lens-menu button.active {
-  box-shadow: inset 3px 0 var(--orange);
-  background: #ffb03f;
+  box-shadow: inset 3px 0 var(--color-amber);
+  background: var(--color-amber);
   color: #211b17;
 }
 .data-lens-menu button.active span {
@@ -327,7 +327,7 @@
 }
 .data-lens-stage p {
   margin: 0;
-  color: var(--muted);
+  color: var(--color-text-muted);
 }
 .data-lens-stage > span {
   color: #ffbd67;
@@ -347,5 +347,5 @@
   font-weight: 700;
   background: #282729;
   border-color: #ffffff27;
-  color: var(--warm-white);
+  color: var(--color-cream);
 }

@@ -45,31 +45,19 @@ p {
   }
 }
 :root {
-  font-family: "DM Sans Variable", "DM Sans", Arial, sans-serif;
+  font-family: var(--font-sans);
   font-synthesis: none;
   font-weight: 400;
-  --orange: #ffb03f;
-  --brand-blue: #242326;
-  --ink: #f5f0e7;
-  --muted: #b9b6b1;
-  --cream: #15161b;
-  --paper: #1c1d23;
-  --stone: #292a30;
-  --apricot: #35271f;
-  --sage: #242521;
-  --mist: #29292b;
-  --line-dark: #ffffff27;
-  --warm-white: #f1e8d9;
-  color: var(--ink);
-  background: var(--cream);
+  color: var(--color-text);
+  background: var(--color-bg);
 }
 body {
   margin: 0;
   min-width: 320px;
-  background: var(--cream);
-  color: var(--ink);
+  background: var(--color-bg);
+  color: var(--color-text);
 }
 ::selection {
-  background: #ffb03f;
+  background: var(--color-amber);
   color: #211b17;
 }
