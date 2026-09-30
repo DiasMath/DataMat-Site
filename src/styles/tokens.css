@@ -1,10 +1,16 @@
 /*
   Tokens de design: as decisões visuais do site num lugar só.
+  Ficam no @theme do Tailwind, então cada token vira também uma classe
+  utilitária (ex.: --color-amber → bg-amber, text-amber, border-amber) e
+  continua disponível como variável CSS (var(--color-amber)).
   Para mudar uma cor da marca no site inteiro, mude aqui.
-  (A fase de design vai ampliar esta lista: espaçamentos, tamanhos de
-  título, raios de borda etc.)
 */
-:root {
+@theme static {
+  /* Só as cores da marca: evita o Codex usar cores soltas (red-500 etc.) */
+  --color-*: initial;
+  --color-white: #fff;
+  --color-black: #000;
+
   /* Marca */
   --color-amber: #ffb03f; /* laranja DATAMAT */
   --color-amber-light: #ffc36d;
@@ -21,4 +27,11 @@
 
   /* Tipografia */
   --font-sans: "DM Sans Variable", "DM Sans", Arial, sans-serif;
+
+  /* Movimento (as mesmas curvas usadas pelo GSAP em src/motion/tokens.ts) */
+  --ease-brand-out: cubic-bezier(0.215, 0.61, 0.355, 1); /* power3.out */
+  --ease-brand-in-out: cubic-bezier(0.645, 0.045, 0.355, 1); /* power3.inOut */
+  --duration-fast: 200ms;
+  --duration-base: 450ms;
+  --duration-slow: 800ms;
 }

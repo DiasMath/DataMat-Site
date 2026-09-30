@@ -4,6 +4,10 @@
   duas regras têm o mesmo peso. Regras novas vão no arquivo do componente ou
   da página que elas estilizam, nunca "no fim de tudo".
 
+  Tailwind CSS v4: as classes utilitárias (no JSX) ficam na última camada
+  e vencem o CSS legado. Seções novas ou redesenhadas usam Tailwind; o CSS
+  legado de cada seção é apagado quando ela for refeita.
+
   reset       → zera estilos do navegador
   tokens      → cores, fontes e medidas (variáveis CSS)
   base        → estilos de elementos soltos (body, títulos, links...)
@@ -11,23 +15,36 @@
   components/ → peças reutilizadas em várias páginas
   pages/      → o que é exclusivo de cada página
 */
+@layer theme, base, legacy, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
 @import "./reset.css";
 @import "./tokens.css";
-@import "./base.css";
-@import "./animations.css";
-@import "./layout.css";
-@import "./components/mocks.css";
-@import "./components/ui.css";
-@import "./components/shared.css";
-@import "./components/contact.css";
-@import "./components/comparison.css";
-@import "./pages/home-hero.css";
-@import "./pages/home.css";
-@import "./pages/dados-bi.css";
-@import "./pages/ia-automacao.css";
-@import "./pages/marca-growth.css";
-@import "./pages/sites.css";
-@import "./pages/sobre.css";
-@import "./pages/contato.css";
-@import "./pages/privacidade.css";
-@import "./acessibilidade.css";
+
+/* CSS legado (antes do Tailwind), numa camada abaixo das utilitárias */
+@import "./base.css" layer(legacy);
+@import "./animations.css" layer(legacy);
+@import "./layout.css" layer(legacy);
+@import "./components/mocks.css" layer(legacy);
+@import "./components/ui.css" layer(legacy);
+@import "./components/shared.css" layer(legacy);
+@import "./components/contact.css" layer(legacy);
+@import "./components/comparison.css" layer(legacy);
+@import "./pages/home-hero.css" layer(legacy);
+@import "./pages/home.css" layer(legacy);
+@import "./pages/dados-bi.css" layer(legacy);
+@import "./pages/ia-automacao.css" layer(legacy);
+@import "./pages/marca-growth.css" layer(legacy);
+@import "./pages/sites.css" layer(legacy);
+@import "./pages/sobre.css" layer(legacy);
+@import "./pages/contato.css" layer(legacy);
+@import "./pages/privacidade.css" layer(legacy);
+@import "./acessibilidade.css" layer(legacy);
+
+@import "tailwindcss/utilities.css" layer(utilities);
+
+/* Onde o Tailwind procura classes usadas */
+@source "../";
+/* Nomes que o CSS legado já usa com outro significado: o Tailwind não gera
+   essas utilitárias até a migração. Tirar daqui quando o legado sair. */
+@source not inline("container sr-only");
