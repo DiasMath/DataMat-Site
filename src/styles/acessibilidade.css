@@ -1,0 +1,26 @@
+/* ---------- Notebooks menores: aproxima os cartões do centro ---------- */
+
+/* ---------- Tablet e celular: órbita vira um visual próprio acima do texto ---------- */
+/* Contorno visível ao navegar pelo teclado (Tab). Não aparece no clique. */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid #ffb03f;
+  outline-offset: 3px;
+}
+main:focus {
+  outline: none;
+}
+/* Link "Pular para o conteúdo": escondido até receber foco pelo teclado. */
+.skip-link {
+  position: fixed;
+  top: -80px;
+  left: 10px;
+  z-index: 1000;
+  padding: 12px 18px;
+  background: #ffb03f;
+  color: #171719;
+  font-weight: 700;
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  top: 10px;
+}

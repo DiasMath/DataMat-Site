@@ -1,0 +1,404 @@
+/* ============================================================
+   HERO DA HOME — órbita "DATAMAT clareza"
+   Estrutura: .home-hero > .hero-shade + .hero-orbit + .new-hero-content
+   A órbita é um "palco" quadrado (--orbit) e tudo dentro dele é
+   posicionado em % desse palco. Animação: src/pages/HomeHero.tsx
+   ============================================================ */
+.home-hero {
+  --orbit: min(68vw, 980px, 118svh);
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  min-height: calc(100svh - 82px);
+  overflow: hidden;
+  padding: clamp(90px, 10vh, 140px) 0 65px;
+  background: #171719;
+  color: #fffdf9;
+}
+
+/* Escurece só a área do texto, para a órbita ficar nítida à direita. */
+.hero-shade {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      90deg,
+      #171719 0%,
+      #171719f2 30%,
+      #171719a6 44%,
+      #17171900 56%
+    ),
+    linear-gradient(0deg, #1717198a, transparent 30%);
+}
+
+/* ---------- Texto ---------- */
+.new-hero-content {
+  position: relative;
+  min-height: min(680px, calc(100svh - 230px));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.hero-copy {
+  position: relative;
+  z-index: 2;
+  max-width: min(780px, 56vw);
+}
+.hero-copy .eyebrow {
+  color: #ffc56e;
+}
+.hero-copy h1 {
+  max-width: 850px;
+  margin: 28px 0;
+  color: #fffdf9;
+  font-size: clamp(3.5rem, 6vw, 6.75rem);
+  font-weight: 600;
+  line-height: 1.01;
+  letter-spacing: -0.075em;
+}
+.hero-copy h1 em {
+  color: #ffb03f;
+  font-style: normal;
+}
+.hero-copy > p {
+  max-width: 565px;
+  color: #ddddd9;
+  font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+  line-height: 1.6;
+}
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 26px;
+  margin-top: 34px;
+}
+.hero-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 0 7px;
+  border-bottom: 1px solid #d6d5d1;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.hero-secondary:hover {
+  color: #ffb03f;
+}
+.hero-scroll {
+  position: absolute;
+  bottom: 12px;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: #d5d4d0;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+}
+.hero-scroll svg {
+  animation: scroll-cue 2s ease-in-out infinite;
+}
+
+/* ---------- Órbita ---------- */
+.hero-orbit {
+  position: absolute;
+  z-index: -2;
+  top: 50%;
+  left: 74%;
+  width: var(--orbit);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  pointer-events: none;
+}
+.hero-orbit::before {
+  /* brilho âmbar atrás do núcleo */
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, #ffb03f40, transparent 36%),
+    radial-gradient(circle, #36302b, transparent 68%);
+}
+.orbit-grid {
+  position: absolute;
+  inset: -15%;
+  opacity: 0.2;
+  /* grade com o esmaecimento já embutido no SVG: desenhada uma vez só,
+     sem mask-image recalculado a cada quadro */
+  background: url("../../assets/hero/orbit-grid.svg") center / 100% 100%
+    no-repeat;
+  transform: perspective(700px) rotateX(20deg) scale(1.1);
+}
+/* Anéis: o .orbit-ring posiciona e recebe a animação de entrada (GSAP);
+   o .motion-orbit interno gira e pulsa (CSS). Separados para não brigarem. */
+.orbit-ring {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+}
+.orbit-one {
+  width: 49%;
+  height: 49%;
+}
+.orbit-two {
+  width: 74.5%;
+  height: 74.5%;
+}
+.orbit-three {
+  width: 100%;
+  height: 100%;
+}
+.motion-orbit {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #f9b45245;
+  border-radius: 50%;
+  animation:
+    hero-spin 26s linear infinite,
+    hero-pulse 8s ease-in-out infinite;
+}
+.orbit-two .motion-orbit {
+  animation-duration: 42s, 8s;
+  animation-delay:
+    0s,
+    -2s;
+  animation-direction: reverse, normal;
+}
+.orbit-three .motion-orbit {
+  animation-duration: 64s, 8s;
+  animation-delay:
+    0s,
+    -4s;
+}
+/* "planeta" que percorre cada anel */
+.motion-orbit::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -4px;
+  width: 7px;
+  height: 7px;
+  margin-top: -3.5px;
+  border-radius: 50%;
+  background: #ffb03f;
+  box-shadow: 0 0 14px #ffb03f;
+}
+.orbit-two .motion-orbit::after {
+  top: 18%;
+  left: 12%;
+  opacity: 0.7;
+}
+.orbit-three .motion-orbit::after {
+  top: 85%;
+  left: 85%;
+  width: 5px;
+  height: 5px;
+  opacity: 0.5;
+}
+.motion-core {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: clamp(150px, 22.5%, 220px);
+  height: clamp(150px, 22.5%, 220px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 25%, #ffcc80, #ffb03f 57%, #d77720);
+  box-shadow: 0 0 90px #ffb03f70;
+  color: #25201a;
+}
+.motion-core span {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+}
+.motion-core strong {
+  font-size: clamp(1.6rem, 2.2vw, 2.15rem);
+  letter-spacing: -0.06em;
+}
+/* Cartões: o .orbit-card posiciona e flutua (CSS); o cartão interno
+   viaja até o núcleo (GSAP). */
+.orbit-card {
+  position: absolute;
+}
+.source-a,
+.source-b,
+.source-c {
+  animation: hero-float 7s ease-in-out infinite;
+}
+.motion-source,
+.motion-result {
+  padding: 14px 19px;
+  border: 1px solid #ffe1ae47;
+  background: #29282af2;
+  box-shadow: 0 14px 30px #10121840;
+  color: #e8e7e3;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  white-space: nowrap;
+}
+.motion-source {
+  position: relative;
+}
+.motion-source::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #ffb03f;
+}
+.source-a {
+  top: 22%;
+  left: 17%;
+  animation-duration: 6s;
+}
+.source-b {
+  top: 14%;
+  left: 62%;
+  animation-delay: -2s;
+}
+.source-c {
+  top: 74%;
+  left: 16%;
+  animation-delay: -3s;
+}
+.result-slot {
+  top: 74%;
+  left: 60%;
+}
+.motion-result {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-color: #f1e8d9;
+  background: #f1e8d9;
+  color: #251d17;
+  font-weight: 700;
+}
+
+/* Com JavaScript, a órbita começa escondida e entra animada (HomeHero.tsx).
+   Sem JavaScript, aparece parada. A classe .js é posta no <html> pelo index.html. */
+.js .orbit-ring,
+.js .motion-core,
+.js .motion-source,
+.js .motion-result {
+  visibility: hidden;
+}
+
+/* Pausa as animações decorativas durante o scroll e fora da tela
+   (controlado em HomeHero.tsx). */
+.home-hero.is-paused .motion-orbit,
+.home-hero.is-paused .orbit-card,
+.home-hero.is-paused .hero-scroll svg {
+  animation-play-state: paused;
+}
+@media (max-width: 1280px) and (min-width: 1025px) {
+  .source-c {
+    top: 77%;
+    left: 23%;
+  }
+  .result-slot {
+    left: 55%;
+  }
+}
+@media (max-width: 1024px) {
+  .home-hero {
+    --orbit: min(440px, 100vw);
+    flex-direction: column;
+    align-items: stretch;
+    min-height: 0;
+    padding: 0 0 48px;
+  }
+  .hero-shade {
+    display: none;
+  }
+  .hero-orbit {
+    position: relative;
+    top: auto;
+    left: 50%;
+    flex: none;
+    margin: -24px 0 calc(var(--orbit) * -0.17);
+    translate: -50% 0;
+    opacity: 1;
+  }
+  .orbit-grid {
+    display: none;
+  }
+  .motion-core {
+    width: calc(var(--orbit) * 0.39);
+    height: calc(var(--orbit) * 0.39);
+  }
+  .hero-copy {
+    max-width: 680px;
+  }
+  .motion-core span {
+    font-size: 0.55rem;
+  }
+  .motion-core strong {
+    font-size: 1.4rem;
+  }
+  .motion-source,
+  .motion-result {
+    padding: 8px 11px;
+    font-size: 0.55rem;
+    letter-spacing: 0.1em;
+  }
+  .motion-source::after {
+    top: 4px;
+    right: 4px;
+    width: 4px;
+    height: 4px;
+  }
+  .source-a {
+    top: 17%;
+    left: 5%;
+  }
+  .source-b {
+    top: 25%;
+    left: 63%;
+  }
+  .source-c {
+    top: 54%;
+    left: 3%;
+  }
+  .result-slot {
+    top: 67%;
+    left: 47%;
+  }
+  .motion-result {
+    gap: 6px;
+  }
+  .new-hero-content {
+    min-height: 0;
+    display: block;
+  }
+  .hero-copy h1 {
+    margin: 18px 0;
+    font-size: clamp(2.6rem, 11.5vw, 4.2rem);
+    line-height: 1.03;
+  }
+  .hero-copy > p {
+    font-size: 1rem;
+  }
+  .hero-actions {
+    gap: 15px 20px;
+    margin-top: 26px;
+  }
+  .hero-secondary {
+    font-size: 0.84rem;
+  }
+  .hero-scroll {
+    display: none;
+  }
+}

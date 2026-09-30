@@ -1,0 +1,179 @@
+.cta-section {
+  padding: 100px 0;
+  overflow: hidden;
+  border-top: 1px solid #d8cec1;
+  background: #e9dcc8;
+  color: #241c17;
+  border-color: #cdbda5;
+}
+.cta-section .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+}
+.cta-section h2 {
+  font-size: clamp(2.6rem, 5vw, 5rem);
+  line-height: 1.08;
+  letter-spacing: -0.065em;
+  font-weight: 600;
+  max-width: 860px;
+  margin: 20px 0;
+}
+.cta-section p {
+  max-width: 550px;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+@media (max-width: 560px) {
+  .cta-section .container {
+    display: block;
+  }
+  .cta-section h2 {
+    font-size: 2.65rem;
+  }
+  .cta-section img {
+    display: none;
+  }
+}
+.cta-section img {
+  opacity: 0.95;
+  transform: rotate(-8deg);
+  flex: none;
+  width: 125px;
+}
+.whatsapp-float {
+  position: fixed;
+  z-index: 80;
+  right: 25px;
+  bottom: 25px;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  box-shadow: 0 10px 32px #1015184d;
+  border: 2px solid #fff;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+  background: #228b58;
+}
+.whatsapp-float:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px #10151866;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+@media (max-width: 650px) {
+  .whatsapp-float {
+    right: 15px;
+    bottom: 15px;
+    width: 54px;
+    height: 54px;
+  }
+}
+.cta-section .eyebrow,
+.cta-section p {
+  color: #5c4a3a;
+}
+.cta-section .button-orange {
+  background: #2b2726;
+  color: #fff3e3;
+  border-color: #2b2726;
+}
+.cta-section .button-orange:hover {
+  background: #443428;
+}
+
+/* WhatsApp stays a safe local demo until a real business number is supplied. */
+.wa-preview-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: #121010dc;
+  backdrop-filter: blur(10px);
+}
+.wa-preview-dialog {
+  width: min(100%, 460px);
+  background: #f3eee6;
+  color: #24201c;
+  box-shadow: 0 28px 100px #0009;
+}
+.wa-preview-head {
+  min-height: 70px;
+  background: #1c7650;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 15px 20px;
+}
+.wa-preview-head strong {
+  flex: 1;
+}
+.wa-preview-head button {
+  color: white;
+  border: 0;
+  background: transparent;
+  padding: 8px;
+}
+.wa-preview-body {
+  padding: 28px 22px 35px;
+  min-height: 270px;
+  background: linear-gradient(130deg, #e7e3d8, #f7f2e9);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.wa-preview-body > span {
+  color: #6b665d;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+.wa-preview-body p {
+  background: #fff;
+  padding: 17px;
+  margin: 32px 0 18px;
+  box-shadow: 0 4px 16px #0001;
+  border-radius: 3px 12px 12px 12px;
+  line-height: 1.5;
+}
+.wa-preview-body small {
+  color: #6b665d;
+  line-height: 1.5;
+}
+.wa-preview-close {
+  width: 100%;
+  border: 0;
+  background: #ffb03f;
+  color: #211b17;
+  padding: 17px;
+  font-weight: 700;
+}
+@media (max-width: 800px) {
+  .cta-section {
+    padding: 75px 0;
+  }
+  .whatsapp-float {
+    width: 48px;
+    height: 48px;
+    right: 16px;
+    bottom: 16px;
+  }
+}

@@ -28,7 +28,7 @@ export function Button({
 }: {
   to: string;
   children: React.ReactNode;
-  variant?: "dark" | "light" | "outline" | "orange";
+  variant?: "dark" | "orange";
   className?: string;
 }) {
   return (

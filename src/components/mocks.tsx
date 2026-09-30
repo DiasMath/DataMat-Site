@@ -3,12 +3,9 @@ import symbol from "../assets/brand/datamat-symbol.svg";
 import { powerBiEmbedUrl } from "../data/site";
 import type { Kind } from "../data/site";
 
-export function DashboardMock({ compact = false }: { compact?: boolean }) {
+export function DashboardMock() {
   return (
-    <div
-      className={`dashboard-mock ${compact ? "compact" : ""}`}
-      aria-hidden="true"
-    >
+    <div className="dashboard-mock" aria-hidden="true">
       <div className="mock-bar">
         <span className="mock-brand">
           <img src={symbol} alt="" /> VISÃO DO NEGÓCIO
@@ -97,12 +94,9 @@ export function DashboardMock({ compact = false }: { compact?: boolean }) {
   );
 }
 
-function AutomationMock({ compact = false }: { compact?: boolean }) {
+function AutomationMock() {
   return (
-    <div
-      className={`automation-mock ${compact ? "compact" : ""}`}
-      aria-hidden="true"
-    >
+    <div className="automation-mock" aria-hidden="true">
       <div className="mock-bar">
         <span className="mock-brand">FLUXO / COMERCIAL</span>
         <span className="running">
@@ -142,12 +136,9 @@ function AutomationMock({ compact = false }: { compact?: boolean }) {
   );
 }
 
-export function BrandMock({ compact = false }: { compact?: boolean }) {
+export function BrandMock() {
   return (
-    <div
-      className={`brand-mock ${compact ? "compact" : ""}`}
-      aria-hidden="true"
-    >
+    <div className="brand-mock" aria-hidden="true">
       <div className="mock-bar">
         <span className="mock-brand">PLANEJAMENTO / PRESENÇA</span>
         <span className="mock-period">Mês em visão</span>
@@ -215,9 +206,9 @@ export function BrandMock({ compact = false }: { compact?: boolean }) {
   );
 }
 
-export function SiteMock({ compact = false }: { compact?: boolean }) {
+export function SiteMock() {
   return (
-    <div className={`site-mock ${compact ? "compact" : ""}`} aria-hidden="true">
+    <div className="site-mock" aria-hidden="true">
       <div className="browser-chrome">
         <span>
           <i />
@@ -270,21 +261,15 @@ export function SiteMock({ compact = false }: { compact?: boolean }) {
   );
 }
 
-export function Visual({
-  kind,
-  compact = false,
-}: {
-  kind: Kind;
-  compact?: boolean;
-}) {
+export function Visual({ kind }: { kind: Kind }) {
   return kind === "dados" ? (
-    <DashboardMock compact={compact} />
+    <DashboardMock />
   ) : kind === "ia" ? (
-    <AutomationMock compact={compact} />
+    <AutomationMock />
   ) : kind === "marca" ? (
-    <BrandMock compact={compact} />
+    <BrandMock />
   ) : (
-    <SiteMock compact={compact} />
+    <SiteMock />
   );
 }
 

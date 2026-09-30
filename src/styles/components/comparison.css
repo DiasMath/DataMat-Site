@@ -1,0 +1,76 @@
+.comparison-section {
+  background: #f1efe9;
+  padding: 110px 0;
+}
+.comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-left: 290px;
+}
+.comparison-before,
+.comparison-after {
+  padding: 32px;
+  min-height: 320px;
+}
+.comparison-before > span,
+.comparison-after > span {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  margin-bottom: 25px;
+}
+.comparison-after > span {
+  color: #ffb03f;
+}
+.comparison-before > div,
+.comparison-after > div {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-top: 1px solid #cbcbc8;
+  padding: 13px 0;
+  font-size: 0.98rem;
+}
+.comparison-after > div {
+  border-color: #3e4055;
+}
+.comparison-before small {
+  color: #999aa0;
+}
+.comparison-after svg {
+  color: #ffb03f;
+  flex: none;
+}
+@media (max-width: 1100px) {
+  .comparison-grid {
+    margin-left: 220px;
+  }
+}
+@media (max-width: 800px) {
+  .comparison-section {
+    padding: 75px 0;
+  }
+  .comparison-grid {
+    margin-left: 0;
+  }
+}
+@media (max-width: 560px) {
+  .comparison-grid {
+    grid-template-columns: 1fr;
+  }
+  .comparison-before,
+  .comparison-after {
+    min-height: 0;
+    padding: 25px;
+  }
+}
+.comparison-after {
+  color: #fff;
+  background: #303036;
+}
+.comparison-before {
+  color: #555b65;
+  background: #e7e5df;
+}

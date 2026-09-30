@@ -1,0 +1,28 @@
+@keyframes scroll-cue {
+  50% {
+    transform: translateY(7px);
+  }
+}
+@keyframes fade-rise {
+  from {
+    opacity: 0;
+    transform: translateY(13px);
+  }
+}
+
+@keyframes hero-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+@keyframes hero-pulse {
+  50% {
+    scale: 1.035;
+    border-color: #f9b45220;
+  }
+}
+@keyframes hero-float {
+  50% {
+    translate: 0 -13px;
+  }
+}

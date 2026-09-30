@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "@fontsource-variable/dm-sans";
-import "./styles.css";
+import "./styles/index.css";
 import { bootedFromPrerender } from "./lib/boot";
 
 const container = document.getElementById("root")!;
