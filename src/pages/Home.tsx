@@ -20,7 +20,7 @@ export function Home() {
       >
         <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-10 gap-y-5 px-5 py-8 md:px-8">
           <p className="text-xs font-semibold tracking-widest text-text-muted">
-            QUEM JÁ TRABALHA COM A DATAMAT
+            EMPRESAS QUE CONFIAM NA DATAMAT
           </p>
 
           <ul className="flex flex-wrap items-center gap-6">
@@ -32,12 +32,8 @@ export function Home() {
                   width={48}
                   height={48}
                   loading="lazy"
-                  className="size-12 rounded-lg"
+                  className="size-38 rounded-lg"
                 />
-
-                <span className="text-sm font-semibold text-cream">
-                  {c.name}
-                </span>
               </li>
             ))}
           </ul>
