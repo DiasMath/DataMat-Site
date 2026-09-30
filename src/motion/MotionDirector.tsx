@@ -98,7 +98,7 @@ export function MotionDirector() {
       context.revert();
       cancelAnimationFrame(refresh);
     };
-  }, [pathname]);
+  }, [pathname, pagePath]);
 
   useEffect(() => {
     if (!hash) return;

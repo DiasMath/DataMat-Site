@@ -13,6 +13,7 @@ import {
 } from "node:fs";
 import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
+import { createHash } from "node:crypto";
 import { SITE_URL, PERMITIR_INDEXACAO } from "../site.config.mjs";
 
 // Pré-render: o conteúdo de cada página já vai dentro do HTML.
@@ -75,15 +76,15 @@ function render({ path, title, description, noindex = false, home = false }) {
   return template
     .replace(/<title>[^<]*<\/title>/, `<title>${esc(title)}</title>`)
     .replace(
-      /<meta name="description" content="[^"]*"\s*\/?>/,
+      /<meta\s+name="description"\s+content="[^"]*"\s*\/?>/,
       `<meta name="description" content="${esc(description)}">`,
     )
     .replace(
-      /<meta property="og:title" content="[^"]*"\s*\/?>/,
+      /<meta\s+property="og:title"\s+content="[^"]*"\s*\/?>/,
       `<meta property="og:title" content="${esc(title)}">`,
     )
     .replace(
-      /<meta property="og:description" content="[^"]*"\s*\/?>/,
+      /<meta\s+property="og:description"\s+content="[^"]*"\s*\/?>/,
       `<meta property="og:description" content="${esc(description)}">`,
     )
     .replace("</head>", `${tags}</head>`)
@@ -134,6 +135,21 @@ writeFileSync(
       .join("\n") +
     `\n</urlset>\n`,
 );
+
+// Cabeçalhos de segurança: grava no _headers o hash do único script
+// embutido no HTML (index.html), exigido pela política CSP.
+const inline = template.match(/<script>([\s\S]*?)<\/script>/);
+if (inline) {
+  const hash = createHash("sha256").update(inline[1]).digest("base64");
+  const headersFile = join(root, "_headers");
+  writeFileSync(
+    headersFile,
+    readFileSync(headersFile, "utf8").replace(
+      "sha256-HASH_DO_SCRIPT_JS",
+      `sha256-${hash}`,
+    ),
+  );
+}
 
 rmSync("dist-ssr", { recursive: true, force: true });
 

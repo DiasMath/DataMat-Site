@@ -4,16 +4,17 @@ import gsap from "gsap";
 import { Container, Eyebrow, SectionIntro } from "../components/ui";
 import { CTA } from "../components/contact";
 
+const steps = [
+  "Novo contato",
+  "IA interpreta",
+  "Consulta informações",
+  "Cria tarefa",
+  "Equipe avisada",
+];
+
 function AutomationRunner() {
   const [step, setStep] = useState(-1);
   const runner = useRef<HTMLDivElement>(null);
-  const steps = [
-    "Novo contato",
-    "IA interpreta",
-    "Consulta informações",
-    "Cria tarefa",
-    "Equipe avisada",
-  ];
   useEffect(() => {
     if (step < 0 || step >= steps.length) return;
     const timer = window.setTimeout(() => setStep((s) => s + 1), 680);
