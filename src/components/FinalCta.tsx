@@ -1,29 +1,82 @@
 import { useRef } from "react";
-import {
-  ArrowUpRight,
-  BarChart3,
-  Database,
-  FileSpreadsheet,
-  Globe,
-  MessageCircle,
-} from "lucide-react";
-import symbol from "../assets/brand/datamat-symbol.svg";
+import { ArrowUpRight, Database, MessageCircle } from "lucide-react";
 import { gsap, ScrollTrigger, useGSAP } from "../motion/gsap";
 import { motionDisabled } from "../motion/tokens";
 import { ContactAction } from "./contact";
+import { DatamatSymbol } from "./DatamatSymbol";
 
-/** Pontos que se conectam ao símbolo (posição em % da área do desenho). */
+/** Mini-ilustrações que se conectam ao símbolo (posição em % do desenho). */
 const nodes = [
-  { icon: FileSpreadsheet, label: "Planilhas", x: 12, y: 18 },
-  { icon: Database, label: "ERP", x: 8, y: 62 },
-  { icon: MessageCircle, label: "WhatsApp", x: 88, y: 20 },
-  { icon: Globe, label: "Site", x: 92, y: 64 },
-  { icon: BarChart3, label: "Indicadores", x: 50, y: 94 },
-];
+  { key: "planilhas", label: "Planilhas", x: 14, y: 16 },
+  { key: "erp", label: "ERP", x: 7, y: 60 },
+  { key: "whatsapp", label: "WhatsApp", x: 86, y: 16 },
+  { key: "site", label: "Site", x: 93, y: 60 },
+  { key: "indicadores", label: "Indicadores", x: 50, y: 95 },
+] as const;
+
+/** As linhas param antes do símbolo (ele é vazado e não pode deixar a linha aparecer por trás). */
+const GAP = 25;
+const lineEnd = (x: number, y: number) => {
+  const dx = x - 50;
+  const dy = y - 50;
+  const d = Math.hypot(dx, dy);
+  return { x: 50 + (dx / d) * GAP, y: 50 + (dy / d) * GAP };
+};
+
+function NodeArt({ kind }: { kind: (typeof nodes)[number]["key"] }) {
+  switch (kind) {
+    case "planilhas":
+      return (
+        <span className="grid grid-cols-3 gap-0.5">
+          {Array.from({ length: 9 }, (_, i) => (
+            <span
+              key={i}
+              className={`h-1.5 w-2.5 rounded-[1px] ${i < 3 ? "bg-amber" : "bg-cream/70"}`}
+            />
+          ))}
+        </span>
+      );
+    case "erp":
+      return <Database size={24} className="text-cream" />;
+    case "whatsapp":
+      return (
+        <span className="relative">
+          <MessageCircle size={24} className="text-cream" />
+          <span className="badge absolute -top-1.5 -right-2 flex size-4 items-center justify-center rounded-full bg-amber text-[9px] font-bold text-graphite">
+            3
+          </span>
+        </span>
+      );
+    case "site":
+      return (
+        <span className="flex w-8 flex-col gap-0.5 rounded-sm border border-cream/60 p-0.5">
+          <span className="flex gap-0.5">
+            <span className="size-1 rounded-full bg-amber" />
+            <span className="size-1 rounded-full bg-cream/60" />
+          </span>
+          <span className="h-1 w-5 rounded-[1px] bg-cream/70" />
+          <span className="h-1 w-3 rounded-[1px] bg-amber" />
+        </span>
+      );
+    case "indicadores":
+      return (
+        <span className="flex h-6 items-end gap-0.5">
+          {[40, 70, 55, 100].map((h) => (
+            <span
+              key={h}
+              className="w-1.5 rounded-[1px] bg-amber"
+              style={{ height: `${h}%` }}
+            />
+          ))}
+        </span>
+      );
+  }
+}
 
 /**
- * Próximo passo em tela cheia: a seção fica presa enquanto o visitante rola,
- * o âmbar toma a tela a partir do símbolo e tudo se conecta à DATAMAT.
+ * Próximo passo em tela cheia: a seção fica presa enquanto o visitante rola;
+ * o âmbar nasce no centro do símbolo e toma a tela, as ferramentas são
+ * "absorvidas" pela DATAMAT e o símbolo emite ondas.
  */
 export function CTA({
   title = "Vamos conversar sobre o que vem a seguir?",
@@ -34,20 +87,37 @@ export function CTA({
 
   useGSAP(
     () => {
-      const q = gsap.utils.selector(root);
+      const section = root.current!;
+      const q = gsap.utils.selector(section);
+      const symbol = q(".symbol")[0];
       if (motionDisabled) {
-        gsap.set(q(".fill"), { clipPath: "circle(150% at 72% 50%)" });
+        gsap.set(q(".fill"), { clipPath: "circle(150vmax at 50% 50%)" });
         gsap.set(q(".ink"), { color: "var(--color-graphite)" });
-        gsap.set(q(".symbol"), { filter: "brightness(0.15)" });
         return;
       }
 
-      // 1. Conexões: linhas se desenham até o símbolo e pulsos correm por elas.
+      const center = () => {
+        const s = section.getBoundingClientRect();
+        const c = symbol.getBoundingClientRect();
+        return {
+          x: c.left - s.left + c.width / 2,
+          y: c.top - s.top + c.height / 2,
+        };
+      };
+      const toSymbol = (axis: "x" | "y") => (_: number, el: Element) => {
+        const a = el.getBoundingClientRect();
+        const c = symbol.getBoundingClientRect();
+        return axis === "x"
+          ? c.left + c.width / 2 - (a.left + a.width / 2)
+          : c.top + c.height / 2 - (a.top + a.height / 2);
+      };
+
+      // 1. Conexões: ferramentas aparecem, linhas se desenham, pulsos correm.
       const lines = Array.from(
-        root.current!.querySelectorAll<SVGLineElement>(".link"),
+        section.querySelectorAll<SVGLineElement>(".link"),
       );
       const pulses = Array.from(
-        root.current!.querySelectorAll<SVGCircleElement>(".pulse"),
+        section.querySelectorAll<SVGCircleElement>(".pulse"),
       );
       gsap.set(lines, { strokeDasharray: 1, strokeDashoffset: 1 });
       const connect = gsap
@@ -55,85 +125,119 @@ export function CTA({
         .from(q(".node"), {
           autoAlpha: 0,
           scale: 0.6,
-          stagger: 0.12,
-          duration: 0.5,
+          stagger: 0.15,
+          duration: 0.6,
           ease: "back.out(1.6)",
         })
         .to(
           lines,
           {
             strokeDashoffset: 0,
-            stagger: 0.12,
-            duration: 0.8,
+            stagger: 0.15,
+            duration: 0.9,
             ease: "power2.inOut",
           },
-          "-=0.4",
-        )
-        .from(
-          q(".symbol"),
-          { scale: 0.85, autoAlpha: 0.3, duration: 0.6, ease: "back.out(1.8)" },
-          "-=0.3",
+          "-=0.5",
         );
       pulses.forEach((p, i) => {
-        const line = lines[i];
-        const x1 = line.x1.baseVal.value,
-          y1 = line.y1.baseVal.value;
-        const x2 = line.x2.baseVal.value,
-          y2 = line.y2.baseVal.value;
+        const l = lines[i];
         connect.fromTo(
           p,
-          { attr: { cx: x1, cy: y1 }, autoAlpha: 1 },
           {
-            attr: { cx: x2, cy: y2 },
+            attr: { cx: l.x1.baseVal.value, cy: l.y1.baseVal.value },
+            autoAlpha: 1,
+          },
+          {
+            attr: { cx: l.x2.baseVal.value, cy: l.y2.baseVal.value },
             autoAlpha: 0,
-            duration: 1.6,
+            duration: 1.8,
             ease: "power1.in",
             repeat: -1,
-            repeatDelay: 0.4 + i * 0.3,
+            repeatDelay: 0.5 + i * 0.35,
           },
-          1.2 + i * 0.25,
+          1.4 + i * 0.3,
         );
       });
-      gsap.to(q(".symbol"), {
-        scale: 1.04,
-        duration: 1.2,
-        yoyo: true,
-        repeat: -1,
-        ease: "sine.inOut",
-        transformOrigin: "50% 50%",
+      // Barras do símbolo acendem uma de cada vez, em ordem.
+      connect.to(
+        q(".bar"),
+        {
+          opacity: 0.35,
+          duration: 0.45,
+          stagger: { each: 0.45, repeat: -1, yoyo: true, repeatDelay: 0.9 },
+        },
+        1,
+      );
+      connect.to(
+        q(".badge"),
+        {
+          scale: 1.25,
+          duration: 0.3,
+          yoyo: true,
+          repeat: -1,
+          repeatDelay: 1.6,
+        },
+        1.5,
+      );
+
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top 75%",
+        onEnter: () => connect.play(),
       });
 
-      // 2. Tela presa: o âmbar cresce a partir do símbolo até cobrir tudo.
+      // 2. Tela presa: o âmbar cresce do centro do símbolo e tudo é absorvido.
       gsap
         .timeline({
           scrollTrigger: {
-            trigger: root.current,
+            trigger: section,
             start: "top top",
-            end: "+=120%",
+            end: "+=160%",
             pin: true,
             scrub: 0.6,
+            invalidateOnRefresh: true,
             onToggle: (self) =>
               self.isActive ? connect.play() : connect.pause(),
           },
         })
         .fromTo(
           q(".fill"),
-          { clipPath: "circle(0% at 72% 50%)" },
+          { clipPath: () => `circle(0px at ${center().x}px ${center().y}px)` },
           {
-            clipPath: "circle(150% at 72% 50%)",
+            clipPath: () =>
+              `circle(150vmax at ${center().x}px ${center().y}px)`,
             ease: "power2.in",
-            duration: 1,
+            duration: 0.55,
           },
         )
-        .to(q(".ink"), { color: "var(--color-graphite)", duration: 0.3 }, 0.55)
-        .to(q(".symbol"), { filter: "brightness(0.15)", duration: 0.3 }, 0.55);
-
-      // Conexões começam assim que a seção aparece, mesmo antes de prender.
-      ScrollTrigger.create({
-        trigger: root.current,
-        start: "top 70%",
-        onEnter: () => connect.play(),
-      });
+        .to(q(".ink"), { color: "var(--color-graphite)", duration: 0.15 }, 0.4)
+        .to(
+          q(".node"),
+          {
+            x: toSymbol("x"),
+            y: toSymbol("y"),
+            scale: 0.3,
+            autoAlpha: 0,
+            stagger: 0.03,
+            duration: 0.25,
+            ease: "power2.in",
+          },
+          0.6,
+        )
+        .to(lines, { strokeDashoffset: 1, duration: 0.2 }, 0.6)
+        .to(pulses, { autoAlpha: 0, duration: 0.05 }, 0.6)
+        .to(
+          q(".symbol-wrap"),
+          { scale: 1.3, duration: 0.2, ease: "back.out(2)" },
+          0.82,
+        )
+        .fromTo(
+          q(".ripple"),
+          { scale: 0.4, autoAlpha: 0.7 },
+          { scale: 2.4, autoAlpha: 0, stagger: 0.06, duration: 0.25 },
+          0.82,
+        )
+        .from(q(".joined"), { autoAlpha: 0, y: 12, duration: 0.15 }, 0.9);
     },
     { scope: root },
   );
@@ -146,20 +250,16 @@ export function CTA({
     >
       <div
         aria-hidden="true"
-        className="fill absolute inset-0 bg-amber [clip-path:circle(0%_at_72%_50%)]"
+        className="fill absolute inset-0 bg-amber [clip-path:circle(0px_at_50%_50%)]"
       />
 
       <div className="relative mx-auto grid w-full max-w-7xl items-center gap-12 px-5 py-24 md:px-8 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
         <div data-reveal>
-          <p
-            data-reveal
-            className="ink text-xs font-semibold tracking-widest text-amber"
-          >
+          <p className="ink text-xs font-semibold tracking-widest text-amber">
             PRÓXIMO PASSO
           </p>
           <h2
             id="cta-titulo"
-            data-reveal
             className="ink mt-5 text-5xl leading-[1.02] font-semibold tracking-tight text-cream md:text-7xl"
           >
             {title}
@@ -184,42 +284,57 @@ export function CTA({
             viewBox="0 0 100 100"
             className="ink absolute inset-0 size-full overflow-visible text-white/30"
           >
-            {nodes.map((n) => (
-              <line
-                key={n.label}
-                className="link"
-                x1={n.x}
-                y1={n.y}
-                x2={50}
-                y2={50}
-                pathLength={1}
-                stroke="currentColor"
-                strokeWidth={0.4}
-              />
-            ))}
+            {nodes.map((n) => {
+              const end = lineEnd(n.x, n.y);
+              return (
+                <line
+                  key={n.key}
+                  className="link"
+                  x1={n.x}
+                  y1={n.y}
+                  x2={end.x}
+                  y2={end.y}
+                  pathLength={1}
+                  stroke="currentColor"
+                  strokeWidth={0.4}
+                />
+              );
+            })}
             {nodes.map((n) => (
               <circle
-                key={n.label}
-                className="pulse fill-cream"
-                r={0.9}
+                key={n.key}
+                className="pulse fill-amber"
+                r={1}
                 cx={n.x}
                 cy={n.y}
                 opacity={0}
               />
             ))}
           </svg>
-          <img
-            src={symbol}
-            alt=""
-            className="symbol absolute top-1/2 left-1/2 w-[30%] -translate-x-1/2 -translate-y-1/2"
-          />
-          {nodes.map(({ icon: Icon, label, x, y }) => (
+
+          <div className="symbol-wrap absolute top-1/2 left-1/2 w-[28%] -translate-x-1/2 -translate-y-1/2">
+            {[0, 1].map((i) => (
+              <span
+                key={i}
+                className="ripple ink absolute top-1/2 left-1/2 size-[170%] -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-current text-amber opacity-0"
+              />
+            ))}
+            <DatamatSymbol className="symbol ink relative w-full text-amber" />
+          </div>
+          <span className="joined ink absolute bottom-[6%] left-1/2 -translate-x-1/2 text-sm font-semibold whitespace-nowrap text-amber">
+            Tudo conectado em um só lugar
+          </span>
+
+          {nodes.map((n) => (
             <span
-              key={label}
-              className="node absolute flex -translate-x-1/2 -translate-y-1/2 items-center gap-1.5 rounded-full border border-white/15 bg-graphite px-3 py-1.5 text-xs font-medium text-cream"
-              style={{ left: `${x}%`, top: `${y}%` }}
+              key={n.key}
+              className="node absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1.5"
+              style={{ left: `${n.x}%`, top: `${n.y}%` }}
             >
-              <Icon size={14} className="text-amber" /> {label}
+              <span className="flex size-14 items-center justify-center rounded-2xl border border-white/10 bg-graphite shadow-lg shadow-black/40">
+                <NodeArt kind={n.key} />
+              </span>
+              <span className="text-[11px] text-text-muted">{n.label}</span>
             </span>
           ))}
         </div>

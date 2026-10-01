@@ -2,8 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
 import logo from "../assets/brand/datamat-horizontal.svg";
-import { menuFeatured, menuLinks, menuSolutions } from "../content/navigation";
-import { clients } from "../content/clients";
+import { menuLinks, menuSolutions } from "../content/navigation";
 import { ContactAction } from "./contact";
 
 /** Botão principal de contato: pílula âmbar com seta que gira no hover. */
@@ -16,9 +15,18 @@ export function ContactButton({ className = "" }: { className?: string }) {
         aria-hidden="true"
         className="absolute inset-0 -translate-x-full bg-cream transition-transform duration-500 ease-brand-out group-hover:translate-x-0"
       />
+      {/* Brilho que atravessa o botão de tempos em tempos (some no hover) */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-y-0 left-0 w-1/3 animate-shine bg-gradient-to-r from-transparent via-white/60 to-transparent group-hover:opacity-0"
+      />
       <span className="relative">Fale conosco</span>
       <span className="relative flex size-8 items-center justify-center rounded-full bg-graphite text-amber transition-transform duration-500 ease-brand-out group-hover:rotate-45">
-        <ArrowUpRight size={16} aria-hidden="true" />
+        <ArrowUpRight
+          size={16}
+          aria-hidden="true"
+          className="animate-nudge group-hover:animate-none"
+        />
       </span>
     </ContactAction>
   );
@@ -100,7 +108,11 @@ export function Header() {
           aria-label="Navegação principal"
           className="ml-auto hidden items-center gap-9 min-[801px]:flex"
         >
-          <div onMouseEnter={openMenu} onMouseLeave={closeMenu}>
+          <div
+            className="relative"
+            onMouseEnter={openMenu}
+            onMouseLeave={closeMenu}
+          >
             <button
               type="button"
               onClick={() => setMenu((v) => !v)}
@@ -116,32 +128,40 @@ export function Header() {
               />
             </button>
 
+            {/* Painel compacto, ancorado no botão (com um vão invisível para o mouse atravessar) */}
             <div
               id="menu-solucoes"
-              className={`absolute inset-x-0 top-full border-b border-white/10 bg-graphite shadow-2xl shadow-black/40 transition duration-300 ease-brand-out ${menu ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0"}`}
+              className={`absolute top-full left-1/2 w-[34rem] -translate-x-1/2 pt-4 transition duration-300 ease-brand-out ${menu ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0"}`}
             >
-              <div className="mx-auto grid max-w-7xl gap-8 px-5 py-8 md:px-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
-                <ul className="grid gap-3 sm:grid-cols-2">
+              <div className="relative rounded-3xl border border-white/10 bg-graphite p-3 shadow-2xl shadow-black/60">
+                <span
+                  aria-hidden="true"
+                  className="absolute -top-1.5 left-1/2 size-3 -translate-x-1/2 rotate-45 border-t border-l border-white/10 bg-graphite"
+                />
+                <p className="px-3 pt-2 pb-3 text-xs font-semibold tracking-widest text-text-muted">
+                  O QUE A DATAMAT FAZ
+                </p>
+                <ul className="grid grid-cols-2 gap-1">
                   {menuSolutions.map(
                     ({ title, path, description, icon: Icon }) => (
                       <li key={path}>
                         <Link
                           to={path}
-                          className="group flex h-full gap-4 rounded-2xl border border-transparent p-4 transition hover:border-white/10 hover:bg-white/5"
+                          className="group flex h-full flex-col gap-3 rounded-2xl p-4 transition hover:bg-gradient-to-br hover:from-amber/15 hover:to-transparent"
                         >
-                          <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-amber/10 text-amber transition group-hover:bg-amber group-hover:text-graphite">
-                            <Icon size={20} aria-hidden="true" />
+                          <span className="flex size-10 items-center justify-center rounded-xl bg-white/5 text-amber ring-1 ring-white/10 transition group-hover:bg-amber group-hover:text-graphite group-hover:ring-amber">
+                            <Icon size={19} aria-hidden="true" />
                           </span>
                           <span>
-                            <span className="flex items-center gap-1.5 font-semibold text-cream">
+                            <span className="flex items-center gap-1 font-semibold text-cream">
                               {title}
                               <ArrowUpRight
-                                size={15}
+                                size={14}
                                 aria-hidden="true"
-                                className="opacity-0 transition group-hover:translate-x-0.5 group-hover:opacity-100"
+                                className="-translate-x-1 opacity-0 transition group-hover:translate-x-0 group-hover:opacity-100"
                               />
                             </span>
-                            <span className="mt-1 block text-sm leading-relaxed text-text-muted">
+                            <span className="mt-1 block text-sm leading-snug text-text-muted">
                               {description}
                             </span>
                           </span>
@@ -150,29 +170,6 @@ export function Header() {
                     ),
                   )}
                 </ul>
-                <Link
-                  to={menuFeatured.to}
-                  className="group flex flex-col justify-between rounded-2xl bg-bg-hero p-6 transition hover:ring-1 hover:ring-amber/50"
-                >
-                  <span className="text-xs font-semibold tracking-widest text-amber">
-                    {menuFeatured.eyebrow}
-                  </span>
-                  <span className="mt-6 flex items-center gap-3">
-                    <img
-                      src={clients[0].logo}
-                      alt=""
-                      width={44}
-                      height={44}
-                      className="size-11 rounded-lg"
-                    />
-                    <span className="font-semibold text-cream">
-                      {menuFeatured.title}
-                    </span>
-                  </span>
-                  <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-cream group-hover:text-amber">
-                    Ver cases <ArrowUpRight size={15} aria-hidden="true" />
-                  </span>
-                </Link>
               </div>
             </div>
           </div>

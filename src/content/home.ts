@@ -52,3 +52,15 @@ export const casesTeaser = {
   body: "Veja como uma distribuidora saiu do fechamento manual para a gestão do dia a dia.",
   cta: "Ver os cases",
 };
+
+/**
+ * Hero: problemas que orbitam o sol da DATAMAT e saem como soluções.
+ * Textos curtos (cabem num cartão pequeno).
+ */
+export const orbitPairs = [
+  { problem: "Dados dispersos", solution: "Painel de gestão" },
+  { problem: "Rotinas manuais", solution: "Atendimento automático" },
+  { problem: "Marca sem padrão", solution: "Marca reconhecível" },
+  { problem: "Site que não vende", solution: "Site que gera contatos" },
+  { problem: "Decisões no escuro", solution: "Decisões com dados" },
+];

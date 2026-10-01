@@ -43,9 +43,3 @@ export const menuLinks = [
   { label: "Demonstrações", to: "/#demonstracoes" },
   { label: "Sobre", to: "/sobre" },
 ];
-
-export const menuFeatured = {
-  eyebrow: "VEJA NA PRÁTICA",
-  title: "Como a Loja Juntos.com automatizou o DRE",
-  to: "/cases",
-};
