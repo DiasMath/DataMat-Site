@@ -5,7 +5,7 @@ import { Screen } from "./Screen";
 import { useScene, type SceneProps } from "./useScene";
 
 /** Duração da cena em segundos (o fim mostra os dias passando, devagar). */
-export const LENGTH = 44;
+export const LENGTH = 48;
 /** Segundos entre um dia e outro no fim da cena. */
 const DAY_STEP = 1.4;
 
@@ -113,10 +113,19 @@ export function DreScene(props: SceneProps) {
         )
           .from(
             q(".old-line")[i],
-            { scaleX: 0, transformOrigin: "left", duration: 0.6, ease: "none" },
+            {
+              scaleX: 0,
+              transformOrigin: "left",
+              duration: 1.2,
+              ease: "sine.inOut",
+            },
             "<",
           )
-          .to(token, { left: `${X[name]}%`, duration: 0.6, ease: "none" }, "<")
+          .to(
+            token,
+            { left: `${X[name]}%`, duration: 1.2, ease: "sine.inOut" },
+            "<",
+          )
           .from(q(`.${name}-work`), {
             autoAlpha: 0,
             stagger: 0.12,
@@ -295,8 +304,9 @@ export function DreScene(props: SceneProps) {
                   width: `${X.datamat - X.erp - 12}%`,
                 }}
               />
-              <span className="token absolute top-1/2 flex -translate-1/2 items-center gap-1 rounded bg-cream px-1.5 py-0.5 text-[9px] font-semibold text-graphite opacity-0 shadow md:text-[10px]">
-                <FileSpreadsheet size={10} aria-hidden="true" /> arquivo
+              {/* arquivo Excel passando de etapa em etapa */}
+              <span className="token absolute top-1/2 flex -translate-1/2 items-center gap-1 rounded-md bg-excel px-1.5 py-1 text-[9px] font-semibold text-white opacity-0 shadow-md shadow-black/30 md:text-[10px]">
+                <FileSpreadsheet size={11} aria-hidden="true" /> fechamento.xlsx
               </span>
               {[0, 1].map((i) => (
                 <span
