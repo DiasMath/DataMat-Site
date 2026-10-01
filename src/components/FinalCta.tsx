@@ -104,11 +104,16 @@ function MiniScreen({ kind }: { kind: NodeKey }) {
 }
 
 /** Uma "camada" da seção. A clara (âmbar) é uma cópia recortada pelo círculo. */
+/** Pulsos por linha: vários ao mesmo tempo dão um fluxo contínuo de dados. */
+const PULSES_PER_LINE = 3;
+const PULSE_DURATION = 1.6;
+
+/** Uma "camada" da seção. A clara (âmbar) é uma cópia recortada pelo círculo. */
 function Layer({ title, amber }: { title: string; amber?: boolean }) {
   const text = amber ? "text-graphite" : "text-cream";
   const Heading = amber ? "p" : "h2";
   return (
-    <div className="relative mx-auto grid min-h-svh w-full max-w-7xl items-center gap-12 px-5 py-24 md:px-8 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
+    <div className="relative mx-auto grid min-h-svh w-full max-w-screen-2xl items-center gap-12 px-5 py-24 md:px-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
       <div data-reveal={amber ? undefined : ""}>
         <p
           className={`text-xs font-semibold tracking-widest ${amber ? "text-graphite" : "text-amber"}`}
@@ -140,82 +145,97 @@ function Layer({ title, amber }: { title: string; amber?: boolean }) {
       </div>
 
       <div
-        className="relative mx-auto aspect-square w-full max-w-md"
+        className="relative mx-auto aspect-square w-full max-w-2xl"
         aria-hidden="true"
       >
         <svg
           viewBox="0 0 100 100"
           className={`absolute inset-0 size-full overflow-visible ${amber ? "text-graphite/45" : "text-white/30"}`}
         >
-          <circle
-            className="ring-line"
-            cx={50}
-            cy={50}
-            r={RING}
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={0.4}
-          />
-          {nodes.map((n) => {
-            const end = lineEnd(n.x, n.y);
-            return (
-              <line
-                key={n.key}
-                className="link"
-                x1={n.x}
-                y1={n.y}
-                x2={end.x}
-                y2={end.y}
-                pathLength={1}
-                stroke="currentColor"
-                strokeWidth={0.4}
-              />
-            );
-          })}
-          {nodes.map((n) => (
+          {/* O scroll mexe nos grupos (.links-group, .pulses-group, .ring-group);
+              a animação contínua mexe nos elementos de dentro. Assim as duas
+              nunca brigam, na ida nem na volta. */}
+          <g className="ring-group">
             <circle
-              key={n.key}
-              className={`pulse ${amber ? "fill-graphite" : "fill-amber"}`}
-              r={1}
-              cx={n.x}
-              cy={n.y}
-              opacity={0}
+              className="ring-line"
+              cx={50}
+              cy={50}
+              r={RING}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={0.4}
             />
-          ))}
+          </g>
+          <g className="links-group">
+            {nodes.map((n) => {
+              const end = lineEnd(n.x, n.y);
+              return (
+                <line
+                  key={n.key}
+                  className="link"
+                  x1={n.x}
+                  y1={n.y}
+                  x2={end.x}
+                  y2={end.y}
+                  pathLength={1}
+                  stroke="currentColor"
+                  strokeWidth={0.4}
+                />
+              );
+            })}
+          </g>
+          <g className="pulses-group">
+            {nodes.flatMap((n) =>
+              Array.from({ length: PULSES_PER_LINE }, (_, k) => (
+                <circle
+                  key={`${n.key}-${k}`}
+                  className={`pulse ${amber ? "fill-graphite" : "fill-amber"}`}
+                  r={0.9}
+                  cx={n.x}
+                  cy={n.y}
+                  opacity={0}
+                />
+              )),
+            )}
+          </g>
         </svg>
 
-        <div className="symbol-wrap absolute top-1/2 left-1/2 w-[24%] -translate-1/2">
-          {amber &&
-            [0, 1].map((i) => (
-              <span
-                key={i}
-                className="ripple absolute top-1/2 left-1/2 size-[190%] -translate-1/2 rounded-full border-2 border-graphite opacity-0"
-              />
-            ))}
+        <div className="symbol-wrap absolute top-1/2 left-1/2 w-[22%]">
           <DatamatSymbol
             className={`symbol relative w-full ${amber ? "text-graphite" : "text-amber"}`}
           />
         </div>
 
         {amber && (
-          <span className="joined absolute top-[78%] left-1/2 -translate-x-1/2 rounded-full bg-graphite px-4 py-2 text-sm font-semibold whitespace-nowrap text-amber opacity-0">
-            Tudo conectado em um só lugar
-          </span>
+          <>
+            {/* Ondas: círculos perfeitos, centrados no símbolo */}
+            {[0, 1].map((i) => (
+              <span
+                key={i}
+                className="ripple absolute top-1/2 left-1/2 aspect-square w-[42%] rounded-full border-2 border-graphite opacity-0"
+              />
+            ))}
+            <span className="joined absolute top-[87%] left-1/2 rounded-full bg-graphite px-6 py-3 text-base font-semibold whitespace-nowrap text-amber opacity-0 md:text-lg">
+              Tudo conectado em um só lugar
+            </span>
+          </>
         )}
 
         {nodes.map((n) => (
           <span
             key={n.key}
-            className="node absolute flex -translate-1/2 flex-col items-center gap-1.5"
+            className="node absolute"
             style={{ left: `${n.x}%`, top: `${n.y}%` }}
           >
-            <span className="flex h-16 w-24 items-center justify-center rounded-xl border border-white/10 bg-graphite p-2 shadow-lg shadow-black/40">
-              <MiniScreen kind={n.key} />
-            </span>
-            <span
-              className={`text-[11px] font-medium ${amber ? "text-graphite/75" : "text-text-muted"}`}
-            >
-              {n.label}
+            <span className="node-inner flex flex-col items-center gap-2">
+              <span className="flex h-20 w-28 items-center justify-center rounded-xl border border-white/10 bg-graphite p-2.5 shadow-lg shadow-black/40">
+                <MiniScreen kind={n.key} />
+              </span>
+              <span
+                className={`text-xs font-medium ${amber ? "text-graphite/75" : "text-text-muted"}`}
+              >
+                {n.label}
+              </span>
             </span>
           </span>
         ))}
@@ -229,7 +249,7 @@ function Layer({ title, amber }: { title: string; amber?: boolean }) {
  * O âmbar nasce no centro do símbolo e cobre a tela (é uma cópia da seção em
  * cores invertidas, recortada por um círculo: texto e símbolo trocam de cor
  * exatamente onde o âmbar passa). Depois, as ferramentas são absorvidas pelo
- * símbolo, que emite ondas.
+ * símbolo, que emite ondas. Tudo reversível ao rolar para cima.
  */
 export function CTA({
   title = "Vamos conversar sobre o que vem a seguir?",
@@ -243,6 +263,14 @@ export function CTA({
       const section = root.current!;
       const q = gsap.utils.selector(section);
       const symbol = q(".symbol")[0]; // da camada escura
+      // Centralização feita pelo GSAP (ele assume o transform desses
+      // elementos; um translate do CSS seria descartado e as duas camadas
+      // ficariam desalinhadas).
+      gsap.set(q(".symbol-wrap, .ripple, .node-inner"), {
+        xPercent: -50,
+        yPercent: -50,
+      });
+      gsap.set(q(".joined"), { xPercent: -50 });
       if (motionDisabled) {
         gsap.set(q(".fill"), { clipPath: "circle(150vmax at 50% 50%)" });
         return;
@@ -256,15 +284,18 @@ export function CTA({
           y: c.top - s.top + c.height / 2,
         };
       };
+      // Distância de cada ferramenta até o símbolo (posição de repouso, sem transform).
       const toSymbol = (axis: "x" | "y") => (_: number, el: Element) => {
-        const a = el.getBoundingClientRect();
-        const c = symbol.getBoundingClientRect();
+        const node = el as HTMLElement;
+        const box = node.offsetParent as HTMLElement;
+        const px = (parseFloat(node.style.left) / 100) * box.clientWidth;
+        const py = (parseFloat(node.style.top) / 100) * box.clientHeight;
         return axis === "x"
-          ? c.left + c.width / 2 - (a.left + a.width / 2)
-          : c.top + c.height / 2 - (a.top + a.height / 2);
+          ? box.clientWidth / 2 - px
+          : box.clientHeight / 2 - py;
       };
 
-      // 1. Conexões (nas duas camadas ao mesmo tempo).
+      // 1. Animação contínua (duas camadas ao mesmo tempo).
       const lines = Array.from(
         section.querySelectorAll<SVGLineElement>(".link"),
       );
@@ -274,7 +305,7 @@ export function CTA({
       gsap.set(lines, { strokeDasharray: 1, strokeDashoffset: 1 });
       const connect = gsap
         .timeline({ paused: true })
-        .from(q(".node"), {
+        .from(q(".node-inner"), {
           autoAlpha: 0,
           scale: 0.6,
           stagger: 0.15,
@@ -301,23 +332,24 @@ export function CTA({
           },
           "-=0.3",
         );
+      // Fluxo contínuo: vários pulsos por linha, sem pausa entre eles.
       pulses.forEach((p, i) => {
-        const l = lines[i];
+        const line = lines[Math.floor(i / PULSES_PER_LINE)];
+        const k = i % PULSES_PER_LINE;
         connect.fromTo(
           p,
           {
-            attr: { cx: l.x1.baseVal.value, cy: l.y1.baseVal.value },
-            autoAlpha: 1,
+            attr: { cx: line.x1.baseVal.value, cy: line.y1.baseVal.value },
+            opacity: 1,
           },
           {
-            attr: { cx: l.x2.baseVal.value, cy: l.y2.baseVal.value },
-            autoAlpha: 0,
-            duration: 1.8,
-            ease: "power1.in",
+            attr: { cx: line.x2.baseVal.value, cy: line.y2.baseVal.value },
+            opacity: 0.2,
+            duration: PULSE_DURATION,
+            ease: "none",
             repeat: -1,
-            repeatDelay: 0.5 + (i % nodes.length) * 0.35,
           },
-          1.4 + (i % nodes.length) * 0.3,
+          1.6 + (k * PULSE_DURATION) / PULSES_PER_LINE,
         );
       });
       // Barras do símbolo acendem uma de cada vez, em ordem.
@@ -343,18 +375,20 @@ export function CTA({
       });
       io.observe(section);
 
-      // 2. Tela presa: círculo âmbar, absorção, ondas e mensagem final.
+      // 2. Tela presa (scrub). Só mexe em wrappers/grupos, com valores
+      //    explícitos de ida e volta, para funcionar igual nos dois sentidos.
+      const off = { immediateRender: false };
       gsap
         .timeline({
           scrollTrigger: {
             trigger: section,
             start: "top top",
-            end: "+=160%",
+            end: "+=210%",
             pin: true,
             scrub: 0.6,
             invalidateOnRefresh: true,
             onUpdate: (self) => {
-              const now = self.progress > 0.58;
+              const now = self.progress > 0.5;
               if (now !== absorbed) {
                 absorbed = now;
                 sync();
@@ -369,46 +403,59 @@ export function CTA({
             clipPath: () =>
               `circle(150vmax at ${center().x}px ${center().y}px)`,
             ease: "power2.in",
-            duration: 0.55,
+            duration: 0.45,
           },
         )
-        .to(
+        .fromTo(
           q(".node"),
+          { x: 0, y: 0, scale: 1, autoAlpha: 1 },
           {
+            ...off,
             x: toSymbol("x"),
             y: toSymbol("y"),
             scale: 0.3,
             autoAlpha: 0,
             stagger: 0.02,
-            duration: 0.22,
+            duration: 0.18,
             ease: "power2.in",
           },
-          0.6,
-        )
-        .to(lines, { strokeDashoffset: 1, duration: 0.18 }, 0.6)
-        .to(pulses, { autoAlpha: 0, duration: 0.04 }, 0.6)
-        .to(
-          q(".symbol-wrap"),
-          { scale: 1.35, duration: 0.18, ease: "back.out(2)" },
-          0.8,
-        )
-        .to(
-          q(".ring-line"),
-          { scale: 1.35, transformOrigin: "50% 50%", duration: 0.18 },
-          0.8,
+          0.5,
         )
         .fromTo(
+          q(".links-group, .pulses-group"),
+          { autoAlpha: 1 },
+          { ...off, autoAlpha: 0, duration: 0.12 },
+          0.5,
+        )
+        .fromTo(
+          q(".symbol-wrap"),
+          { scale: 1 },
+          { ...off, scale: 1.3, duration: 0.14, ease: "back.out(2)" },
+          0.68,
+        )
+        .fromTo(
+          q(".ring-group"),
+          { scale: 1, transformOrigin: "50% 50%" },
+          { ...off, scale: 1.3, transformOrigin: "50% 50%", duration: 0.14 },
+          0.68,
+        )
+        .to(
           q(".ripple"),
-          { scale: 0.4, autoAlpha: 0.8 },
-          { scale: 2.4, autoAlpha: 0, stagger: 0.05, duration: 0.22 },
-          0.8,
+          {
+            keyframes: { autoAlpha: [0, 0.8, 0], scale: [0.5, 1.4, 2.3] },
+            stagger: 0.05,
+            duration: 0.2,
+          },
+          0.68,
         )
         .fromTo(
           q(".joined"),
-          { autoAlpha: 0, y: 14 },
-          { autoAlpha: 1, y: 0, duration: 0.12 },
-          0.9,
-        );
+          { autoAlpha: 0, y: 16 },
+          { ...off, autoAlpha: 1, y: 0, duration: 0.1 },
+          0.8,
+        )
+        // tempo parado no final, para o visitante ver o resultado
+        .to({}, { duration: 0.12 });
 
       return () => io.disconnect();
     },
