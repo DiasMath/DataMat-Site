@@ -55,7 +55,7 @@ export function CasesTeaser() {
               />
               {clients[0].name} · DRE automatizado
             </span>
-            <span className="flex items-center gap-1.5 text-sm font-semibold text-text-muted transition group-hover:text-amber">
+            <span className="hidden items-center gap-1.5 text-sm font-semibold text-text-muted transition group-hover:text-amber sm:flex">
               Ver case <ArrowUpRight size={16} aria-hidden="true" />
             </span>
           </div>

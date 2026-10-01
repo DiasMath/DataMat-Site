@@ -131,7 +131,7 @@ export function Header() {
             {/* Painel compacto, ancorado no botão (com um vão invisível para o mouse atravessar) */}
             <div
               id="menu-solucoes"
-              className={`absolute top-full left-1/2 w-[34rem] -translate-x-1/2 pt-4 transition duration-300 ease-brand-out ${menu ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0"}`}
+              className={`absolute top-full left-1/2 w-[34rem] -translate-x-1/2 pt-4 max-xl:fixed max-xl:top-header max-xl:right-4 max-xl:left-auto max-xl:translate-x-0 transition duration-300 ease-brand-out ${menu ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0"}`}
             >
               <div className="relative rounded-3xl border border-white/10 bg-graphite p-3 shadow-2xl shadow-black/60">
                 <span

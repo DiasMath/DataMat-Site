@@ -172,7 +172,7 @@ function Layer({
   const text = amber ? "text-graphite" : "text-cream";
   const Heading = amber ? "p" : "h2";
   return (
-    <div className="relative mx-auto grid min-h-svh w-full max-w-screen-2xl content-center items-center gap-6 px-5 pt-20 pb-6 md:px-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12 lg:py-24">
+    <div className="relative mx-auto grid min-h-svh w-full max-w-screen-2xl content-center items-center gap-6 px-5 pt-20 pb-6 md:px-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12 lg:py-16">
       <div data-reveal={amber ? undefined : ""}>
         <p
           className={`text-xs font-semibold tracking-widest ${amber ? "text-graphite" : "text-amber"}`}
@@ -181,7 +181,7 @@ function Layer({
         </p>
         <Heading
           id={amber ? undefined : "cta-titulo"}
-          className={`mt-4 text-4xl leading-[1.04] font-semibold tracking-tight [@media(max-height:700px)]:text-3xl sm:text-5xl md:text-7xl lg:mt-5 ${text}`}
+          className={`mt-4 text-4xl leading-[1.04] font-semibold tracking-tight [@media(max-height:700px)]:text-3xl sm:text-5xl md:text-7xl lg:mt-5 [@media(max-height:820px)]:md:text-6xl ${text}`}
         >
           {title}
         </Heading>
@@ -230,7 +230,7 @@ function Layer({
       </div>
 
       <div
-        className="relative mx-auto aspect-square w-[min(100%,40svh)] max-w-2xl lg:mr-0 lg:ml-auto lg:w-full lg:translate-x-6"
+        className="relative mx-auto aspect-square w-[min(100%,40svh)] max-w-2xl lg:mr-0 lg:ml-auto lg:w-[min(100%,calc(100svh-11rem))] lg:translate-x-6"
         aria-hidden="true"
       >
         <svg
@@ -603,9 +603,9 @@ export function CTA({
         )
         .fromTo(
           q(".ring-group"),
-          { scale: 1, transformOrigin: "50% 50%" },
-          { ...off, scale: 1.3, transformOrigin: "50% 50%", duration: 0.14 },
-          0.68,
+          { autoAlpha: 1 },
+          { ...off, autoAlpha: 0, duration: 0.12 },
+          0.6,
         )
         .fromTo(
           q(".joined"),
