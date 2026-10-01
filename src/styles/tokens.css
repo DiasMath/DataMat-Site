@@ -40,16 +40,17 @@
   --duration-slow: 800ms;
 
   /* Animações contínuas (classes animate-shine, animate-nudge) */
-  --animate-shine: shine 4.5s ease-in-out infinite;
+  --animate-shine: shine 4.5s cubic-bezier(0.45, 0, 0.25, 1) infinite;
   --animate-nudge: nudge 4.5s ease-in-out infinite;
   @keyframes shine {
+    /* parado fora do botão, atravessa e sai pela direita sem voltar à vista */
     0%,
     55% {
-      transform: translateX(-120%) skewX(-20deg);
+      transform: translateX(-150%) skewX(-20deg);
     }
-    80%,
+    85%,
     100% {
-      transform: translateX(260%) skewX(-20deg);
+      transform: translateX(420%) skewX(-20deg);
     }
   }
   @keyframes nudge {

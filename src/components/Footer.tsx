@@ -92,7 +92,7 @@ export function Footer() {
       {/* Palavra gigante, cortada na base, entrando letra por letra */}
       <p
         aria-hidden="true"
-        className="pointer-events-none -mb-[0.22em] flex justify-center px-2 text-[19.5vw] leading-none font-bold tracking-tighter text-white/[0.06] select-none"
+        className="pointer-events-none -mb-[0.48em] flex justify-center px-2 text-[19.5vw] leading-none font-bold tracking-tighter text-white/[0.06] select-none"
         data-reveal
         data-stagger="0.06"
       >

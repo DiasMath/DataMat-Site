@@ -6,10 +6,10 @@ import { motionDisabled } from "../../motion/tokens";
 import { skipIntro } from "../../lib/boot";
 import { DatamatSymbol } from "../DatamatSymbol";
 
-/** Inclinação das órbitas: elipses achatadas dão a sensação de profundidade. */
-const TILT = 0.42;
-const OUTER = 0.47; // raio da órbita dos problemas (fração do palco)
-const INNER = 0.31; // raio da órbita das soluções
+/** Órbitas planas (2D), nos mesmos raios dos anéis desenhados (fração do palco). */
+const RINGS = [0.245, 0.3725, 0.5];
+const OUTER = RINGS[1]; // órbita dos problemas
+const INNER = RINGS[0]; // órbita das soluções
 const OUTER_PERIOD = 80; // segundos por volta
 const INNER_PERIOD = 55;
 
@@ -22,9 +22,9 @@ const stars = Array.from({ length: 34 }, (_, i) => ({
 }));
 
 /**
- * Sistema solar do hero: os problemas orbitam o sol (símbolo DATAMAT), um a
- * um caem nele e saem como soluções (cartões claros) numa órbita interna.
- * Quando todos viram solução, o ciclo recomeça.
+ * Sistema solar do hero (2D): os problemas orbitam o sol (símbolo DATAMAT),
+ * um a um caem nele e saem como soluções (cartões claros) numa órbita
+ * interna, onde ficam. Quando todos viram solução, o ciclo recomeça.
  */
 export function HeroOrbit() {
   const stage = useRef<HTMLDivElement>(null);
@@ -37,7 +37,6 @@ export function HeroOrbit() {
       const comet = q(".comet")[0] as HTMLElement;
       const n = cards.length;
 
-      // Estado de cada cartão: ângulo, raio atual e se já é solução.
       const state = cards.map((_, i) => ({
         angle: (i / n) * Math.PI * 2,
         radius: OUTER,
@@ -48,23 +47,16 @@ export function HeroOrbit() {
       const place = () => {
         const size = el.clientWidth;
         state.forEach((s, i) => {
-          const x = Math.cos(s.angle) * s.radius * size;
-          const y = Math.sin(s.angle) * s.radius * size * TILT;
-          const depth = Math.sin(s.angle); // -1 atrás do sol, 1 na frente
           gsap.set(cards[i], {
-            x,
-            y,
-            scale:
-              (0.82 + 0.18 * depth) *
-              (0.25 + 0.75 * (s.radius / (s.solved ? INNER : OUTER))),
-            zIndex: depth > 0 ? 30 : 10,
-            opacity: 0.55 + 0.45 * ((depth + 1) / 2),
+            x: Math.cos(s.angle) * s.radius * size,
+            y: Math.sin(s.angle) * s.radius * size,
+            // encolhe ao cair no sol e cresce ao sair dele
+            scale: 0.25 + 0.75 * Math.min(1, s.radius / INNER),
           });
         });
         gsap.set(comet, {
-          x: Math.cos(cometAngle) * 0.5 * size,
-          y: Math.sin(cometAngle) * 0.5 * size * TILT,
-          zIndex: Math.sin(cometAngle) > 0 ? 30 : 10,
+          x: Math.cos(cometAngle) * RINGS[2] * size,
+          y: Math.sin(cometAngle) * RINGS[2] * size,
         });
       };
 
@@ -94,6 +86,16 @@ export function HeroOrbit() {
       gsap.ticker.add(tick);
       place();
 
+      // Anéis giram devagar, cada um num sentido e ritmo.
+      const rings = q(".ring").map((ring, i) =>
+        gsap.to(ring, {
+          rotate: i % 2 ? -360 : 360,
+          duration: 40 + i * 20,
+          repeat: -1,
+          ease: "none",
+        }),
+      );
+
       // Ciclo: um problema por vez cai no sol e sai como solução.
       const cycle = gsap.timeline({
         repeat: -1,
@@ -122,7 +124,6 @@ export function HeroOrbit() {
           .to(card, { autoAlpha: 1, duration: 0.3 }, "<")
           .to(s, { radius: INNER, duration: 1.3, ease: "back.out(1.4)" }, "<");
       });
-      // Todos resolvidos: segura um pouco e recomeça.
       cycle
         .to(cards, { autoAlpha: 0, duration: 0.6, stagger: 0.1 }, "+=4")
         .call(() => {
@@ -134,7 +135,7 @@ export function HeroOrbit() {
         });
 
       // Barras do símbolo acendem uma a uma.
-      gsap.to(q(".bar"), {
+      const bars = gsap.to(q(".bar"), {
         opacity: 0.45,
         duration: 0.5,
         stagger: { each: 0.5, repeat: -1, yoyo: true, repeatDelay: 1.2 },
@@ -146,8 +147,7 @@ export function HeroOrbit() {
       let idle = 0;
       const apply = () => {
         paused = scrolling || !visible;
-        cycle.paused(paused);
-        el.classList.toggle("is-paused", paused);
+        [cycle, bars, ...rings].forEach((t) => t.paused(paused));
       };
       const onScroll = () => {
         if (!scrolling) {
@@ -188,37 +188,32 @@ export function HeroOrbit() {
         />
       ))}
 
-      {/* Órbitas em elipse (mesma inclinação do movimento) */}
-      <svg
-        viewBox="-50 -50 100 100"
-        className="absolute inset-0 size-full overflow-visible"
-      >
-        {[OUTER, INNER, 0.5].map((r, i) => (
-          <ellipse
-            key={r}
-            rx={r * 100}
-            ry={r * 100 * TILT}
-            fill="none"
-            stroke="var(--color-amber)"
-            strokeOpacity={i === 2 ? 0.08 : 0.22}
-            strokeWidth={0.25}
-            strokeDasharray={i === 2 ? "0.8 1.6" : undefined}
+      {/* Anéis (2D), girando devagar com um "planeta" cada */}
+      {RINGS.map((r, i) => (
+        <div
+          key={r}
+          className="ring absolute top-1/2 left-1/2 -translate-1/2 rounded-full border border-amber/25"
+          style={{ width: `${r * 200}%`, height: `${r * 200}%` }}
+        >
+          <span
+            className="absolute top-1/2 -left-1 size-2 -translate-y-1/2 rounded-full bg-amber shadow-[0_0_12px_var(--color-amber)]"
+            style={{ opacity: 1 - i * 0.3 }}
           />
-        ))}
-      </svg>
+        </div>
+      ))}
 
-      <span className="comet absolute top-1/2 left-1/2 size-2 -translate-1/2 rounded-full bg-amber shadow-[0_0_14px_4px_var(--color-amber)]" />
+      <span className="comet absolute top-1/2 left-1/2 z-10 size-1.5 -translate-1/2 rounded-full bg-cream shadow-[0_0_10px_3px_var(--color-amber)]" />
 
       {/* Sol: símbolo da DATAMAT */}
       <div className="sun absolute top-1/2 left-1/2 z-20 flex size-[24%] -translate-1/2 items-center justify-center rounded-full bg-[radial-gradient(circle_at_38%_28%,#ffcc80,var(--color-amber)_58%,#d77720)] shadow-[0_0_90px_var(--color-amber)]">
         <DatamatSymbol className="w-[42%] text-graphite" />
       </div>
 
-      {/* Problemas que viram soluções */}
+      {/* Problemas que viram soluções (passam por baixo do sol ao cair nele) */}
       {orbitPairs.map((p) => (
         <div
           key={p.problem}
-          className="planet group/planet absolute top-1/2 left-1/2 -translate-1/2 opacity-0"
+          className="planet group/planet absolute top-1/2 left-1/2 z-10 -translate-1/2 opacity-0"
         >
           <span className="block rounded-lg border border-white/15 bg-graphite px-3.5 py-2 text-[11px] tracking-[0.12em] whitespace-nowrap text-cream shadow-lg shadow-black/40 group-[.is-solved]/planet:hidden md:text-xs">
             {p.problem.toUpperCase()}

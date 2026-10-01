@@ -65,7 +65,7 @@ export function HomeHero() {
       </div>
       <Container className="new-hero-content">
         <div className="hero-copy">
-          <Eyebrow>DATAMAT · SOLUÇÕES EM DADOS & IA</Eyebrow>
+          <Eyebrow>DATAMAT · INTELIGÊNCIA PARA NEGÓCIOS</Eyebrow>
           <h1>
             Sua empresa precisa de <em>clareza</em> para crescer.
           </h1>
