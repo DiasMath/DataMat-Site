@@ -1,6 +1,6 @@
 /**
  * Seção "Próximo passo" (CTA final): ferramentas mostradas por página,
- * atalhos de assunto (abrem o WhatsApp com a mensagem pronta) e a prova.
+ * e atalhos de assunto (abrem o WhatsApp com a mensagem pronta).
  */
 import type { Kind } from "../data/site";
 
@@ -52,10 +52,3 @@ export const ctaShortcuts: { key: Kind; label: string; message: string }[] = [
       "Olá! Vim pelo site da DATAMAT e quero um site que traga mais clientes para a minha empresa.",
   },
 ];
-
-/** Prova mostrada no momento da decisão. */
-export const ctaProof = {
-  text: "A Loja Juntos.com automatizou o DRE.",
-  link: "Ver o case",
-  to: "/cases",
-};

@@ -2,13 +2,10 @@ import { useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { gsap, useGSAP } from "../motion/gsap";
 import { motionDisabled } from "../motion/tokens";
-import { Link } from "react-router-dom";
 import { ContactAction } from "./contact";
 import { DatamatSymbol } from "./DatamatSymbol";
 import type { Kind } from "../data/site";
-import { clients } from "../content/clients";
 import {
-  ctaProof,
   ctaShortcuts,
   ctaTools,
   toolLabels,
@@ -225,24 +222,6 @@ function Layer({
             <ArrowUpRight size={18} aria-hidden="true" />
           </span>
         </ContactAction>
-        <p
-          className={`final invisible mt-5 hidden items-center gap-2.5 text-sm opacity-0 lg:flex [@media(max-height:700px)]:hidden ${amber ? "text-graphite/80" : "text-text-muted"}`}
-        >
-          <img
-            src={clients[0].logo}
-            alt=""
-            width={24}
-            height={24}
-            className="size-6 rounded-md"
-          />
-          {ctaProof.text}
-          <Link
-            to={ctaProof.to}
-            className={`cta-link font-semibold underline underline-offset-4 ${amber ? "text-graphite [&.is-hover]:text-black" : "text-cream"}`}
-          >
-            {ctaProof.link} →
-          </Link>
-        </p>
       </div>
 
       <div
