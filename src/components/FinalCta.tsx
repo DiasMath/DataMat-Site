@@ -145,7 +145,7 @@ function Layer({ title, amber }: { title: string; amber?: boolean }) {
       </div>
 
       <div
-        className="relative mx-auto aspect-square w-full max-w-2xl"
+        className="relative mx-auto aspect-square w-full max-w-2xl lg:mr-0 lg:ml-auto lg:translate-x-6"
         aria-hidden="true"
       >
         <svg
@@ -209,7 +209,7 @@ function Layer({ title, amber }: { title: string; amber?: boolean }) {
         {amber && (
           <>
             {/* Ondas: círculos perfeitos, centrados no símbolo */}
-            {[0, 1].map((i) => (
+            {[0, 1, 2].map((i) => (
               <span
                 key={i}
                 className="ripple absolute top-1/2 left-1/2 aspect-square w-[42%] rounded-full border-2 border-graphite opacity-0"
@@ -360,6 +360,26 @@ export function CTA({
         stagger: { each: 0.45, repeat: -1, yoyo: true, repeatDelay: 0.9 },
       });
 
+      // Ondas: suaves e no tempo delas (não presas ao scroll), repetindo
+      // devagar enquanto o estado final está na tela.
+      const ripples = gsap
+        .timeline({ paused: true, repeat: -1, repeatDelay: 0.4 })
+        .fromTo(
+          q(".ripple"),
+          { scale: 0.55, autoAlpha: 0 },
+          {
+            keyframes: {
+              autoAlpha: [0, 0.7, 0.35, 0],
+              scale: [0.55, 1.2, 1.9, 2.6],
+              easeEach: "none",
+            },
+            duration: 3.2,
+            ease: "sine.out",
+            stagger: 0.9,
+          },
+        );
+      let rippling = false;
+
       // Toca só com a seção na tela e antes da absorção.
       let visible = false;
       let absorbed = false;
@@ -392,6 +412,15 @@ export function CTA({
               if (now !== absorbed) {
                 absorbed = now;
                 sync();
+              }
+              const ripple = self.progress > 0.66;
+              if (ripple !== rippling) {
+                rippling = ripple;
+                if (ripple) ripples.restart();
+                else {
+                  ripples.pause(0);
+                  gsap.set(q(".ripple"), { autoAlpha: 0 });
+                }
               }
             },
           },
@@ -437,15 +466,6 @@ export function CTA({
           q(".ring-group"),
           { scale: 1, transformOrigin: "50% 50%" },
           { ...off, scale: 1.3, transformOrigin: "50% 50%", duration: 0.14 },
-          0.68,
-        )
-        .to(
-          q(".ripple"),
-          {
-            keyframes: { autoAlpha: [0, 0.8, 0], scale: [0.5, 1.4, 2.3] },
-            stagger: 0.05,
-            duration: 0.2,
-          },
           0.68,
         )
         .fromTo(
