@@ -43,7 +43,8 @@ export function useScene(
         onComplete: () => end.current?.(),
         onUpdate: () => {
           const p = timeline.progress();
-          bar?.style.setProperty("transform", `scaleX(${p})`);
+          // a classe scale-x-0 do Tailwind usa a propriedade CSS `scale`
+          if (bar) bar.style.scale = `${p} 1`;
           progress.current?.(p, length);
         },
       });

@@ -39,7 +39,7 @@ export function Screen({
           </span>
           <span
             aria-hidden="true"
-            className="scene-progress absolute inset-x-0 -bottom-px h-0.5 origin-left scale-x-0 bg-amber"
+            className="scene-progress absolute inset-x-0 -bottom-px h-1 origin-left scale-x-0 bg-amber"
           />
         </div>
         <div className="absolute inset-x-0 top-9 bottom-0">{children}</div>

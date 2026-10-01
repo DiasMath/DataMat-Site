@@ -20,7 +20,7 @@ export function PainSolutions({ id }: { id?: string }) {
   // Barra de andamento da aba ativa: escrita direto no DOM (sem re-render).
   const setProgress = (p: number) => {
     const bar = bars.current[active];
-    if (bar) bar.style.transform = `scaleX(${p})`;
+    if (bar) bar.style.scale = `${p} 1`;
   };
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export function PainSolutions({ id }: { id?: string }) {
 
   useEffect(() => {
     bars.current.forEach((bar) => {
-      if (bar) bar.style.transform = "scaleX(0)";
+      if (bar) bar.style.scale = "0 1";
     });
   }, [active]);
 
