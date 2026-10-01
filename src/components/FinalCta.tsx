@@ -113,7 +113,7 @@ function Layer({ title, amber }: { title: string; amber?: boolean }) {
   const text = amber ? "text-graphite" : "text-cream";
   const Heading = amber ? "p" : "h2";
   return (
-    <div className="relative mx-auto grid min-h-svh w-full max-w-screen-2xl items-center gap-12 px-5 py-24 md:px-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
+    <div className="relative mx-auto grid min-h-svh w-full max-w-screen-2xl content-center items-center gap-6 px-5 pt-20 pb-6 md:px-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12 lg:py-24">
       <div data-reveal={amber ? undefined : ""}>
         <p
           className={`text-xs font-semibold tracking-widest ${amber ? "text-graphite" : "text-amber"}`}
@@ -122,22 +122,22 @@ function Layer({ title, amber }: { title: string; amber?: boolean }) {
         </p>
         <Heading
           id={amber ? undefined : "cta-titulo"}
-          className={`mt-5 text-5xl leading-[1.02] font-semibold tracking-tight md:text-7xl ${text}`}
+          className={`mt-4 text-4xl leading-[1.04] font-semibold tracking-tight [@media(max-height:700px)]:text-3xl sm:text-5xl md:text-7xl lg:mt-5 ${text}`}
         >
           {title}
         </Heading>
         <p
-          className={`mt-6 max-w-xl text-lg ${amber ? "text-graphite/80" : "text-text-muted"}`}
+          className={`mt-4 max-w-xl text-base sm:text-lg lg:mt-6 ${amber ? "text-graphite/80" : "text-text-muted"}`}
         >
           Conte o que está acontecendo na sua empresa. A conversa começa pelo
           seu desafio.
         </p>
         <ContactAction
-          className={`group mt-10 inline-flex items-center gap-3 rounded-full py-2.5 pr-2.5 pl-7 text-base font-semibold transition ${amber ? "bg-graphite text-cream hover:bg-black" : "bg-amber text-graphite hover:brightness-110"}`}
+          className={`cta-btn group mt-6 inline-flex items-center gap-3 rounded-full py-2.5 pr-2.5 pl-7 text-base font-semibold transition lg:mt-10 ${amber ? "bg-graphite text-cream [&.is-hover]:bg-black" : "bg-amber text-graphite hover:brightness-110"}`}
         >
           Fale conosco
           <span
-            className={`flex size-10 items-center justify-center rounded-full transition-transform duration-500 ease-brand-out group-hover:rotate-45 ${amber ? "bg-amber text-graphite" : "bg-graphite text-amber"}`}
+            className={`flex size-10 items-center justify-center rounded-full transition-transform duration-500 ease-brand-out group-hover:rotate-45 group-[.is-hover]:rotate-45 ${amber ? "bg-amber text-graphite" : "bg-graphite text-amber"}`}
           >
             <ArrowUpRight size={18} aria-hidden="true" />
           </span>
@@ -145,7 +145,7 @@ function Layer({ title, amber }: { title: string; amber?: boolean }) {
       </div>
 
       <div
-        className="relative mx-auto aspect-square w-full max-w-2xl lg:mr-0 lg:ml-auto lg:translate-x-6"
+        className="relative mx-auto aspect-square w-[min(100%,40svh)] max-w-2xl lg:mr-0 lg:ml-auto lg:w-full lg:translate-x-6"
         aria-hidden="true"
       >
         <svg
@@ -215,7 +215,7 @@ function Layer({ title, amber }: { title: string; amber?: boolean }) {
                 className="ripple absolute top-1/2 left-1/2 aspect-square w-[42%] rounded-full border-2 border-graphite opacity-0"
               />
             ))}
-            <span className="joined absolute top-[87%] left-1/2 rounded-full bg-graphite px-6 py-3 text-base font-semibold whitespace-nowrap text-amber opacity-0 md:text-lg">
+            <span className="joined absolute top-[87%] left-1/2 rounded-full bg-graphite px-4 py-2 text-sm font-semibold whitespace-nowrap text-amber opacity-0 lg:px-6 lg:py-3 lg:text-lg">
               Tudo conectado em um só lugar
             </span>
           </>
@@ -228,11 +228,11 @@ function Layer({ title, amber }: { title: string; amber?: boolean }) {
             style={{ left: `${n.x}%`, top: `${n.y}%` }}
           >
             <span className="node-inner flex flex-col items-center gap-2">
-              <span className="flex h-20 w-28 items-center justify-center rounded-xl border border-white/10 bg-graphite p-2.5 shadow-lg shadow-black/40">
+              <span className="flex h-12 w-16 items-center justify-center overflow-hidden rounded-lg border border-white/10 bg-graphite p-1.5 shadow-lg shadow-black/40 sm:h-16 sm:w-24 sm:p-2 lg:h-20 lg:w-28 lg:rounded-xl lg:p-2.5">
                 <MiniScreen kind={n.key} />
               </span>
               <span
-                className={`text-xs font-medium ${amber ? "text-graphite/75" : "text-text-muted"}`}
+                className={`text-[10px] font-medium lg:text-xs ${amber ? "text-graphite/75" : "text-text-muted"}`}
               >
                 {n.label}
               </span>
@@ -271,9 +271,26 @@ export function CTA({
         yPercent: -50,
       });
       gsap.set(q(".joined"), { xPercent: -50 });
+
+      // O botão visível sobre o âmbar é a cópia; o mouse e o teclado tocam o de
+      // baixo. Espelha o estado (hover/foco) para a cópia reagir também.
+      const [realButton, copyButton] = q(".cta-btn");
+      const mirror = (on: boolean) => () =>
+        copyButton?.classList.toggle("is-hover", on);
+      const listeners: [string, () => void][] = [
+        ["mouseenter", mirror(true)],
+        ["mouseleave", mirror(false)],
+        ["focus", mirror(true)],
+        ["blur", mirror(false)],
+      ];
+      listeners.forEach(([type, fn]) => realButton?.addEventListener(type, fn));
+      const unmirror = () =>
+        listeners.forEach(([type, fn]) =>
+          realButton?.removeEventListener(type, fn),
+        );
       if (motionDisabled) {
         gsap.set(q(".fill"), { clipPath: "circle(150vmax at 50% 50%)" });
-        return;
+        return unmirror;
       }
 
       const center = () => {
@@ -477,7 +494,10 @@ export function CTA({
         // tempo parado no final, para o visitante ver o resultado
         .to({}, { duration: 0.12 });
 
-      return () => io.disconnect();
+      return () => {
+        io.disconnect();
+        unmirror();
+      };
     },
     { scope: root },
   );
