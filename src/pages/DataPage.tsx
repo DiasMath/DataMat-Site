@@ -214,7 +214,10 @@ export function DataPage() {
           "Mais tempo para interpretar",
         ]}
       />
-      <CTA title="Que decisão você precisa enxergar com mais clareza?" />
+      <CTA
+        title="Que decisão você precisa enxergar com mais clareza?"
+        topic="dados"
+      />
     </>
   );
 }

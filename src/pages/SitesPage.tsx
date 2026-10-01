@@ -150,7 +150,10 @@ export function SitesPage() {
           </div>
         </Container>
       </section>
-      <CTA title="O que seu site deveria fazer melhor pela empresa?" />
+      <CTA
+        title="O que seu site deveria fazer melhor pela empresa?"
+        topic="sites"
+      />
     </>
   );
 }

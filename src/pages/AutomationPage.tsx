@@ -197,7 +197,7 @@ export function AutomationPage() {
           </div>
         </Container>
       </section>
-      <CTA title="Qual tarefa ocupa sua equipe todos os dias?" />
+      <CTA title="Qual tarefa ocupa sua equipe todos os dias?" topic="ia" />
     </>
   );
 }

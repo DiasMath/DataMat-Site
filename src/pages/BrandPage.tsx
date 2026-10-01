@@ -206,7 +206,7 @@ export function BrandPage() {
           <p>Medimos para aprender e ajustar o próximo ciclo.</p>
         </Container>
       </section>
-      <CTA title="Sua marca comunica o valor da sua empresa?" />
+      <CTA title="Sua marca comunica o valor da sua empresa?" topic="marca" />
     </>
   );
 }

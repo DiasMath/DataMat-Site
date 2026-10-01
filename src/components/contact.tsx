@@ -1,18 +1,22 @@
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
-import { whatsappUrl } from "../data/site";
+import { whatsappLink, whatsappUrl } from "../data/site";
 
 export function ContactAction({
   className,
   children,
+  message,
 }: {
   className?: string;
   children: React.ReactNode;
+  /** Mensagem pronta do WhatsApp (opcional) */
+  message?: string;
 }) {
-  return whatsappUrl ? (
+  const href = whatsappLink(message);
+  return href ? (
     <a
       className={className}
-      href={whatsappUrl}
+      href={href}
       target="_blank"
       rel="noopener noreferrer"
     >

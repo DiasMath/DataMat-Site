@@ -2,18 +2,47 @@ import { useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { gsap, useGSAP } from "../motion/gsap";
 import { motionDisabled } from "../motion/tokens";
+import { Link } from "react-router-dom";
 import { ContactAction } from "./contact";
 import { DatamatSymbol } from "./DatamatSymbol";
+import type { Kind } from "../data/site";
+import { clients } from "../content/clients";
+import {
+  ctaProof,
+  ctaShortcuts,
+  ctaTools,
+  toolLabels,
+  type ToolKey,
+} from "../content/cta";
 
-/** Ferramentas que se conectam ao símbolo (posição em % do desenho). */
-const nodes = [
-  { key: "planilha", label: "Planilhas", x: 13, y: 15 },
-  { key: "erp", label: "ERP", x: 9, y: 62 },
-  { key: "whatsapp", label: "WhatsApp", x: 87, y: 15 },
-  { key: "site", label: "Site", x: 91, y: 62 },
-  { key: "painel", label: "Painel", x: 50, y: 93 },
-] as const;
-type NodeKey = (typeof nodes)[number]["key"];
+/** Posição das ferramentas em volta do símbolo (% do desenho), por quantidade. */
+const layouts: Record<number, [number, number][]> = {
+  3: [
+    [13, 20],
+    [87, 20],
+    [50, 93],
+  ],
+  4: [
+    [13, 18],
+    [87, 18],
+    [11, 80],
+    [89, 80],
+  ],
+  5: [
+    [13, 15],
+    [9, 62],
+    [87, 15],
+    [91, 62],
+    [50, 93],
+  ],
+};
+type Node = { key: ToolKey; label: string; x: number; y: number };
+const buildNodes = (tools: ToolKey[]): Node[] =>
+  tools.map((key, i) => {
+    const [x, y] = layouts[tools.length][i];
+    return { key, label: toolLabels[key], x, y };
+  });
+type NodeKey = ToolKey;
 
 /** Raio do círculo em volta do símbolo, onde as linhas chegam. */
 const RING = 21;
@@ -82,6 +111,23 @@ function MiniScreen({ kind }: { kind: NodeKey }) {
           <span className="mt-auto h-2 w-6 rounded-[2px] bg-amber" />
         </span>
       );
+    case "instagram":
+      return (
+        <span className="flex size-full flex-col gap-1">
+          <span className="flex items-center gap-1">
+            <span className="size-2.5 rounded-full bg-amber" />
+            <span className="h-1 w-6 rounded-[1px] bg-cream/60" />
+          </span>
+          <span className="grid flex-1 grid-cols-3 gap-[2px]">
+            {Array.from({ length: 6 }, (_, i) => (
+              <span
+                key={i}
+                className={`rounded-[1px] ${i % 2 ? "bg-cream/35" : "bg-amber/80"}`}
+              />
+            ))}
+          </span>
+        </span>
+      );
     case "painel":
       return (
         <span className="flex size-full flex-col gap-1">
@@ -109,7 +155,23 @@ const PULSES_PER_LINE = 3;
 const PULSE_DURATION = 1.6;
 
 /** Uma "camada" da seção. A clara (âmbar) é uma cópia recortada pelo círculo. */
-function Layer({ title, amber }: { title: string; amber?: boolean }) {
+function Layer({
+  title,
+  amber,
+  nodes,
+  topic,
+}: {
+  title: string;
+  amber?: boolean;
+  nodes: Node[];
+  topic?: Kind;
+}) {
+  // Assunto da página primeiro na lista de atalhos.
+  const shortcuts = topic
+    ? [...ctaShortcuts].sort(
+        (a, b) => Number(b.key === topic) - Number(a.key === topic),
+      )
+    : ctaShortcuts;
   const text = amber ? "text-graphite" : "text-cream";
   const Heading = amber ? "p" : "h2";
   return (
@@ -126,12 +188,33 @@ function Layer({ title, amber }: { title: string; amber?: boolean }) {
         >
           {title}
         </Heading>
-        <p
-          className={`mt-4 max-w-xl text-base sm:text-lg lg:mt-6 ${amber ? "text-graphite/80" : "text-text-muted"}`}
-        >
-          Conte o que está acontecendo na sua empresa. A conversa começa pelo
-          seu desafio.
-        </p>
+        {/* Antes: o convite. No fim da animação: atalhos por assunto. */}
+        <div className="mt-4 grid lg:mt-6">
+          <p
+            className={`intro col-start-1 row-start-1 max-w-xl text-base sm:text-lg ${amber ? "text-graphite/80" : "text-text-muted"}`}
+          >
+            Conte o que está acontecendo na sua empresa. A conversa começa pelo
+            seu desafio.
+          </p>
+          <ul className="final invisible col-start-1 row-start-1 flex content-start gap-2 overflow-x-auto pb-1 opacity-0 lg:flex-wrap lg:overflow-visible lg:pb-0">
+            {shortcuts.map((c, i) => (
+              <li key={c.key}>
+                <ContactAction
+                  message={c.message}
+                  className={`cta-link inline-flex items-center gap-1.5 rounded-full border px-3.5 py-2 text-sm font-semibold whitespace-nowrap transition ${
+                    amber
+                      ? i === 0 && topic
+                        ? "border-graphite bg-graphite text-amber [&.is-hover]:bg-black"
+                        : "border-graphite/30 text-graphite [&.is-hover]:border-graphite [&.is-hover]:bg-graphite [&.is-hover]:text-amber"
+                      : "border-white/15 text-cream hover:border-amber"
+                  }`}
+                >
+                  {c.label}
+                </ContactAction>
+              </li>
+            ))}
+          </ul>
+        </div>
         <ContactAction
           className={`cta-btn group mt-6 inline-flex items-center gap-3 rounded-full py-2.5 pr-2.5 pl-7 text-base font-semibold transition lg:mt-10 ${amber ? "bg-graphite text-cream [&.is-hover]:bg-black" : "bg-amber text-graphite hover:brightness-110"}`}
         >
@@ -142,6 +225,24 @@ function Layer({ title, amber }: { title: string; amber?: boolean }) {
             <ArrowUpRight size={18} aria-hidden="true" />
           </span>
         </ContactAction>
+        <p
+          className={`final invisible mt-5 hidden items-center gap-2.5 text-sm opacity-0 lg:flex [@media(max-height:700px)]:hidden ${amber ? "text-graphite/80" : "text-text-muted"}`}
+        >
+          <img
+            src={clients[0].logo}
+            alt=""
+            width={24}
+            height={24}
+            className="size-6 rounded-md"
+          />
+          {ctaProof.text}
+          <Link
+            to={ctaProof.to}
+            className={`cta-link font-semibold underline underline-offset-4 ${amber ? "text-graphite [&.is-hover]:text-black" : "text-cream"}`}
+          >
+            {ctaProof.link} →
+          </Link>
+        </p>
       </div>
 
       <div
@@ -253,10 +354,14 @@ function Layer({ title, amber }: { title: string; amber?: boolean }) {
  */
 export function CTA({
   title = "Vamos conversar sobre o que vem a seguir?",
+  topic,
 }: {
   title?: string;
+  /** Assunto da página: define as ferramentas e o atalho em destaque. */
+  topic?: Kind;
 }) {
   const root = useRef<HTMLElement>(null);
+  const nodes = buildNodes(ctaTools[topic ?? "todas"]);
 
   useGSAP(
     () => {
@@ -274,22 +379,33 @@ export function CTA({
 
       // O botão visível sobre o âmbar é a cópia; o mouse e o teclado tocam o de
       // baixo. Espelha o estado (hover/foco) para a cópia reagir também.
-      const [realButton, copyButton] = q(".cta-btn");
-      const mirror = (on: boolean) => () =>
-        copyButton?.classList.toggle("is-hover", on);
-      const listeners: [string, () => void][] = [
-        ["mouseenter", mirror(true)],
-        ["mouseleave", mirror(false)],
-        ["focus", mirror(true)],
-        ["blur", mirror(false)],
-      ];
-      listeners.forEach(([type, fn]) => realButton?.addEventListener(type, fn));
+      const pairs = [".cta-btn", ".cta-link"].flatMap((sel) => {
+        const all = q(sel);
+        const half = all.length / 2; // 1ª metade: camada real; 2ª: cópia âmbar
+        return all.slice(0, half).map((real, i) => [real, all[half + i]]);
+      });
+      const bound: [Element, string, () => void][] = [];
+      pairs.forEach(([real, copy]) => {
+        const on = () => copy.classList.add("is-hover");
+        const off = () => copy.classList.remove("is-hover");
+        (
+          [
+            ["mouseenter", on],
+            ["mouseleave", off],
+            ["focus", on],
+            ["blur", off],
+          ] as const
+        ).forEach(([type, fn]) => {
+          real.addEventListener(type, fn);
+          bound.push([real, type, fn]);
+        });
+      });
       const unmirror = () =>
-        listeners.forEach(([type, fn]) =>
-          realButton?.removeEventListener(type, fn),
-        );
+        bound.forEach(([el, type, fn]) => el.removeEventListener(type, fn));
       if (motionDisabled) {
         gsap.set(q(".fill"), { clipPath: "circle(150vmax at 50% 50%)" });
+        gsap.set(q(".intro"), { autoAlpha: 0 });
+        gsap.set(q(".final"), { autoAlpha: 1 });
         return unmirror;
       }
 
@@ -379,23 +495,26 @@ export function CTA({
 
       // Ondas: suaves e no tempo delas (não presas ao scroll), repetindo
       // devagar enquanto o estado final está na tela.
-      const ripples = gsap
-        .timeline({ paused: true, repeat: -1, repeatDelay: 0.4 })
-        .fromTo(
-          q(".ripple"),
-          { scale: 0.55, autoAlpha: 0 },
-          {
-            keyframes: {
-              autoAlpha: [0, 0.7, 0.35, 0],
-              scale: [0.55, 1.2, 1.9, 2.6],
-              easeEach: "none",
-            },
-            duration: 3.2,
-            ease: "sine.out",
-            stagger: 0.9,
+      // Ondas em fluxo contínuo: 3 círculos defasados, cada um repetindo sem
+      // pausa (sempre há uma onda saindo).
+      const RIPPLE = 3.6;
+      const ripples = gsap.fromTo(
+        q(".ripple"),
+        { scale: 0.55, autoAlpha: 0 },
+        {
+          keyframes: {
+            autoAlpha: [0, 0.65, 0.3, 0],
+            scale: [0.55, 1.25, 1.95, 2.7],
+            easeEach: "none",
           },
-        );
+          duration: RIPPLE,
+          ease: "sine.out",
+          stagger: { each: RIPPLE / 3, repeat: -1 },
+          paused: true,
+        },
+      );
       let rippling = false;
+      let finished = false;
 
       // Toca só com a seção na tela e antes da absorção.
       let visible = false;
@@ -429,6 +548,25 @@ export function CTA({
               if (now !== absorbed) {
                 absorbed = now;
                 sync();
+              }
+              // Troca o convite pelos atalhos e pela prova (no tempo deles,
+              // não preso ao scroll: funciona igual na ida e na volta).
+              const done = self.progress > 0.78;
+              if (done !== finished) {
+                finished = done;
+                gsap.to(q(".intro"), {
+                  autoAlpha: done ? 0 : 1,
+                  y: done ? -10 : 0,
+                  duration: 0.4,
+                  overwrite: true,
+                });
+                gsap.to(q(".final"), {
+                  autoAlpha: done ? 1 : 0,
+                  y: done ? 0 : 12,
+                  duration: 0.5,
+                  stagger: done ? 0.08 : 0,
+                  overwrite: true,
+                });
               }
               const ripple = self.progress > 0.66;
               if (ripple !== rippling) {
@@ -508,14 +646,14 @@ export function CTA({
       className="relative overflow-hidden bg-bg-hero"
       aria-labelledby="cta-titulo"
     >
-      <Layer title={title} />
+      <Layer title={title} nodes={nodes} topic={topic} />
       <div
         aria-hidden="true"
         className="fill pointer-events-none absolute inset-0 bg-amber [clip-path:circle(0px_at_50%_50%)]"
         // A cópia âmbar é só visual: cliques e teclado vão para a camada de baixo.
         inert
       >
-        <Layer title={title} amber />
+        <Layer title={title} nodes={nodes} topic={topic} amber />
       </div>
     </section>
   );

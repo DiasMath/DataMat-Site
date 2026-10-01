@@ -50,6 +50,13 @@ const whatsappNumber = (import.meta.env.VITE_WHATSAPP_NUMBER || "").replace(
   "",
 );
 
-export const whatsappUrl = whatsappNumber
-  ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Olá, conheci a DATAMAT pelo site e gostaria de conversar sobre minha empresa.")}`
-  : null;
+const defaultMessage =
+  "Olá, conheci a DATAMAT pelo site e gostaria de conversar sobre minha empresa.";
+
+/** Link do WhatsApp com mensagem pronta ("" se o número não estiver configurado). */
+export const whatsappLink = (message: string = defaultMessage) =>
+  whatsappNumber
+    ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`
+    : "";
+
+export const whatsappUrl = whatsappLink();
