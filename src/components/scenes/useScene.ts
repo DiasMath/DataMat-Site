@@ -37,10 +37,15 @@ export function useScene(
   useGSAP(
     () => {
       const q = gsap.utils.selector(root);
+      const bar = q(".scene-progress")[0] as HTMLElement | undefined;
       const timeline = gsap.timeline({
         paused: true,
         onComplete: () => end.current?.(),
-        onUpdate: () => progress.current?.(timeline.progress(), length),
+        onUpdate: () => {
+          const p = timeline.progress();
+          bar?.style.setProperty("transform", `scaleX(${p})`);
+          progress.current?.(p, length);
+        },
       });
       const caps = q(".cap");
       gsap.set(caps, { autoAlpha: 0 });

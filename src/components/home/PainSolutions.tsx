@@ -2,10 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import { pains } from "../../content/home";
-import { sceneLengths, scenes } from "../scenes";
-
-const clock = (seconds: number) =>
-  `${Math.floor(seconds / 60)}:${String(Math.ceil(seconds) % 60).padStart(2, "0")}`;
+import { scenes } from "../scenes";
 
 /**
  * Dor → solução: abas à esquerda, cena animada à direita (estilo "vídeo").
@@ -17,16 +14,13 @@ export function PainSolutions({ id }: { id?: string }) {
   const [visible, setVisible] = useState(false);
   const section = useRef<HTMLElement>(null);
   const bars = useRef<(HTMLSpanElement | null)[]>([]);
-  const clocks = useRef<(HTMLSpanElement | null)[]>([]);
   const pain = pains[active];
   const Scene = scenes[pain.key];
   const next = () => setActive((i) => (i + 1) % pains.length);
-  // Barra e relógio da aba ativa: escritos direto no DOM (sem re-render).
-  const setProgress = (p: number, seconds: number) => {
+  // Barra de andamento da aba ativa: escrita direto no DOM (sem re-render).
+  const setProgress = (p: number) => {
     const bar = bars.current[active];
     if (bar) bar.style.transform = `scaleX(${p})`;
-    const time = clocks.current[active];
-    if (time) time.textContent = clock(seconds * (1 - p));
   };
 
   useEffect(() => {
@@ -43,9 +37,6 @@ export function PainSolutions({ id }: { id?: string }) {
   useEffect(() => {
     bars.current.forEach((bar) => {
       if (bar) bar.style.transform = "scaleX(0)";
-    });
-    clocks.current.forEach((time, i) => {
-      if (time) time.textContent = clock(sceneLengths[pains[i].key]);
     });
   }, [active]);
 
@@ -84,21 +75,10 @@ export function PainSolutions({ id }: { id?: string }) {
                   onClick={() => setActive(i)}
                   className={`relative shrink-0 overflow-hidden rounded-xl border px-4 py-3 text-left transition-colors lg:px-5 lg:py-4 ${on ? "border-amber/60 bg-graphite" : "border-white/10 hover:border-white/25"}`}
                 >
-                  <span className="flex items-center justify-between gap-4">
-                    <span
-                      className={`block text-sm font-semibold lg:text-base ${on ? "text-cream" : "text-text-muted"}`}
-                    >
-                      {p.pain}
-                    </span>
-                    <span
-                      ref={(el) => {
-                        clocks.current[i] = el;
-                      }}
-                      aria-label="Duração da demonstração"
-                      className={`hidden shrink-0 text-xs tabular-nums lg:block ${on ? "text-amber" : "text-text-muted"}`}
-                    >
-                      {clock(sceneLengths[p.key])}
-                    </span>
+                  <span
+                    className={`block text-sm font-semibold lg:text-base ${on ? "text-cream" : "text-text-muted"}`}
+                  >
+                    {p.pain}
                   </span>
                   {on && (
                     <span className="mt-1 hidden text-sm text-text-muted lg:block">
@@ -110,7 +90,7 @@ export function PainSolutions({ id }: { id?: string }) {
                       bars.current[i] = el;
                     }}
                     aria-hidden="true"
-                    className="absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-amber"
+                    className="absolute inset-x-0 bottom-0 h-1 origin-left scale-x-0 bg-amber"
                   />
                 </button>
               );
@@ -118,7 +98,12 @@ export function PainSolutions({ id }: { id?: string }) {
           </div>
         </div>
 
-        <div id="dor-cena" role="tabpanel" aria-label={pain.pain}>
+        <div
+          id="dor-cena"
+          role="tabpanel"
+          aria-label={pain.pain}
+          className="[&_.scene-progress]:hidden"
+        >
           {pain.video ? (
             <video
               key={pain.video}
@@ -131,7 +116,6 @@ export function PainSolutions({ id }: { id?: string }) {
               onTimeUpdate={(e) =>
                 setProgress(
                   e.currentTarget.currentTime / (e.currentTarget.duration || 1),
-                  e.currentTarget.duration || 0,
                 )
               }
             />

@@ -198,15 +198,20 @@ function Layer({
               <li key={c.key}>
                 <ContactAction
                   message={c.message}
-                  className={`cta-link inline-flex items-center gap-1.5 rounded-full border px-3.5 py-2 text-sm font-semibold whitespace-nowrap transition ${
+                  className={`cta-link group inline-flex items-center gap-1.5 rounded-full border px-3.5 py-2 text-sm font-semibold whitespace-nowrap shadow-sm transition duration-300 ${
                     amber
                       ? i === 0 && topic
-                        ? "border-graphite bg-graphite text-amber [&.is-hover]:bg-black"
-                        : "border-graphite/30 text-graphite [&.is-hover]:border-graphite [&.is-hover]:bg-graphite [&.is-hover]:text-amber"
-                      : "border-white/15 text-cream hover:border-amber"
+                        ? "border-graphite bg-graphite text-amber shadow-graphite/20 [&.is-hover]:-translate-y-0.5 [&.is-hover]:bg-black"
+                        : "border-graphite/25 bg-graphite/[0.07] text-graphite shadow-graphite/10 [&.is-hover]:-translate-y-0.5 [&.is-hover]:border-graphite [&.is-hover]:bg-graphite [&.is-hover]:text-amber"
+                      : "border-white/15 bg-white/5 text-cream hover:-translate-y-0.5 hover:border-amber"
                   }`}
                 >
                   {c.label}
+                  <ArrowUpRight
+                    size={14}
+                    aria-hidden="true"
+                    className="opacity-60 transition duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100 group-[.is-hover]:translate-x-0.5 group-[.is-hover]:-translate-y-0.5 group-[.is-hover]:opacity-100"
+                  />
                 </ContactAction>
               </li>
             ))}

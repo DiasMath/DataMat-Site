@@ -1,70 +1,186 @@
-import { Clock, FileText } from "lucide-react";
+import { ArrowRight, CalendarClock, Check, Zap } from "lucide-react";
 import { Screen } from "./Screen";
 import { useScene, type SceneProps } from "./useScene";
 
-/** Duração da cena em segundos. */
-export const LENGTH = 17;
-const days = Array.from({ length: 30 }, (_, i) => i + 1);
+/** Duração da cena em segundos (inclui ~6 s parado no final para análise). */
+export const LENGTH = 30;
+
+const months = ["Jul", "Ago", "Set"];
+/** Linhas do DRE e valores fictícios (R$ mil). Out: parcial até o dia 12 e 14. */
+const rows: {
+  label: string;
+  values: number[];
+  d12: number;
+  d14: number;
+  total?: boolean;
+}[] = [
+  { label: "Receita bruta", values: [412, 398, 431], d12: 168, d14: 196 },
+  { label: "(−) Deduções", values: [-49, -47, -52], d12: -20, d14: -23 },
+  {
+    label: "Receita líquida",
+    values: [363, 351, 379],
+    d12: 148,
+    d14: 173,
+    total: true,
+  },
+  { label: "(−) CMV", values: [-228, -224, -236], d12: -92, d14: -107 },
+  {
+    label: "Lucro bruto",
+    values: [135, 127, 143],
+    d12: 56,
+    d14: 66,
+    total: true,
+  },
+  { label: "(−) Despesas", values: [-96, -94, -99], d12: -38, d14: -44 },
+  { label: "Resultado", values: [39, 33, 44], d12: 18, d14: 22, total: true },
+];
+const fmt = (v: number) => (v < 0 ? `(${Math.abs(v)})` : String(v));
+
+const oldFlow = ["Exporta do ERP", "Categoriza no GPT", "Monta a planilha"];
+
 const captions = [
-  "Antes: o mês fechava e o DRE só saía dias depois.",
-  "Agora: cada dia fechado vira dado no painel no dia seguinte.",
-  "O resultado do mês é acompanhado enquanto ele acontece.",
+  "Antes: todo mês, o DRE era montado à mão, em várias etapas.",
+  "O resultado de outubro só existia dias depois de outubro acabar.",
+  "Com a DATAMAT, o ERP alimenta o DRE sozinho, todos os dias.",
+  "Outubro aparece enquanto acontece: o DRE do mês já existe no dia 12.",
+  "Você acompanha o mês todo, sem esperar o fechamento.",
 ];
 
-/** Case DRE: quando o resultado do mês fica visível, antes e agora. */
+/** Case DRE: fluxo e visão antigos (fim do mês) x DATAMAT (diária), em tabela. */
 export function DreScene(props: SceneProps) {
   const root = useScene(
     (tl, q, caption) => {
-      caption(0, 0);
-      tl.from(q(".phase-before"), { autoAlpha: 0, duration: 0.4 }, 0.2)
-        .to(
-          q(".cell"),
-          {
-            backgroundColor: "rgba(245,240,231,0.35)",
-            stagger: 0.07,
-            duration: 0.2,
-          },
-          "+=0.2",
-        )
-        .from(q(".wait"), { autoAlpha: 0, x: -10, duration: 0.5 }, "+=0.3")
-        .from(
-          q(".doc"),
-          { autoAlpha: 0, scale: 0.8, duration: 0.5, ease: "back.out(1.6)" },
-          "+=0.8",
-        );
-      caption(1, "+=1.2");
-      tl.to(q(".phase-before"), { autoAlpha: 0.25, duration: 0.5 }, "<").from(
-        q(".phase-after"),
-        { autoAlpha: 0, y: 12, duration: 0.5 },
-        "<",
+      const outCells = q(".out-cell");
+      const setOut = (key: "d12" | "d14") =>
+        outCells.forEach((c, i) => {
+          c.textContent = fmt(rows[i][key]);
+        });
+
+      // Outubro começa vazio.
+      tl.call(
+        () => {
+          outCells.forEach((c) => (c.textContent = "—"));
+          q(".out-head-label").forEach((e) => (e.textContent = "Out"));
+        },
+        [],
+        0,
       );
-      const label = q(".day-label")[0];
-      q(".daily").forEach((bar, i) => {
-        tl.from(
-          bar,
-          {
-            scaleY: 0,
-            transformOrigin: "bottom",
-            duration: 0.25,
-            onStart: () => {
-              label.textContent = `Dia ${i + 1} · DRE atualizado`;
-            },
-          },
-          i === 0 ? "+=0.3" : "+=0.03",
-        );
-      });
-      caption(2, "+=0.8");
-      tl.to(q(".phase-before"), { autoAlpha: 0.15, duration: 0.4 }, "<")
+
+      // 1. Fluxo antigo, etapa por etapa.
+      caption(0, 0);
+      tl.from(
+        q(".flow-old > :not(.auto)"),
+        { autoAlpha: 0, x: -10, stagger: 0.55, duration: 0.5 },
+        0.4,
+      )
+        .from(q(".dre-table"), { autoAlpha: 0, y: 12, duration: 0.6 }, "-=0.2")
+        .from(q(".past-col"), { autoAlpha: 0, stagger: 0.25, duration: 0.4 });
+
+      // 2. Outubro vazio até depois do fechamento.
+      caption(1, "+=1.2");
+      tl.to(q(".out-head"), { color: "var(--color-amber)", duration: 0.3 }, "<")
         .to(
-          q(".daily"),
+          q(".out-cell"),
           {
-            backgroundColor: "var(--color-amber-light)",
-            stagger: 0.02,
-            duration: 0.2,
+            backgroundColor: "rgba(36,35,38,0.08)",
+            stagger: 0.06,
+            duration: 0.25,
           },
           "<",
         )
-        .from(q(".live"), { autoAlpha: 0, y: 8, duration: 0.5 }, "+=0.2");
+        .from(q(".wait"), { autoAlpha: 0, y: 8, duration: 0.5 }, "+=0.2");
+
+      // 3. Fluxo novo: as etapas manuais somem, a DATAMAT entra no meio.
+      caption(2, "+=2.4");
+      tl.to(q(".wait"), { autoAlpha: 0, duration: 0.3 }, "<")
+        .to(
+          q(".flow-old .manual"),
+          {
+            autoAlpha: 0,
+            width: 0,
+            paddingLeft: 0,
+            paddingRight: 0,
+            marginLeft: 0,
+            duration: 0.6,
+            stagger: 0.1,
+          },
+          "<0.2",
+        )
+        .from(
+          q(".auto"),
+          { autoAlpha: 0, scale: 0.8, duration: 0.6, ease: "back.out(1.6)" },
+          "-=0.2",
+        )
+        .to(q(".out-head"), { color: "var(--color-graphite)", duration: 0.3 });
+
+      // 4. Outubro se preenche no dia 12 e é atualizado no dia 14.
+      caption(3, "+=1");
+      tl.call(() => setOut("d12"), [], "<")
+        .call(
+          () =>
+            q(".out-head-label").forEach(
+              (e) => (e.textContent = "Out · até dia 12"),
+            ),
+          [],
+          "<",
+        )
+        .fromTo(
+          q(".out-cell"),
+          { autoAlpha: 0 },
+          {
+            autoAlpha: 1,
+            stagger: 0.12,
+            duration: 0.35,
+            immediateRender: false,
+          },
+          "<",
+        )
+        .call(
+          () =>
+            q(".stamp-day").forEach((e) => (e.textContent = "12/10, 07:00")),
+          [],
+          "<",
+        )
+        .from(q(".stamp"), { autoAlpha: 0, y: -6, duration: 0.4 }, "-=0.3")
+        .to(
+          q(".out-col"),
+          { backgroundColor: "rgba(255,176,63,0.14)", duration: 0.4 },
+          "+=1.6",
+        )
+        .call(
+          () =>
+            q(".out-head-label").forEach(
+              (e) => (e.textContent = "Out · até dia 14"),
+            ),
+          [],
+          "+=0",
+        )
+        .call(
+          () =>
+            q(".stamp-day").forEach((e) => (e.textContent = "14/10, 07:00")),
+          [],
+          "<",
+        )
+        .call(() => setOut("d14"), [], "<")
+        .fromTo(
+          q(".out-cell"),
+          { color: "var(--color-amber)" },
+          {
+            color: "var(--color-graphite)",
+            stagger: 0.05,
+            duration: 0.6,
+            immediateRender: false,
+          },
+          "<",
+        );
+
+      // 5. Conclusão e tempo para olhar a tela.
+      caption(4, "+=1.4");
+      tl.to(
+        q(".result-row"),
+        { boxShadow: "inset 0 0 0 2px var(--color-amber)", duration: 0.5 },
+        "<",
+      );
     },
     props,
     LENGTH,
@@ -72,52 +188,106 @@ export function DreScene(props: SceneProps) {
 
   return (
     <div ref={root}>
-      <Screen label="DRE do mês" captions={captions}>
-        <div className="flex h-full flex-col justify-center gap-6 p-5 md:p-8">
-          <div className="phase-before">
-            <p className="mb-2 text-xs tracking-widest text-text-muted">
-              ANTES · DIAS DO MÊS
-            </p>
-            <div className="flex items-center gap-1">
-              {days.map((d) => (
+      <Screen
+        label="DRE · Loja Juntos.com (valores ilustrativos)"
+        captions={captions}
+      >
+        <div className="flex h-full flex-col gap-3 p-3 md:gap-4 md:p-5">
+          {/* Fluxo de trabalho */}
+          <div className="flex flex-wrap items-center gap-1.5 text-[10px] md:text-xs">
+            <div className="flow-old flex flex-wrap items-center gap-1.5">
+              <span className="rounded-md border border-white/15 bg-white/5 px-2 py-1 text-cream">
+                ERP
+              </span>
+              {oldFlow.map((step) => (
                 <span
-                  key={d}
-                  className="cell h-6 flex-1 rounded-sm bg-white/10 md:h-8"
-                />
+                  key={step}
+                  className="manual flex items-center gap-1.5 overflow-hidden whitespace-nowrap"
+                >
+                  <ArrowRight
+                    size={12}
+                    className="shrink-0 text-text-muted"
+                    aria-hidden="true"
+                  />
+                  <span className="rounded-md border border-white/15 bg-white/5 px-2 py-1 text-text-muted">
+                    {step}
+                  </span>
+                </span>
               ))}
-            </div>
-            <div className="mt-3 flex flex-wrap items-center gap-2">
-              <span className="wait flex items-center gap-1.5 rounded-md bg-white/10 px-2.5 py-1.5 text-xs text-cream md:text-sm">
-                <Clock size={14} className="text-amber" aria-hidden="true" /> +
-                alguns dias de fechamento
+              <span className="auto flex items-center gap-1.5 whitespace-nowrap">
+                <ArrowRight
+                  size={12}
+                  className="text-amber"
+                  aria-hidden="true"
+                />
+                <span className="flex items-center gap-1 rounded-md bg-amber px-2 py-1 font-semibold text-graphite">
+                  <Zap size={12} aria-hidden="true" /> DATAMAT · automático
+                </span>
               </span>
-              <span className="doc flex items-center gap-1.5 rounded-md border border-white/20 px-2.5 py-1.5 text-xs text-cream md:text-sm">
-                <FileText size={14} aria-hidden="true" /> DRE do mês
+              <ArrowRight
+                size={12}
+                className="text-text-muted"
+                aria-hidden="true"
+              />
+              <span className="rounded-md border border-white/15 bg-white/5 px-2 py-1 text-cream">
+                DRE
               </span>
             </div>
+            <span className="ml-auto grid">
+              <span className="wait col-start-1 row-start-1 flex items-center gap-1 justify-self-end rounded-md bg-white/10 px-2 py-1 text-cream">
+                <CalendarClock
+                  size={12}
+                  className="text-amber"
+                  aria-hidden="true"
+                />{" "}
+                Out só no dia 5 de novembro
+              </span>
+              <span className="stamp col-start-1 row-start-1 flex items-center gap-1 justify-self-end rounded-full bg-amber px-2 py-0.5 font-semibold text-graphite">
+                <Check size={12} aria-hidden="true" /> atualizado{" "}
+                <span className="stamp-day">14/10, 07:00</span>
+              </span>
+            </span>
           </div>
-          <div className="phase-after">
-            <div className="mb-2 flex items-center justify-between">
-              <p className="text-xs tracking-widest text-amber">
-                AGORA · PAINEL DIÁRIO
-              </p>
-              <p className="day-label text-xs text-cream tabular-nums md:text-sm">
-                Dia 30 · DRE atualizado
-              </p>
-            </div>
-            <div className="flex h-24 items-end gap-1 md:h-32">
-              {days.map((d) => (
+
+          {/* DRE: linhas x meses */}
+          <div className="dre-table flex-1 overflow-hidden rounded-lg bg-cream text-graphite">
+            <div className="grid h-full grid-cols-[1.7fr_repeat(4,1fr)] text-[10px] md:text-xs">
+              <span className="border-b border-graphite/15 px-2 py-1.5 font-semibold text-graphite/60">
+                DRE (R$ mil)
+              </span>
+              {months.map((m) => (
                 <span
-                  key={d}
-                  className="daily flex-1 rounded-sm bg-amber"
-                  style={{ height: `${30 + ((d * 37) % 70)}%` }}
-                />
+                  key={m}
+                  className="past-col border-b border-graphite/15 px-2 py-1.5 text-right font-semibold text-graphite/60"
+                >
+                  {m}
+                </span>
+              ))}
+              <span className="out-head out-col border-b border-graphite/15 px-2 py-1.5 text-right font-semibold text-graphite">
+                <span className="out-head-label">Out · até dia 14</span>
+              </span>
+              {rows.map((r) => (
+                <div
+                  key={r.label}
+                  className={`col-span-5 grid grid-cols-subgrid ${r.label === "Resultado" ? "result-row rounded-sm" : ""} ${r.total ? "font-semibold" : ""}`}
+                >
+                  <span className="px-2 py-1">{r.label}</span>
+                  {r.values.map((v, k) => (
+                    <span
+                      key={k}
+                      className="past-col px-2 py-1 text-right tabular-nums"
+                    >
+                      {fmt(v)}
+                    </span>
+                  ))}
+                  <span className="out-col px-2 py-1 text-right tabular-nums">
+                    <span className="out-cell inline-block min-w-8 rounded-sm">
+                      {fmt(r.d14)}
+                    </span>
+                  </span>
+                </div>
               ))}
             </div>
-            <p className="live mt-3 text-sm text-cream md:text-base">
-              <strong className="text-amber">Resultado até hoje</strong>, sem
-              esperar o mês acabar.
-            </p>
           </div>
         </div>
       </Screen>
