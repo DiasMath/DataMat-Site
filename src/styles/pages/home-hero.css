@@ -5,7 +5,7 @@
    posicionado em % desse palco. Animação: src/pages/HomeHero.tsx
    ============================================================ */
 .home-hero {
-  --orbit: min(68vw, 980px, 118svh);
+  --orbit: min(62vw, 900px, 110svh);
   position: relative;
   isolation: isolate;
   display: flex;
@@ -108,7 +108,7 @@
   position: absolute;
   z-index: -2;
   top: 50%;
-  left: 74%;
+  left: 65%;
   width: var(--orbit);
   aspect-ratio: 1;
   translate: -50% -50%;
@@ -120,19 +120,7 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background:
-    radial-gradient(circle, #ffb03f40, transparent 36%),
-    radial-gradient(circle, #36302b, transparent 68%);
-}
-.orbit-grid {
-  position: absolute;
-  inset: -15%;
-  opacity: 0.2;
-  /* grade com o esmaecimento já embutido no SVG: desenhada uma vez só,
-     sem mask-image recalculado a cada quadro */
-  background: url("../../assets/hero/orbit-grid.svg") center / 100% 100%
-    no-repeat;
-  transform: perspective(700px) rotateX(20deg) scale(1.1);
+  background: radial-gradient(circle, #ffb03f26, transparent 42%);
 }
 @media (max-width: 1024px) {
   .home-hero {
@@ -150,12 +138,9 @@
     top: auto;
     left: 50%;
     flex: none;
-    margin: -24px 0 calc(var(--orbit) * -0.17);
+    margin: -12px 0 calc(var(--orbit) * -0.04);
     translate: -50% 0;
     opacity: 1;
-  }
-  .orbit-grid {
-    display: none;
   }
   .hero-copy {
     max-width: 680px;
@@ -181,5 +166,107 @@
   }
   .hero-scroll {
     display: none;
+  }
+}
+
+/* ---------- Fundo do hero inteiro: grade e estrelas (HeroSky.tsx) ---------- */
+.hero-sky {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+}
+.hero-sky-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(#ffffff0d 1px, transparent 1px),
+    linear-gradient(90deg, #ffffff0d 1px, transparent 1px);
+  background-size: 64px 64px;
+  /* grade quase some do lado do texto e aparece do lado da órbita */
+  mask-image: linear-gradient(90deg, #0000004d 0%, #00000080 40%, #000 70%);
+}
+
+/* ---------- Sol (HeroOrbit.tsx): esfera com volume, coroa e raios ---------- */
+.sun-body {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 66% 72%, #b4520d55, transparent 32%),
+    radial-gradient(circle at 30% 64%, #ffe6b040, transparent 26%),
+    radial-gradient(
+      circle at 42% 36%,
+      #fff6df 0%,
+      #ffe0a0 14%,
+      #ffbf55 34%,
+      #ffa22e 56%,
+      #e9791a 78%,
+      #b4520d 100%
+    );
+  box-shadow:
+    inset -14px -18px 38px #6e280073,
+    inset 10px 12px 30px #fff5dc40,
+    0 0 40px 6px #ffaa3c73,
+    0 0 130px 34px #ff8c1e2e;
+}
+/* superfície "em movimento": textura suave girando bem devagar */
+.sun-body::after {
+  content: "";
+  position: absolute;
+  inset: -10%;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    #ffffff14,
+    #96400020,
+    #ffffff0f,
+    #9640001a,
+    #ffffff14
+  );
+  mix-blend-mode: soft-light;
+  animation: sun-spin 90s linear infinite;
+}
+.sun-corona,
+.sun-rays {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.sun-corona {
+  width: 230%;
+  height: 230%;
+  background: radial-gradient(
+    circle,
+    #ffb03f59 0%,
+    #ff8c1e1f 34%,
+    transparent 62%
+  );
+}
+.sun-rays {
+  width: 175%;
+  height: 175%;
+  background: repeating-conic-gradient(
+    from 0deg,
+    #ffc8781a 0deg 3deg,
+    transparent 3deg 16deg
+  );
+  mask-image: radial-gradient(circle, #000 32%, transparent 68%);
+  animation: sun-spin 140s linear infinite reverse;
+}
+.is-paused .sun-body::after,
+.is-paused .sun-rays {
+  animation-play-state: paused;
+}
+@keyframes sun-spin {
+  to {
+    rotate: 360deg;
   }
 }

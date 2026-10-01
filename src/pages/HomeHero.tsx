@@ -5,6 +5,7 @@ import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { Container, Eyebrow } from "../components/ui";
 import { ContactAction } from "../components/contact";
 import { HeroOrbit } from "../components/home/HeroOrbit";
+import { HeroSky } from "../components/home/HeroSky";
 import { skipIntro } from "../lib/boot";
 
 /**
@@ -58,9 +59,9 @@ export function HomeHero() {
 
   return (
     <section className="home-hero" ref={root}>
+      <HeroSky />
       <div className="hero-shade" aria-hidden="true" />
       <div className="hero-orbit" aria-hidden="true">
-        <div className="orbit-grid" />
         <HeroOrbit />
       </div>
       <Container className="new-hero-content">
