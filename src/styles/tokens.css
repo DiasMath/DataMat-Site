@@ -60,13 +60,6 @@
       transform: translateX(420%) skewX(-20deg);
     }
   }
-  --animate-fade-up: fade-up 0.5s ease-out;
-  @keyframes fade-up {
-    from {
-      opacity: 0;
-      transform: translateY(6px);
-    }
-  }
   @keyframes nudge {
     0%,
     60%,

@@ -1,61 +1,31 @@
 /**
- * Seção "Quem é a DATAMAT" (home): mapa das frentes, princípios e pessoas.
+ * Seção "Quem é a DATAMAT" (home): texto que explica quem somos e como
+ * pensamos. Sem animação além da entrada suave padrão.
  */
-import type { Kind } from "../data/site";
-
 export const about = {
   eyebrow: "QUEM É A DATAMAT",
   title: "Começamos pelos dados.",
   highlight: "Seguimos o problema.",
-  body: "Cada frente resolve um problema sozinha. Quando faz sentido, elas se conectam.",
+  lead: "Uma empresa não precisa contratar quatro frentes. Precisa resolver o que importa agora.",
+  body: [
+    "A DATAMAT nasceu da inteligência de dados e reúne competências para agir onde o desafio realmente está: nos números, na operação, na marca ou no site.",
+    "Cada solução funciona sozinha. Quando faz sentido, elas se conectam, e a empresa passa a decidir com clareza e a executar com estrutura.",
+  ],
   link: "Conhecer a DATAMAT",
 };
-
-/** As 4 frentes ao redor do símbolo. Dados é a base. */
-export const fronts: {
-  key: Kind;
-  title: string;
-  line: string;
-  path: string;
-}[] = [
-  {
-    key: "dados",
-    title: "Dados & BI",
-    line: "A base de tudo: os números da empresa organizados e confiáveis.",
-    path: "/dados-bi",
-  },
-  {
-    key: "ia",
-    title: "IA & Automação",
-    line: "As tarefas repetitivas passam a rodar sozinhas.",
-    path: "/ia-automacao",
-  },
-  {
-    key: "marca",
-    title: "Marca & Growth",
-    line: "A empresa passa a ser reconhecida e lembrada.",
-    path: "/marca-growth",
-  },
-  {
-    key: "sites",
-    title: "Sites",
-    line: "Uma presença digital que transforma visita em conversa.",
-    path: "/sites",
-  },
-];
 
 export const principles = [
   {
     title: "Começamos pelos dados",
-    text: "Primeiro entender os números. Depois decidir o que fazer.",
+    text: "Antes de propor qualquer coisa, entendemos os números e a rotina da empresa.",
   },
   {
     title: "Uma solução por vez",
-    text: "Resolvemos o que importa agora, sem pacote fechado.",
+    text: "Resolvemos o que mais pesa agora, sem pacote fechado nem projeto que nunca termina.",
   },
   {
     title: "Tudo se conecta",
-    text: "Cada frente funciona sozinha e soma com as outras.",
+    text: "Dados, automação, marca e site somam quando trabalham juntos.",
   },
 ];
 
