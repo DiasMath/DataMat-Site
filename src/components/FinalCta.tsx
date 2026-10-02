@@ -173,7 +173,7 @@ function Layer({
   const Heading = amber ? "p" : "h2";
   return (
     <div className="relative mx-auto grid min-h-svh w-full max-w-screen-2xl content-center items-center gap-6 px-5 pt-20 pb-6 md:px-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12 lg:py-16">
-      <div data-reveal={amber ? undefined : ""}>
+      <div className="relative z-10" data-reveal={amber ? undefined : ""}>
         <p
           className={`text-xs font-semibold tracking-widest ${amber ? "text-graphite" : "text-amber"}`}
         >
@@ -230,7 +230,7 @@ function Layer({
       </div>
 
       <div
-        className="relative mx-auto aspect-square w-[min(100%,40svh)] max-w-2xl lg:mr-0 lg:ml-auto lg:w-[min(100%,calc(100svh-11rem))] lg:translate-x-6"
+        className="pointer-events-none relative mx-auto aspect-square w-[min(100%,40svh)] max-w-2xl max-lg:absolute max-lg:inset-0 max-lg:m-auto max-lg:w-[min(118vw,70svh)] max-lg:opacity-40 max-lg:blur-[1.5px] lg:pointer-events-auto lg:mr-0 lg:ml-auto lg:w-[min(100%,calc(100svh-11rem))] lg:translate-x-6"
         aria-hidden="true"
       >
         <svg
@@ -300,7 +300,7 @@ function Layer({
                 className="ripple absolute top-1/2 left-1/2 aspect-square w-[42%] rounded-full border-2 border-graphite opacity-0"
               />
             ))}
-            <span className="joined absolute top-[87%] left-1/2 rounded-full bg-graphite px-4 py-2 text-sm font-semibold whitespace-nowrap text-amber opacity-0 lg:px-6 lg:py-3 lg:text-lg">
+            <span className="joined absolute top-[87%] left-1/2 max-lg:hidden rounded-full bg-graphite px-4 py-2 text-sm font-semibold whitespace-nowrap text-amber opacity-0 lg:px-6 lg:py-3 lg:text-lg">
               Tudo conectado em um só lugar
             </span>
           </>
@@ -633,7 +633,7 @@ export function CTA({
       <Layer title={title} nodes={nodes} topic={topic} />
       <div
         aria-hidden="true"
-        className="fill pointer-events-none absolute inset-0 bg-amber [clip-path:circle(0px_at_50%_50%)]"
+        className="fill pointer-events-none absolute inset-0 z-20 bg-amber [clip-path:circle(0px_at_50%_50%)]"
         // A cópia âmbar é só visual: cliques e teclado vão para a camada de baixo.
         inert
       >
