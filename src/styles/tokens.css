@@ -28,6 +28,10 @@
   /* Cores de terceiros usadas em ilustrações */
   --color-excel: #217346; /* verde do Excel (arquivo nas cenas) */
 
+  /* Variação em painéis: alta boa / queda ruim */
+  --color-positive: #1f7a45;
+  --color-negative: #b3261e;
+
   /* Medidas fixas */
   --spacing-header: 82px; /* altura do cabeçalho (celular: 68px) */
   --spacing-header-mobile: 68px;
@@ -54,6 +58,13 @@
     85%,
     100% {
       transform: translateX(420%) skewX(-20deg);
+    }
+  }
+  --animate-fade-up: fade-up 0.5s ease-out;
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
     }
   }
   @keyframes nudge {

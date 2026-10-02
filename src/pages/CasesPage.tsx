@@ -3,7 +3,7 @@ import { cases, client, type ClientCase } from "../content/cases";
 import { CTA } from "../components/FinalCta";
 import { DreScene } from "../components/scenes/DreScene";
 import { ComprasScene } from "../components/scenes/ComprasScene";
-import { AnalisesScene } from "../components/scenes/AnalisesScene";
+import { DreDashboard } from "../components/cases/DreDashboard";
 import { useInView } from "../components/scenes/useInView";
 
 /** Sequência de etapas em "pílulas" ligadas por setas. */
@@ -45,25 +45,24 @@ function Flow({
   );
 }
 
-/** Além da tabela: as análises do DRE em gráficos (só na página de cases). */
+/** Além da tabela: painel de demonstração para o visitante mexer. */
 function Analyses() {
-  const [ref, inView] = useInView<HTMLDivElement>(0.3);
   return (
-    <div className="mt-16 grid grid-cols-[minmax(0,1fr)] gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-14">
-      <div className="lg:pt-20" data-reveal>
+    <div className="mt-16">
+      <div className="max-w-2xl" data-reveal>
         <p className="text-xs font-semibold tracking-widest text-amber">
-          ALÉM DA TABELA
+          ALÉM DA TABELA · EXPERIMENTE
         </p>
-        <h3 className="mt-3 text-2xl font-semibold tracking-tight text-cream md:text-3xl">
-          As análises que vêm junto com o DRE.
+        <h3 className="mt-3 text-2xl font-semibold tracking-tight text-cream md:text-4xl">
+          O painel que vem junto com o DRE.
         </h3>
         <p className="mt-4 text-lg text-text-muted">
-          Receita, despesas fixas e variáveis, deduções e impostos e a tendência
-          do resultado, atualizados todo dia.
+          Troque o mês, clique nas barras e abra as linhas da tabela: é assim
+          que a gestão acompanha os números no dia a dia.
         </p>
       </div>
-      <div ref={ref}>
-        <AnalisesScene playing={inView} />
+      <div className="mt-8" data-reveal>
+        <DreDashboard />
       </div>
     </div>
   );

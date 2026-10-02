@@ -126,6 +126,17 @@ export function DreScene(props: SceneProps) {
             { left: `${X[name]}%`, duration: 1.2, ease: "sine.inOut" },
             "<",
           )
+          .fromTo(
+            q(`.step.${name} > div`),
+            { boxShadow: "0 0 0 0px rgba(33,115,70,0)" },
+            {
+              boxShadow: "0 0 0 2px rgba(33,115,70,0.9)",
+              duration: 0.3,
+              yoyo: true,
+              repeat: 1,
+              immediateRender: false,
+            },
+          )
           .from(q(`.${name}-work`), {
             autoAlpha: 0,
             stagger: 0.12,
@@ -284,7 +295,7 @@ export function DreScene(props: SceneProps) {
 
             {/* Trilho na altura do centro das mini-telas: linhas, arquivo e dados passam aqui */}
             <div
-              className="absolute inset-x-0 top-5"
+              className="absolute inset-x-0 top-5 z-30"
               style={{ height: TILE_H }}
             >
               {[0, 1, 2].map((i) => (
@@ -305,7 +316,7 @@ export function DreScene(props: SceneProps) {
                 }}
               />
               {/* arquivo Excel passando de etapa em etapa */}
-              <span className="token absolute top-1/2 flex -translate-1/2 items-center gap-1 rounded-md bg-excel px-1.5 py-1 text-[9px] font-semibold text-white opacity-0 shadow-md shadow-black/30 md:text-[10px]">
+              <span className="token absolute top-1/2 flex -translate-1/2 items-center gap-1 rounded-md bg-excel px-1.5 py-1 text-[9px] font-semibold text-white opacity-0 shadow-lg ring-1 shadow-black/50 ring-white/30 md:text-[10px]">
                 <FileSpreadsheet size={11} aria-hidden="true" /> fechamento.xlsx
               </span>
               {[0, 1].map((i) => (

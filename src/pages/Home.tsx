@@ -1,12 +1,9 @@
-import { Link } from "react-router-dom";
-import { ArrowUpRight } from "lucide-react";
-import { solutions } from "../data/site";
-import { Container, Eyebrow } from "../components/ui";
 import { CTA } from "../components/FinalCta";
 import { HomeHero } from "./HomeHero";
 import { clients } from "../content/clients";
 import { PainSolutions } from "../components/home/PainSolutions";
 import { CasesTeaser } from "../components/home/CasesTeaser";
+import { AboutDatamat } from "../components/home/AboutDatamat";
 
 export function Home() {
   return (
@@ -42,43 +39,7 @@ export function Home() {
 
       <PainSolutions id="demonstracoes" />
 
-      <section className="home-about">
-        <Container className="home-about-grid">
-          <div data-reveal>
-            <Eyebrow>QUEM É A DATAMAT</Eyebrow>
-            <h2>
-              Começamos pelos dados. <em>Seguimos o problema.</em>
-            </h2>
-          </div>
-
-          <div className="home-about-detail" data-reveal>
-            <p>
-              Uma empresa não precisa contratar quatro frentes. Precisa resolver
-              o que importa agora.
-            </p>
-
-            <p>
-              A DATAMAT nasceu da inteligência de dados e reúne competências
-              para agir onde o desafio realmente está. Cada solução funciona
-              sozinha; quando faz sentido, elas se conectam.
-            </p>
-
-            <Link to="/sobre" className="text-link">
-              Conhecer a DATAMAT <ArrowUpRight size={17} />
-            </Link>
-          </div>
-        </Container>
-
-        <Container className="about-capabilities">
-          {solutions.map((s) => (
-            <Link to={s.path} key={s.key}>
-              <span>{s.number}</span>
-              <strong>{s.title}</strong>
-              <ArrowUpRight size={17} />
-            </Link>
-          ))}
-        </Container>
-      </section>
+      <AboutDatamat />
 
       <CasesTeaser />
 
