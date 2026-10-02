@@ -319,11 +319,15 @@
 }
 @media (max-width: 1024px) {
   .home-hero {
-    --orbit: min(440px, 100vw);
+    --orbit: min(400px, 94vw);
     flex-direction: column;
     align-items: stretch;
     min-height: 0;
-    padding: 0 0 48px;
+    padding: 40px 0 32px;
+  }
+  /* No celular/tablet o texto vem primeiro e a órbita depois dele. */
+  .new-hero-content {
+    order: 1;
   }
   .hero-shade {
     display: none;
@@ -333,7 +337,8 @@
     top: auto;
     left: 50%;
     flex: none;
-    margin: -24px 0 calc(var(--orbit) * -0.17);
+    order: 2;
+    margin: 28px 0 0;
     translate: -50% 0;
     opacity: 1;
   }

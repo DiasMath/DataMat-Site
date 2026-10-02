@@ -355,10 +355,10 @@ export function CTA({
       // Centralização feita pelo GSAP (ele assume o transform desses
       // elementos; um translate do CSS seria descartado e as duas camadas
       // ficariam desalinhadas).
-      gsap.set(q(".symbol-wrap, .ripple, .node-inner"), {
-        xPercent: -50,
-        yPercent: -50,
-      });
+      gsap.set(q(".ripple, .node-inner"), { xPercent: -50, yPercent: -50 });
+      // Centro "ótico": a barra mais alta do símbolo fica à direita, então ele
+      // é deslocado um pouco para a esquerda para parecer centrado no anel.
+      gsap.set(q(".symbol-wrap"), { xPercent: -56, yPercent: -50 });
       gsap.set(q(".joined"), { xPercent: -50 });
 
       // O botão visível sobre o âmbar é a cópia; o mouse e o teclado tocam o de

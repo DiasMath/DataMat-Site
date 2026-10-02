@@ -61,7 +61,7 @@ export function PainSolutions({ id }: { id?: string }) {
           <div
             role="tablist"
             aria-label="Escolha o desafio da sua empresa"
-            className="mt-8 flex gap-2 overflow-x-auto pb-2 lg:flex-col lg:overflow-visible lg:pb-0"
+            className="mt-8 grid grid-cols-2 gap-2 lg:flex lg:flex-col"
           >
             {pains.map((p, i) => {
               const on = i === active;
@@ -73,7 +73,7 @@ export function PainSolutions({ id }: { id?: string }) {
                   aria-selected={on}
                   aria-controls="dor-cena"
                   onClick={() => setActive(i)}
-                  className={`relative shrink-0 overflow-hidden rounded-xl border px-4 py-3 text-left transition-colors lg:px-5 lg:py-4 ${on ? "border-amber/60 bg-graphite" : "border-white/10 hover:border-white/25"}`}
+                  className={`relative overflow-hidden rounded-xl border px-3.5 py-3 text-left transition-colors lg:px-5 lg:py-4 ${on ? "border-amber/60 bg-graphite" : "border-white/10 hover:border-white/25"}`}
                 >
                   <span
                     className={`block text-sm font-semibold lg:text-base ${on ? "text-cream" : "text-text-muted"}`}
