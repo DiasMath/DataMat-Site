@@ -29,7 +29,7 @@ export function Home() {
                   width={48}
                   height={48}
                   loading="lazy"
-                  className="size-38 rounded-lg"
+                  className="size-20 rounded-lg sm:size-38"
                 />
               </li>
             ))}

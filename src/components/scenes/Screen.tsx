@@ -9,10 +9,13 @@ export function Screen({
   label,
   captions,
   children,
+  tall = false,
 }: {
   label: string;
   captions: string[];
   children: ReactNode;
+  /** No celular, tela mais alta (para cenas com mais conteúdo na vertical). */
+  tall?: boolean;
 }) {
   return (
     <div>
@@ -29,7 +32,9 @@ export function Screen({
           </p>
         ))}
       </div>
-      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-white/10 bg-graphite shadow-2xl shadow-black/50 sm:aspect-[16/10]">
+      <div
+        className={`relative w-full overflow-hidden ${tall ? "aspect-[3/5]" : "aspect-[4/5]"} rounded-2xl border border-white/10 bg-graphite shadow-2xl shadow-black/50 sm:aspect-[16/10]`}
+      >
         <div className="relative flex h-9 items-center gap-1.5 border-b border-white/10 px-4">
           <span className="size-2.5 rounded-full bg-white/20" />
           <span className="size-2.5 rounded-full bg-white/20" />

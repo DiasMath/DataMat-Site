@@ -4,6 +4,7 @@ import { ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
 import logo from "../assets/brand/datamat-horizontal.svg";
 import { menuLinks, menuSolutions } from "../content/navigation";
 import { ContactAction } from "./contact";
+import { scrollToTop } from "../motion/scroll";
 
 /** Botão principal de contato: pílula âmbar com seta que gira no hover. */
 export function ContactButton({ className = "" }: { className?: string }) {
@@ -38,6 +39,7 @@ const linkClass = ({ isActive }: { isActive: boolean }) =>
 export function Header() {
   const [open, setOpen] = useState(false);
   const [menu, setMenu] = useState(false);
+  const [solutionsOpen, setSolutionsOpen] = useState(false);
   const closeTimer = useRef(0);
   const progressBar = useRef<HTMLDivElement>(null);
   const { pathname, hash } = useLocation();
@@ -46,6 +48,9 @@ export function Header() {
     setOpen(false);
     setMenu(false);
   }, [pathname, hash]);
+  useEffect(() => {
+    if (!open) setSolutionsOpen(false);
+  }, [open]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -94,7 +99,20 @@ export function Header() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-bg-hero/90 text-cream backdrop-blur-xl">
       <div className="mx-auto flex h-header max-w-7xl items-center px-5 max-[800px]:h-header-mobile md:px-8">
-        <Link to="/" aria-label="DATAMAT, início" className="shrink-0">
+        <Link
+          to="/"
+          aria-label="DATAMAT, início"
+          className="shrink-0"
+          onClick={(event) => {
+            // Já na home: em vez de recarregar, sobe suavemente até o topo.
+            if (pathname === "/") {
+              event.preventDefault();
+              setOpen(false);
+              if (hash) window.history.replaceState(null, "", "/");
+              scrollToTop();
+            }
+          }}
+        >
           <img
             src={logo}
             alt="DATAMAT"
@@ -198,60 +216,94 @@ export function Header() {
           aria-label={open ? "Fechar menu" : "Abrir menu"}
           aria-expanded={open}
         >
-          {open ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
+          <span className="relative size-6">
+            <Menu
+              aria-hidden="true"
+              className={`absolute inset-0 transition duration-300 ${open ? "scale-50 rotate-90 opacity-0" : ""}`}
+            />
+            <X
+              aria-hidden="true"
+              className={`absolute inset-0 transition duration-300 ${open ? "" : "scale-50 -rotate-90 opacity-0"}`}
+            />
+          </span>
         </button>
       </div>
 
-      {open && (
-        <nav
-          aria-label="Navegação mobile"
-          className="max-h-[calc(100svh-var(--spacing-header-mobile))] overflow-y-auto border-t border-white/10 bg-bg-hero px-5 pt-4 pb-8 min-[801px]:hidden"
-          onClick={(event) => {
-            if ((event.target as Element).closest("a, button")) setOpen(false);
-          }}
-        >
-          <p className="text-xs font-semibold tracking-widest text-text-muted">
-            SOLUÇÕES
-          </p>
-          <ul className="mt-3 grid gap-1">
-            {menuSolutions.map(({ title, path, description, icon: Icon }) => (
-              <li key={path}>
-                <Link
-                  to={path}
-                  className="flex gap-3 rounded-xl p-3 active:bg-white/5"
-                >
-                  <Icon
-                    size={20}
-                    className="mt-0.5 text-amber"
-                    aria-hidden="true"
-                  />
-                  <span>
-                    <span className="block font-semibold text-cream">
-                      {title}
-                    </span>
-                    <span className="text-sm text-text-muted">
-                      {description}
-                    </span>
-                  </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <ul className="mt-4 grid border-t border-white/10 pt-4">
-            {menuLinks.map((l) => (
-              <li key={l.to}>
-                <Link
-                  to={l.to}
-                  className="block py-3 text-lg font-semibold text-cream"
-                >
-                  {l.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <ContactButton className="mt-6" />
-        </nav>
-      )}
+      {/* Menu do celular: abre e fecha deslizando (altura animada). */}
+      <div
+        className={`grid transition-[grid-template-rows,opacity] duration-500 ease-brand-out min-[801px]:hidden ${open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
+        inert={!open}
+      >
+        <div className="min-h-0 overflow-hidden">
+          <nav
+            aria-label="Navegação mobile"
+            className="max-h-[calc(100svh-var(--spacing-header-mobile))] overflow-y-auto border-t border-white/10 bg-bg-hero px-5 pt-3 pb-8"
+            onClick={(event) => {
+              if ((event.target as Element).closest("a")) setOpen(false);
+            }}
+          >
+            <button
+              type="button"
+              onClick={() => setSolutionsOpen((v) => !v)}
+              aria-expanded={solutionsOpen}
+              aria-controls="menu-mobile-solucoes"
+              className="flex w-full items-center justify-between py-3 text-lg font-semibold text-cream"
+            >
+              Soluções
+              <ChevronDown
+                size={20}
+                aria-hidden="true"
+                className={`text-amber transition-transform duration-500 ease-brand-out ${solutionsOpen ? "rotate-180" : ""}`}
+              />
+            </button>
+            <div
+              id="menu-mobile-solucoes"
+              className={`grid transition-[grid-template-rows,opacity] duration-500 ease-brand-out ${solutionsOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
+              inert={!solutionsOpen}
+            >
+              <ul className="grid min-h-0 gap-1 overflow-hidden">
+                {menuSolutions.map(
+                  ({ title, path, description, icon: Icon }) => (
+                    <li key={path}>
+                      <Link
+                        to={path}
+                        className="flex gap-3 rounded-xl p-3 transition active:bg-white/5"
+                      >
+                        <Icon
+                          size={20}
+                          className="mt-0.5 text-amber"
+                          aria-hidden="true"
+                        />
+                        <span>
+                          <span className="block font-semibold text-cream">
+                            {title}
+                          </span>
+                          <span className="text-sm text-text-muted">
+                            {description}
+                          </span>
+                        </span>
+                      </Link>
+                    </li>
+                  ),
+                )}
+              </ul>
+            </div>
+            <ul className="mt-2 grid border-t border-white/10 pt-2">
+              {menuLinks.map((l) => (
+                <li key={l.to}>
+                  <Link
+                    to={l.to}
+                    className="block py-3 text-lg font-semibold text-cream transition hover:text-amber"
+                  >
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <ContactButton className="mt-6" />
+          </nav>
+        </div>
+      </div>
 
       <div
         ref={progressBar}

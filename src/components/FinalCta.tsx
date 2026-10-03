@@ -193,12 +193,12 @@ function Layer({
             Conte o que está acontecendo na sua empresa. A conversa começa pelo
             seu desafio.
           </p>
-          <ul className="final invisible col-start-1 row-start-1 flex content-start gap-2 overflow-x-auto pb-1 opacity-0 lg:flex-wrap lg:overflow-visible lg:pb-0">
+          <ul className="final invisible col-start-1 row-start-1 flex flex-wrap content-start gap-2 opacity-0">
             {shortcuts.map((c, i) => (
               <li key={c.key}>
                 <ContactAction
                   message={c.message}
-                  className={`cta-link group inline-flex items-center gap-1.5 rounded-full border px-3.5 py-2 text-sm font-semibold whitespace-nowrap shadow-sm transition duration-300 ${
+                  className={`cta-link group inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold whitespace-nowrap sm:px-3.5 sm:py-2 sm:text-sm shadow-sm transition duration-300 ${
                     amber
                       ? i === 0 && topic
                         ? "border-graphite bg-graphite text-amber shadow-graphite/20 [&.is-hover]:-translate-y-0.5 [&.is-hover]:bg-black"
@@ -230,7 +230,7 @@ function Layer({
       </div>
 
       <div
-        className="pointer-events-none relative mx-auto aspect-square w-[min(100%,40svh)] max-w-2xl max-lg:absolute max-lg:inset-0 max-lg:m-auto max-lg:w-[min(118vw,70svh)] max-lg:opacity-40 max-lg:blur-[1.5px] lg:pointer-events-auto lg:mr-0 lg:ml-auto lg:w-[min(100%,calc(100svh-11rem))] lg:translate-x-6"
+        className="pointer-events-none relative mx-auto aspect-square w-[min(100%,40svh)] max-w-2xl max-lg:absolute max-lg:inset-0 max-lg:m-auto max-lg:w-[min(96vw,64svh)] max-lg:opacity-40 max-lg:blur-[3px] lg:pointer-events-auto lg:mr-0 lg:ml-auto lg:w-[min(100%,calc(100svh-11rem))] lg:translate-x-6"
         aria-hidden="true"
       >
         <svg
@@ -525,6 +525,7 @@ export function CTA({
             start: "top top",
             end: "+=210%",
             pin: true,
+            anticipatePin: 1,
             scrub: 0.6,
             invalidateOnRefresh: true,
             onUpdate: (self) => {
@@ -614,7 +615,7 @@ export function CTA({
           0.8,
         )
         // tempo parado no final, para o visitante ver o resultado
-        .to({}, { duration: 0.12 });
+        .to({}, { duration: 0.3 });
 
       return () => {
         io.disconnect();

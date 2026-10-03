@@ -61,7 +61,7 @@ export function IaScene(props: SceneProps) {
 
   return (
     <div ref={root}>
-      <Screen label="WhatsApp + sistema da empresa" captions={captions}>
+      <Screen label="WhatsApp + sistema da empresa" captions={captions} tall>
         <div className="grid h-full grid-rows-[1fr_auto] gap-3 p-3 sm:grid-cols-[1fr_1.1fr] sm:grid-rows-1 sm:gap-5 sm:p-5">
           <div className="flex flex-col gap-2.5 rounded-xl bg-bg p-3 text-xs leading-snug md:p-4 md:text-sm">
             <div className="flex items-center justify-between">
@@ -107,7 +107,7 @@ export function IaScene(props: SceneProps) {
             {orders.map((o, i) => (
               <div
                 key={o.id}
-                className={`justify-between rounded-md bg-white px-3 py-2 text-xs md:text-sm ${i === 2 ? "hidden sm:flex" : "flex"}`}
+                className={`justify-between rounded-md bg-white px-3 py-2 text-xs md:text-sm ${i === 2 ? "hidden sm:flex" : i === 1 ? "flex max-[380px]:hidden" : "flex"}`}
               >
                 <span>
                   {o.id} · {o.item}

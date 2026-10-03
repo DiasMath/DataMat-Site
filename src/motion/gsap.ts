@@ -20,6 +20,10 @@ gsap.registerPlugin(
 );
 gsap.defaults({ duration: motion.duration.base, ease: motion.ease.out });
 
+// No celular, a barra de endereço aparece/some durante o scroll e muda a
+// altura da tela; sem isso, as seções presas (pin) recalculam e "pulam".
+ScrollTrigger.config({ ignoreMobileResize: true });
+
 // Build de testes: toda animação GSAP termina na hora (prints estáveis).
 if (motionDisabled) gsap.globalTimeline.timeScale(1000);
 

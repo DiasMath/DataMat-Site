@@ -3,6 +3,7 @@ import { ArrowUp, ArrowUpRight } from "lucide-react";
 import { menuSolutions } from "../content/navigation";
 import { ContactButton } from "./Header";
 import { DatamatSymbol } from "./DatamatSymbol";
+import { scrollToTop } from "../motion/scroll";
 
 const company = [
   { label: "Sobre", to: "/sobre" },
@@ -81,7 +82,7 @@ export function Footer() {
           <span>© 2026 DATAMAT · Inteligência para negócios</span>
           <button
             type="button"
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            onClick={scrollToTop}
             className="inline-flex items-center gap-2 transition hover:text-amber"
           >
             Voltar ao topo <ArrowUp size={15} aria-hidden="true" />
@@ -89,12 +90,10 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Palavra gigante, cortada na base, entrando letra por letra */}
+      {/* Palavra gigante, cortada ao meio na base */}
       <p
         aria-hidden="true"
         className="pointer-events-none -mb-[0.48em] flex justify-center px-2 text-[19.5vw] leading-none font-bold tracking-tighter text-white/[0.06] select-none"
-        data-reveal
-        data-stagger="0.06"
       >
         {"DATAMAT".split("").map((letter, i) => (
           <span key={i}>{letter}</span>
