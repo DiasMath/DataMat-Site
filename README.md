@@ -97,3 +97,21 @@ Copie `.env.example` para `.env.local` (não vai para o Git):
   mesmos cabeçalhos precisam ser configurados no formato dela.
 - Se mudar o `<script>` embutido do `index.html`, o hash é refeito sozinho
   no build.
+
+## Publicação na Vercel
+
+O site é publicado pela Vercel a cada `git push` na branch `main`
+(configuração em `vercel.json`: build `npm run build`, saída `dist`,
+cabeçalhos de segurança e cache).
+
+Variáveis de ambiente (Project → Settings → Environment Variables), as
+mesmas do `.env.example`:
+
+- `VITE_WHATSAPP_NUMBER` (obrigatória): número que recebe os contatos.
+- `SITE_URL`: domínio oficial (vazio = domínio de produção da Vercel).
+- `PERMITIR_INDEXACAO`: `true` libera o Google. Deploys de preview nunca
+  são indexados.
+- `VITE_FIREBASE_PROJECT_ID` e `VITE_FIREBASE_API_KEY` (opcionais).
+
+Depois de mudar uma variável, faça um novo deploy (Deployments → Redeploy).
+No computador, as mesmas variáveis ficam em `.env.local`.

@@ -121,7 +121,7 @@ writeFileSync(
   join(root, "robots.txt"),
   PERMITIR_INDEXACAO
     ? `User-agent: *\nAllow: /\n\nSitemap: ${SITE_URL}/sitemap.xml\n`
-    : `# Indexação desligada em site.config.mjs (PERMITIR_INDEXACAO = false)\nUser-agent: *\nDisallow: /\n`,
+    : `# Indexação desligada (variável PERMITIR_INDEXACAO diferente de true ou deploy de preview)\nUser-agent: *\nDisallow: /\n`,
 );
 
 const today = new Date().toISOString().slice(0, 10);
@@ -150,6 +150,18 @@ if (inline) {
       `sha256-${hash}`,
     ),
   );
+}
+
+// Na Vercel os cabeçalhos ficam em vercel.json (fixos no repositório):
+// avisa se o script embutido mudou e o hash de lá ficou desatualizado.
+try {
+  const vercel = readFileSync("vercel.json", "utf8");
+  if (!vercel.includes(`sha256-${hash}`))
+    console.warn(
+      `⚠ vercel.json: atualize o hash do script na Content-Security-Policy para 'sha256-${hash}'`,
+    );
+} catch {
+  // sem vercel.json: nada a verificar
 }
 
 rmSync("dist-ssr", { recursive: true, force: true });
