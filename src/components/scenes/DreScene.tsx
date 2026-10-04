@@ -32,7 +32,9 @@ const upTo = (d12: number, day: number) => Math.round((d12 / 12) * day);
 /** Posição horizontal (centro, em %) de cada etapa no fluxo. */
 const X = { erp: 9, excel: 33, gpt: 57, planilha: 81, datamat: 45 };
 /** Altura da mini-tela de cada etapa (19% da largura do fluxo, proporção 3:2). */
-const TILE_H = "min(12.67cqw,4rem)";
+// Usa a variável --tile-h (definida no bloco do fluxo, com alternativa para
+// navegadores sem unidades de container).
+const TILE_H = "var(--tile-h)";
 
 const captions = [
   "Antes: todo mês, alguém exportava do ERP e montava o DRE à mão.",
@@ -285,7 +287,7 @@ export function DreScene(props: SceneProps) {
       >
         <div className="flex h-full flex-col gap-2 p-3 md:gap-3 md:p-5">
           {/* Fluxo de trabalho (visual) */}
-          <div className="@container relative h-[30%] shrink-0">
+          <div className="@container relative h-[30%] shrink-0 [--tile-h:3.2rem] supports-[width:1cqw]:[--tile-h:min(12.67cqw,4rem)]">
             <span className="manual-tag absolute top-0 right-0 rounded bg-white/10 px-1.5 py-0.5 text-[9px] text-text-muted md:text-[10px]">
               manual · todo fim de mês
             </span>
@@ -416,7 +418,7 @@ export function DreScene(props: SceneProps) {
               </span>
             </span>
             <div className="dre-table h-full overflow-hidden rounded-lg bg-cream text-graphite">
-              <div className="grid h-full grid-cols-[1.7fr_repeat(4,1fr)] content-stretch text-[10px] md:text-xs">
+              <div className="grid h-full grid-cols-[minmax(0,1.7fr)_repeat(4,minmax(0,1fr))] content-stretch text-[10px] md:text-xs">
                 <span className="border-b border-graphite/15 px-2 py-1.5 font-semibold text-graphite/60">
                   DRE (R$ mil)
                 </span>
@@ -434,7 +436,7 @@ export function DreScene(props: SceneProps) {
                 {rows.map((r) => (
                   <div
                     key={r.label}
-                    className={`col-span-5 grid grid-cols-subgrid items-center ${r.label === "Resultado" ? "result-row rounded-sm" : ""} ${r.total ? "font-semibold" : ""}`}
+                    className={`col-span-5 grid grid-cols-[minmax(0,1.7fr)_repeat(4,minmax(0,1fr))] items-center ${r.label === "Resultado" ? "result-row rounded-sm" : ""} ${r.total ? "font-semibold" : ""}`}
                   >
                     <span className="px-2 py-1">{r.label}</span>
                     {r.values.map((v, k) => (

@@ -172,7 +172,7 @@ function Layer({
   const text = amber ? "text-graphite" : "text-cream";
   const Heading = amber ? "p" : "h2";
   return (
-    <div className="relative mx-auto grid min-h-svh w-full max-w-screen-2xl content-center items-center gap-6 px-5 pt-20 pb-6 md:px-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12 lg:py-16">
+    <div className="relative mx-auto grid min-h-lvh w-full max-w-screen-2xl content-center items-center gap-6 px-5 pt-20 pb-6 md:px-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12 lg:py-16">
       <div className="relative z-10" data-reveal={amber ? undefined : ""}>
         <p
           className={`text-xs font-semibold tracking-widest ${amber ? "text-graphite" : "text-amber"}`}
