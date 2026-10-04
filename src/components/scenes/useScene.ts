@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap, useGSAP } from "../../motion/gsap";
 import { motionDisabled } from "../../motion/tokens";
 
@@ -34,8 +34,29 @@ export function useScene(
     progress.current = onProgress;
   });
 
+  // Desempenho: a timeline só é montada quando a cena chega perto da tela
+  // (400 px antes). Assim a home não monta todas as cenas no carregamento.
+  const [armed, setArmed] = useState(motionDisabled);
+  useEffect(() => {
+    if (armed) return;
+    const el = root.current;
+    if (!el || typeof IntersectionObserver === "undefined") {
+      setArmed(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setArmed(true);
+      },
+      { rootMargin: "400px 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [armed]);
+
   useGSAP(
     () => {
+      if (!armed) return;
       const q = gsap.utils.selector(root);
       const bar = q(".scene-progress")[0] as HTMLElement | undefined;
       const timeline = gsap.timeline({
@@ -69,8 +90,9 @@ export function useScene(
       if (rest > 0) timeline.to({}, { duration: rest });
       tl.current = timeline;
       if (motionDisabled) timeline.progress(1, true).pause();
+      else if (playing) timeline.play();
     },
-    { scope: root },
+    { scope: root, dependencies: [armed] },
   );
 
   useEffect(() => {

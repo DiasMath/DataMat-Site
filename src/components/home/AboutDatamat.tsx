@@ -15,7 +15,7 @@ export function AboutDatamat() {
       <div className="mx-auto max-w-screen-2xl px-5 md:px-8">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:gap-20">
           <div data-reveal>
-            <p className="flex items-center gap-3 text-xs font-semibold tracking-widest text-graphite/60">
+            <p className="flex items-center gap-3 text-xs font-semibold tracking-widest text-graphite/75">
               <span
                 aria-hidden="true"
                 className={`h-0.5 bg-amber transition-all duration-700 ease-brand-out ${on ? "w-8" : "w-0"}`}
@@ -62,7 +62,7 @@ export function AboutDatamat() {
         </div>
 
         <div className="mt-16 md:mt-24">
-          <p className="flex items-center gap-3 text-xs font-semibold tracking-widest text-graphite/60">
+          <p className="flex items-center gap-3 text-xs font-semibold tracking-widest text-graphite/75">
             <span
               aria-hidden="true"
               className="size-1.5 rounded-full bg-amber"

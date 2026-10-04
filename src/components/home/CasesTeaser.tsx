@@ -41,7 +41,8 @@ export function CasesTeaser() {
         <Link
           ref={ref}
           to="/cases"
-          aria-label="Abrir os cases"
+          aria-label="Ver case: DRE automatizado da Loja Juntos.com"
+          data-cases-card
           className="group block rounded-3xl border border-white/10 bg-graphite/40 p-4 transition duration-300 hover:-translate-y-1.5 hover:border-amber/50 md:p-6"
         >
           <div className="mb-4 flex items-center justify-between">
