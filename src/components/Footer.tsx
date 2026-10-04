@@ -37,7 +37,7 @@ export function Footer() {
   return (
     <footer className="relative overflow-hidden border-t border-white/10 bg-bg-hero text-cream">
       <div className="mx-auto max-w-screen-2xl px-5 pt-20 md:px-8 md:pt-28">
-        <div className="grid gap-14 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)]">
+        <div className="grid gap-14 xl:grid-cols-[minmax(0,4fr)_minmax(0,8fr)]">
           <div>
             <DatamatSymbol className="h-14 w-auto text-amber" />
             <p className="mt-8 max-w-xl text-4xl leading-[1.08] font-semibold tracking-tight md:text-5xl">
@@ -120,7 +120,7 @@ export function Footer() {
                     <li>
                       <a
                         href={`mailto:${contact.email}`}
-                        className={`${linkClass} break-all`}
+                        className={`${linkClass} [overflow-wrap:anywhere]`}
                       >
                         <Mail
                           size={16}

@@ -16,8 +16,8 @@ export function CasesTeaser() {
 
   return (
     <section className="bg-bg-hero py-20 md:py-28">
-      <div className="mx-auto grid max-w-screen-2xl grid-cols-[minmax(0,1fr)] items-center gap-12 px-5 md:px-8 lg:grid-cols-[minmax(0,8fr)_minmax(0,4fr)] lg:gap-14">
-        <div data-reveal className="lg:order-2">
+      <div className="mx-auto grid max-w-screen-2xl grid-cols-[minmax(0,1fr)] items-center gap-12 px-5 md:px-8 xl:grid-cols-[minmax(0,8fr)_minmax(0,4fr)] xl:gap-14">
+        <div data-reveal className="xl:order-2">
           <p className="text-xs font-semibold tracking-widest text-amber">
             {casesTeaser.eyebrow}
           </p>

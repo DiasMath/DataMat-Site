@@ -28,9 +28,9 @@ export function Faq() {
     <section
       ref={ref}
       id="perguntas"
-      className="bg-cream py-20 text-graphite md:py-28"
+      className="flex min-h-svh items-center bg-cream py-20 text-graphite md:py-28"
     >
-      <div className="mx-auto grid max-w-screen-2xl gap-10 px-5 md:px-8 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-16">
+      <div className="mx-auto grid w-full max-w-screen-2xl gap-10 px-5 md:px-8 xl:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] xl:gap-16">
         <div data-reveal>
           <p className="flex items-center gap-3 text-xs font-semibold tracking-widest text-graphite/75">
             <span
@@ -47,7 +47,7 @@ export function Faq() {
               o que costumam perguntar.
             </span>
           </h2>
-          <p className="mt-5 max-w-sm text-lg text-graphite/70">
+          <p className="mt-5 max-w-md text-lg text-graphite/70">
             Ficou alguma dúvida? Pergunte direto pelo WhatsApp.
           </p>
           <ContactAction

@@ -1,18 +1,16 @@
 /**
- * Contatos oficiais exibidos no rodapé. Preencha o que existir; o que
- * ficar vazio não aparece no site. O WhatsApp vem da variável
- * VITE_WHATSAPP_NUMBER (veja .env.example).
+ * Contatos oficiais exibidos no rodapé. Os valores vêm das variáveis de
+ * ambiente (.env.local no computador; Environment Variables na Vercel).
+ * O que estiver vazio não aparece no site.
  */
+const env = import.meta.env;
+const clean = (v: string | undefined) => (v ?? "").trim();
+
 export const contact = {
-  /** ex.: "contato@datamat.com.br" */
-  email: "",
-  /** ex.: "Rio de Janeiro, RJ" (o mesmo do Perfil da Empresa no Google) */
-  city: "",
-  /** ex.: "00.000.000/0001-00" */
-  cnpj: "",
-  /** razão social, ex.: "DATAMAT Inteligência de Dados LTDA" */
-  legalName: "",
-  /** links completos das redes, ex.: "https://www.instagram.com/datamat" */
-  instagram: "",
-  linkedin: "",
+  email: clean(env.VITE_CONTACT_EMAIL),
+  city: clean(env.VITE_CONTACT_CITY),
+  cnpj: clean(env.VITE_CONTACT_CNPJ),
+  legalName: clean(env.VITE_CONTACT_LEGAL_NAME),
+  instagram: clean(env.VITE_INSTAGRAM_URL),
+  linkedin: clean(env.VITE_LINKEDIN_URL),
 };

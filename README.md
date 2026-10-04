@@ -111,6 +111,12 @@ mesmas do `.env.example`:
 - `SITE_URL`: domínio oficial (vazio = domínio de produção da Vercel).
 - `PERMITIR_INDEXACAO`: `true` libera o Google. Deploys de preview nunca
   são indexados.
+- `VITE_CONTACT_EMAIL`, `VITE_CONTACT_CITY`, `VITE_COMPANY_LEGAL_NAME`,
+  `VITE_COMPANY_CNPJ`, `VITE_INSTAGRAM_URL`, `VITE_LINKEDIN_URL`: contatos
+  do rodapé (o que ficar vazio não aparece).
+- `VITE_CONTACT_EMAIL`, `VITE_CONTACT_CITY`, `VITE_CONTACT_LEGAL_NAME`,
+  `VITE_CONTACT_CNPJ`, `VITE_INSTAGRAM_URL`, `VITE_LINKEDIN_URL`: contatos
+  do rodapé (vazios não aparecem).
 - `VITE_FIREBASE_PROJECT_ID` e `VITE_FIREBASE_API_KEY` (opcionais).
 
 Depois de mudar uma variável, faça um novo deploy (Deployments → Redeploy).

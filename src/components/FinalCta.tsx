@@ -181,7 +181,7 @@ function Layer({
         </p>
         <Heading
           id={amber ? undefined : "cta-titulo"}
-          className={`mt-4 text-4xl leading-[1.04] font-semibold tracking-tight [@media(max-height:700px)]:text-3xl sm:text-5xl md:text-7xl lg:mt-5 [@media(max-height:820px)]:md:text-6xl ${text}`}
+          className={`mt-4 text-4xl leading-[1.04] font-semibold tracking-tight [@media(max-height:700px)]:text-3xl sm:text-5xl md:text-6xl xl:text-7xl lg:mt-5 [@media(max-height:820px)]:md:text-6xl ${text}`}
         >
           {title}
         </Heading>
