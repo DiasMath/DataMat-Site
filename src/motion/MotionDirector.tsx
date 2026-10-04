@@ -25,12 +25,15 @@ export function MotionDirector() {
         new URLSearchParams(window.location.search).has("markers"),
     });
     if (motionDisabled) return;
+    // Celular/tablet (toque): sem ScrollSmoother. O scroll nativo é mais
+    // natural e as seções presas (pin) ficam firmes; com o ScrollSmoother
+    // ativo no toque, elas "tremiam" e pareciam ir e voltar durante o scroll.
+    if (window.matchMedia("(pointer: coarse)").matches) return;
     const smoother = ScrollSmoother.create({
       wrapper: "#smooth-wrapper",
       content: "#smooth-content",
       smooth: 1.05,
       effects: false,
-      // No toque, o scroll nativo do celular é mais natural que o suavizado.
       smoothTouch: false,
     });
     return () => smoother.kill();

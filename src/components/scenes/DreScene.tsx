@@ -284,6 +284,7 @@ export function DreScene(props: SceneProps) {
       <Screen
         label="DRE · Loja Juntos.com (valores ilustrativos)"
         captions={captions}
+        tall
       >
         <div className="flex h-full flex-col gap-2 p-3 md:gap-3 md:p-5">
           {/* Fluxo de trabalho (visual) */}
@@ -295,9 +296,9 @@ export function DreScene(props: SceneProps) {
               automático · todo dia, 07:00
             </span>
 
-            {/* Trilho na altura do centro das mini-telas: linhas, arquivo e dados passam aqui */}
+            {/* Trilho de baixo (atrás das mini-telas): as linhas que ligam as etapas */}
             <div
-              className="absolute inset-x-0 top-5 z-30"
+              className="absolute inset-x-0 top-5"
               style={{ height: TILE_H }}
             >
               {[0, 1, 2].map((i) => (
@@ -317,6 +318,13 @@ export function DreScene(props: SceneProps) {
                   width: `${X.datamat - X.erp - 12}%`,
                 }}
               />
+            </div>
+
+            {/* Trilho de cima (na frente das mini-telas): o arquivo e os dados */}
+            <div
+              className="absolute inset-x-0 top-5 z-30"
+              style={{ height: TILE_H }}
+            >
               {/* arquivo Excel passando de etapa em etapa */}
               <span className="token absolute top-1/2 flex -translate-1/2 items-center gap-1 rounded-md bg-excel px-1.5 py-1 text-[9px] font-semibold text-white opacity-0 shadow-lg ring-1 shadow-black/50 ring-white/30 md:text-[10px]">
                 <FileSpreadsheet size={11} aria-hidden="true" /> fechamento.xlsx
