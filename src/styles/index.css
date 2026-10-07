@@ -36,8 +36,6 @@
 @import "./pages/ia-automacao.css" layer(legacy);
 @import "./pages/marca-growth.css" layer(legacy);
 @import "./pages/sites.css" layer(legacy);
-@import "./pages/sobre.css" layer(legacy);
-@import "./pages/contato.css" layer(legacy);
 @import "./acessibilidade.css" layer(legacy);
 
 @import "tailwindcss/utilities.css" layer(utilities);

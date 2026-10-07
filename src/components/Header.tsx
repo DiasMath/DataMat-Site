@@ -4,6 +4,7 @@ import { ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
 import logo from "../assets/brand/datamat-horizontal.svg";
 import { menuLinks, menuSolutions } from "../content/navigation";
 import { ContactAction } from "./contact";
+import { contact } from "../content/contact";
 import { scrollToTop } from "../motion/scroll";
 
 /** Botão principal de contato: pílula âmbar com seta que gira no hover. */
@@ -206,6 +207,17 @@ export function Header() {
             </NavLink>
           ))}
 
+          {contact.portal && (
+            <a
+              href={contact.portal}
+              target="_blank"
+              rel="noreferrer"
+              className="text-sm font-medium text-cream/80 transition-colors hover:text-amber"
+            >
+              Área do cliente
+            </a>
+          )}
+
           <ContactButton className="ml-2" />
         </nav>
 
@@ -300,6 +312,16 @@ export function Header() {
                 </li>
               ))}
             </ul>
+            {contact.portal && (
+              <a
+                href={contact.portal}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-2 block py-3 text-lg font-semibold text-cream"
+              >
+                Área do cliente
+              </a>
+            )}
             <ContactButton className="mt-6" />
           </nav>
         </div>

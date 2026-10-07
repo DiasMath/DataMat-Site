@@ -6,7 +6,7 @@ import {
   Instagram,
   Linkedin,
   Mail,
-  MapPin,
+  Clock,
   Phone,
 } from "lucide-react";
 import { contact } from "../content/contact";
@@ -62,7 +62,7 @@ const social = [
  */
 export function Footer() {
   const hasDirect = Boolean(
-    whatsappDisplay || contact.email || contact.city || contact.cnpj,
+    whatsappDisplay || contact.email || contact.hours || contact.cnpj,
   );
   return (
     <footer className="relative overflow-hidden border-t border-white/10 bg-bg-hero text-cream">
@@ -112,6 +112,19 @@ export function Footer() {
                     </Link>
                   </li>
                 ))}
+                {contact.portal && (
+                  <li>
+                    <a
+                      href={contact.portal}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={linkClass}
+                    >
+                      Área do cliente
+                      <ArrowUpRight size={14} aria-hidden="true" />
+                    </a>
+                  </li>
+                )}
               </ul>
             </div>
             <div>
@@ -175,14 +188,14 @@ export function Footer() {
                       </a>
                     </li>
                   )}
-                  {contact.city && (
+                  {contact.hours && (
                     <li className="flex items-center gap-1.5 text-cream/80">
-                      <MapPin
+                      <Clock
                         size={15}
                         aria-hidden="true"
-                        className="text-amber"
+                        className="shrink-0 text-amber"
                       />
-                      {contact.city}
+                      {contact.hours}
                     </li>
                   )}
                   {contact.cnpj && (
