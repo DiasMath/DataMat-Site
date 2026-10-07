@@ -53,17 +53,16 @@ const social = [
 ].filter((s) => s.href);
 
 /**
- * Rodapé grande: à esquerda a frase da marca e o botão de contato; à direita
- * os contatos diretos em tamanho de leitura (telefone e e-mail inteiros,
- * clicáveis); embaixo a navegação e, na base, a palavra DATAMAT cortada.
+ * Rodapé grande: frase da marca e botão de contato; colunas de Soluções,
+ * Empresa, Legal e Contato (número e e-mail inteiros, redes em ícones); na
+ * base, a palavra DATAMAT cortada.
  */
 export function Footer() {
   const hasDirect = Boolean(whatsappDisplay || contact.email || contact.city);
   return (
     <footer className="relative overflow-hidden border-t border-white/10 bg-bg-hero text-cream">
       <div className="mx-auto max-w-screen-2xl px-5 pt-20 md:px-8 md:pt-28">
-        {/* Topo: marca + contato direto */}
-        <div className="grid gap-14 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-20">
+        <div className="grid gap-14 xl:grid-cols-[minmax(0,4fr)_minmax(0,8fr)]">
           <div>
             <DatamatSymbol className="h-14 w-auto text-amber" />
             <p className="mt-8 max-w-xl text-4xl leading-[1.08] font-semibold tracking-tight md:text-5xl">
@@ -73,138 +72,127 @@ export function Footer() {
             <ContactButton className="mt-10" />
           </div>
 
-          {(hasDirect || social.length > 0) && (
-            <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 md:p-8">
-              <h2 className="flex items-center gap-3 text-xs font-semibold tracking-widest text-amber">
-                <span aria-hidden="true" className="h-0.5 w-8 bg-amber" />
-                FALE DIRETO
+          <nav
+            aria-label="Rodapé"
+            className="grid grid-cols-2 gap-x-8 gap-y-10 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_auto]"
+          >
+            <div>
+              <h2 className="text-xs font-semibold tracking-widest text-amber">
+                SOLUÇÕES
               </h2>
-              <dl className="mt-6 grid gap-5">
-                {whatsappDisplay && (
-                  <div>
-                    <dt className="text-xs text-text-muted">WhatsApp</dt>
-                    <dd>
+              <ul className="mt-5 space-y-3">
+                {menuSolutions.map((s) => (
+                  <li key={s.path}>
+                    <Link to={s.path} className={linkClass}>
+                      {s.title}
+                      <ArrowUpRight
+                        size={14}
+                        aria-hidden="true"
+                        className="opacity-0 transition group-hover:opacity-100"
+                      />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h2 className="text-xs font-semibold tracking-widest text-amber">
+                EMPRESA
+              </h2>
+              <ul className="mt-5 space-y-3">
+                {company.map((l) => (
+                  <li key={l.to}>
+                    <Link to={l.to} className={linkClass}>
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h2 className="text-xs font-semibold tracking-widest text-amber">
+                LEGAL
+              </h2>
+              <ul className="mt-5 space-y-3">
+                <li>
+                  <Link to="/privacidade" className={linkClass}>
+                    Privacidade e LGPD
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/privacidade#direitos" className={linkClass}>
+                    Seus direitos
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/privacidade#seguranca" className={linkClass}>
+                    Segurança dos dados
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {(hasDirect || social.length > 0) && (
+              <div className="col-span-2 md:col-span-1">
+                <h2 className="text-xs font-semibold tracking-widest text-amber">
+                  CONTATO
+                </h2>
+                <ul className="mt-5 space-y-3">
+                  {whatsappDisplay && (
+                    <li>
                       <a
                         href={whatsappUrl}
                         target="_blank"
                         rel="noreferrer"
-                        className="text-xl font-semibold whitespace-nowrap tabular-nums transition hover:text-amber md:text-2xl"
+                        className={`${linkClass} whitespace-nowrap tabular-nums`}
                       >
                         {whatsappDisplay}
                       </a>
-                    </dd>
-                  </div>
-                )}
-                {contact.email && (
-                  <div>
-                    <dt className="text-xs text-text-muted">E-mail</dt>
-                    <dd>
+                    </li>
+                  )}
+                  {contact.email && (
+                    <li>
                       <a
                         href={`mailto:${contact.email}`}
-                        className="text-xl font-semibold [overflow-wrap:anywhere] transition hover:text-amber md:text-2xl"
+                        className={`${linkClass} [overflow-wrap:anywhere] md:whitespace-nowrap`}
                       >
                         {contact.email}
                       </a>
-                    </dd>
-                  </div>
-                )}
-                {contact.city && (
-                  <div>
-                    <dt className="text-xs text-text-muted">Onde estamos</dt>
-                    <dd className="mt-0.5 inline-flex items-center gap-1.5 text-cream/85">
+                    </li>
+                  )}
+                  {contact.city && (
+                    <li className="inline-flex items-center gap-1.5 text-cream/80">
                       <MapPin
-                        size={16}
+                        size={15}
                         aria-hidden="true"
                         className="text-amber"
                       />
                       {contact.city}
-                    </dd>
+                    </li>
+                  )}
+                </ul>
+                {social.length > 0 && (
+                  <div className="mt-5 flex gap-2">
+                    {social.map((s) => (
+                      <a
+                        key={s.label}
+                        href={s.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={s.label}
+                        className="flex size-10 items-center justify-center rounded-full border border-white/15 transition hover:-translate-y-0.5 hover:border-amber hover:bg-amber hover:text-graphite"
+                      >
+                        {s.icon}
+                      </a>
+                    ))}
                   </div>
                 )}
-              </dl>
-              {social.length > 0 && (
-                <div className="mt-6 flex gap-2 border-t border-white/10 pt-6">
-                  {social.map((s) => (
-                    <a
-                      key={s.label}
-                      href={s.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label={s.label}
-                      className="flex size-11 items-center justify-center rounded-full border border-white/15 transition hover:-translate-y-0.5 hover:border-amber hover:bg-amber hover:text-graphite"
-                    >
-                      {s.icon}
-                    </a>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
+              </div>
+            )}
+          </nav>
         </div>
 
-        {/* Navegação */}
-        <nav
-          aria-label="Rodapé"
-          className="mt-16 grid grid-cols-2 gap-10 border-t border-white/10 pt-12 sm:grid-cols-[repeat(3,minmax(0,14rem))] md:mt-20"
-        >
-          <div>
-            <h2 className="text-xs font-semibold tracking-widest text-amber">
-              SOLUÇÕES
-            </h2>
-            <ul className="mt-5 space-y-3">
-              {menuSolutions.map((s) => (
-                <li key={s.path}>
-                  <Link to={s.path} className={linkClass}>
-                    {s.title}
-                    <ArrowUpRight
-                      size={14}
-                      aria-hidden="true"
-                      className="opacity-0 transition group-hover:opacity-100"
-                    />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h2 className="text-xs font-semibold tracking-widest text-amber">
-              EMPRESA
-            </h2>
-            <ul className="mt-5 space-y-3">
-              {company.map((l) => (
-                <li key={l.to}>
-                  <Link to={l.to} className={linkClass}>
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h2 className="text-xs font-semibold tracking-widest text-amber">
-              LEGAL
-            </h2>
-            <ul className="mt-5 space-y-3">
-              <li>
-                <Link to="/privacidade" className={linkClass}>
-                  Privacidade e LGPD
-                </Link>
-              </li>
-              <li>
-                <Link to="/privacidade#direitos" className={linkClass}>
-                  Seus direitos
-                </Link>
-              </li>
-              <li>
-                <Link to="/privacidade#seguranca" className={linkClass}>
-                  Segurança dos dados
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </nav>
-
-        <div className="mt-16 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 py-6 text-sm text-text-muted">
+        <div className="mt-20 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 py-6 text-sm text-text-muted">
           <span>
             © 2026 {contact.legalName || "DATAMAT"}
             {contact.cnpj && ` · CNPJ ${contact.cnpj}`} · Inteligência para
