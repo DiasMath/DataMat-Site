@@ -2,9 +2,12 @@ import { Link } from "react-router-dom";
 import {
   ArrowUp,
   ArrowUpRight,
+  Building2,
   Instagram,
   Linkedin,
+  Mail,
   MapPin,
+  Phone,
 } from "lucide-react";
 import { contact } from "../content/contact";
 import { whatsappDisplay, whatsappUrl } from "../data/site";
@@ -58,7 +61,9 @@ const social = [
  * base, a palavra DATAMAT cortada.
  */
 export function Footer() {
-  const hasDirect = Boolean(whatsappDisplay || contact.email || contact.city);
+  const hasDirect = Boolean(
+    whatsappDisplay || contact.email || contact.city || contact.cnpj,
+  );
   return (
     <footer className="relative overflow-hidden border-t border-white/10 bg-bg-hero text-cream">
       <div className="mx-auto max-w-screen-2xl px-5 pt-20 md:px-8 md:pt-28">
@@ -144,8 +149,13 @@ export function Footer() {
                         href={whatsappUrl}
                         target="_blank"
                         rel="noreferrer"
-                        className={`${linkClass} whitespace-nowrap tabular-nums`}
+                        className={`${linkClass} gap-1.5 whitespace-nowrap tabular-nums`}
                       >
+                        <Phone
+                          size={15}
+                          aria-hidden="true"
+                          className="shrink-0 text-amber"
+                        />
                         {whatsappDisplay}
                       </a>
                     </li>
@@ -154,20 +164,35 @@ export function Footer() {
                     <li>
                       <a
                         href={`mailto:${contact.email}`}
-                        className={`${linkClass} [overflow-wrap:anywhere] md:whitespace-nowrap`}
+                        className={`${linkClass} gap-1.5 [overflow-wrap:anywhere] md:whitespace-nowrap`}
                       >
+                        <Mail
+                          size={15}
+                          aria-hidden="true"
+                          className="shrink-0 text-amber"
+                        />
                         {contact.email}
                       </a>
                     </li>
                   )}
                   {contact.city && (
-                    <li className="inline-flex items-center gap-1.5 text-cream/80">
+                    <li className="flex items-center gap-1.5 text-cream/80">
                       <MapPin
                         size={15}
                         aria-hidden="true"
                         className="text-amber"
                       />
                       {contact.city}
+                    </li>
+                  )}
+                  {contact.cnpj && (
+                    <li className="flex items-center gap-1.5 text-cream/80 tabular-nums">
+                      <Building2
+                        size={15}
+                        aria-hidden="true"
+                        className="shrink-0 text-amber"
+                      />
+                      CNPJ {contact.cnpj}
                     </li>
                   )}
                 </ul>
