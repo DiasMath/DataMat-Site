@@ -137,7 +137,7 @@ function CaseBlock({ item, index }: { item: ClientCase; index: number }) {
 export function CasesPage() {
   return (
     <>
-      <section className="bg-bg-hero pt-36 pb-16 md:pt-44">
+      <section className="bg-bg-hero pt-16 pb-16 md:pt-24">
         <div className="mx-auto max-w-screen-2xl px-5 md:px-8">
           <p className="text-xs font-semibold tracking-widest text-amber">
             CASES

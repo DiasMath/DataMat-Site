@@ -13,7 +13,7 @@ import {
   type ContactLead,
 } from "../lib/contact";
 
-type Status = "idle" | "sending" | "sent" | "error";
+type Status = "idle" | "sending" | "sent" | "error" | "offline";
 
 /** O que acontece depois do contato (o mesmo que o FAQ promete). */
 const steps = [
@@ -101,6 +101,12 @@ export function ContactPage() {
       return;
     }
 
+    // Envio online ainda não conectado (Firebase): não finge que enviou.
+    if (!contactConfigured) {
+      setStatus("offline");
+      return;
+    }
+
     const lead: ContactLead = {
       nome: text("nome"),
       empresa: text("empresa"),
@@ -125,7 +131,7 @@ export function ContactPage() {
   const sending = status === "sending";
 
   return (
-    <section className="bg-bg-hero pt-32 pb-20 md:pt-40 md:pb-28">
+    <section className="bg-bg-hero pt-12 pb-20 md:pt-16 md:pb-28">
       <div className="mx-auto grid max-w-screen-2xl grid-cols-[minmax(0,1fr)] gap-12 px-5 md:px-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
         {/* Canais e o que acontece depois */}
         <div>
@@ -230,7 +236,7 @@ export function ContactPage() {
                 </ContactAction>
               )}
             </div>
-          ) : contactConfigured ? (
+          ) : (
             <form onSubmit={handleSubmit} className="grid gap-5">
               <div>
                 <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
@@ -354,6 +360,18 @@ export function ContactPage() {
                   <ArrowUpRight size={17} aria-hidden="true" />
                 </span>
               </button>
+              {status === "offline" && (
+                <p
+                  className="form-status rounded-xl bg-amber/20 p-4 text-sm"
+                  role="status"
+                >
+                  O envio online ainda não está conectado, então seus dados não
+                  foram enviados.
+                  {whatsappUrl
+                    ? " Fale com a gente pelo WhatsApp, ao lado."
+                    : " Escreva para o nosso e-mail, ao lado."}
+                </p>
+              )}
               {status === "error" && (
                 <p
                   className="rounded-xl bg-negative/10 p-4 text-sm text-negative"
@@ -367,34 +385,6 @@ export function ContactPage() {
                 </p>
               )}
             </form>
-          ) : (
-            /* Sem formulário conectado: nada de campos que não enviam. */
-            <div className="flex h-full flex-col justify-center py-6">
-              <h2 className="text-3xl font-semibold tracking-tight">
-                Uma mensagem já é suficiente.
-              </h2>
-              <p className="mt-3 max-w-md text-lg text-graphite/75">
-                Diga em poucas linhas o que está travando a sua empresa. Se
-                ajudar, comece por um destes assuntos:
-              </p>
-              <ul className="mt-6 grid gap-2">
-                {solutions.map((s) => (
-                  <li key={s.key}>
-                    <ContactAction
-                      message={`Olá! Vim pelo site da DATAMAT e quero conversar sobre ${s.title}.`}
-                      className="group flex items-center justify-between gap-3 rounded-2xl border border-graphite/15 bg-white px-5 py-4 font-semibold transition hover:border-amber hover:bg-amber/15"
-                    >
-                      {s.title}
-                      <ArrowUpRight
-                        size={18}
-                        aria-hidden="true"
-                        className="text-graphite/50 transition group-hover:text-graphite"
-                      />
-                    </ContactAction>
-                  </li>
-                ))}
-              </ul>
-            </div>
           )}
         </div>
       </div>

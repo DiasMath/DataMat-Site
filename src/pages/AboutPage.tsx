@@ -1,10 +1,29 @@
 import { Link } from "react-router-dom";
-import { ArrowUpRight } from "lucide-react";
-import { about, people, principles } from "../content/about";
+import { ArrowUpRight, BarChart3, Globe, Layers } from "lucide-react";
+import { people, principles } from "../content/about";
 import { clients } from "../content/clients";
 import { menuSolutions } from "../content/navigation";
 import { CTA } from "../components/FinalCta";
 import { DatamatSymbol } from "../components/DatamatSymbol";
+
+/** Três fatos curtos ao lado do título. */
+const facts = [
+  {
+    icon: BarChart3,
+    title: "Começamos pelos dados",
+    text: "Antes de propor, entendemos os números e a rotina.",
+  },
+  {
+    icon: Layers,
+    title: "Quatro frentes, um contato",
+    text: "Dados, automação, marca e sites conversando entre si.",
+  },
+  {
+    icon: Globe,
+    title: "Atendimento online",
+    text: "Para empresas de todo o Brasil.",
+  },
+];
 
 /** Como é trabalhar com a DATAMAT (mesmas promessas do FAQ e do Contato). */
 const howWeWork = [
@@ -30,53 +49,80 @@ export function AboutPage() {
   return (
     <>
       {/* Abertura */}
-      <section className="relative overflow-hidden bg-bg-hero pt-36 pb-20 md:pt-44 md:pb-28">
+      <section className="relative overflow-hidden bg-bg-hero pt-16 pb-20 md:pt-24 md:pb-28">
         <DatamatSymbol className="pointer-events-none absolute -right-16 bottom-0 w-[42vw] max-w-xl text-white/[0.03] md:-right-8" />
-        <div className="relative mx-auto max-w-screen-2xl px-5 md:px-8">
-          <p className="flex items-center gap-3 text-xs font-semibold tracking-widest text-amber">
-            <span aria-hidden="true" className="h-0.5 w-8 bg-amber" />
-            SOBRE A DATAMAT
-          </p>
-          <h1
-            className="mt-5 max-w-4xl text-5xl leading-[1.02] font-semibold tracking-tight text-cream md:text-7xl"
-            data-reveal="heading"
-          >
-            Tecnologia, estratégia e execução mais perto do negócio.
-          </h1>
-          <p className="mt-6 max-w-xl text-xl text-text-muted">
-            Começamos pelo problema. A ferramenta vem depois.
-          </p>
+        <div className="relative mx-auto grid max-w-screen-2xl grid-cols-[minmax(0,1fr)] items-end gap-12 px-5 md:px-8 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-16">
+          <div>
+            <p className="flex items-center gap-3 text-xs font-semibold tracking-widest text-amber">
+              <span aria-hidden="true" className="h-0.5 w-8 bg-amber" />
+              SOBRE A DATAMAT
+            </p>
+            <h1
+              className="mt-5 text-5xl leading-[1.02] font-semibold tracking-tight text-cream md:text-7xl"
+              data-reveal="heading"
+            >
+              Tecnologia, estratégia e execução mais perto do negócio.
+            </h1>
+            <p className="mt-6 max-w-xl text-xl text-text-muted">
+              Começamos pelo problema. A ferramenta vem depois.
+            </p>
+          </div>
+          <ul className="grid gap-3" data-reveal data-stagger="0.1">
+            {facts.map(({ icon: Icon, title, text }) => (
+              <li
+                key={title}
+                className="flex gap-4 rounded-2xl border border-white/10 bg-graphite p-5"
+              >
+                <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-amber/10 text-amber">
+                  <Icon size={20} aria-hidden="true" />
+                </span>
+                <span>
+                  <span className="block font-semibold text-cream">
+                    {title}
+                  </span>
+                  <span className="text-sm text-text-muted">{text}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
-      {/* Quem somos */}
+      {/* Por que a DATAMAT existe */}
       <section className="bg-cream py-20 text-graphite md:py-28">
         <div className="mx-auto grid max-w-screen-2xl gap-10 px-5 md:px-8 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:gap-20">
-          <h2
-            className="text-4xl leading-[1.05] font-semibold tracking-tight md:text-6xl"
-            data-reveal
-          >
-            {about.title}{" "}
-            <span className="bg-gradient-to-r from-amber/70 to-amber/70 bg-[length:100%_0.3em] bg-left-bottom bg-no-repeat box-decoration-clone">
-              {about.highlight}
-            </span>
-          </h2>
-          <div className="lg:pt-4" data-reveal>
+          <div data-reveal>
+            <p className="flex items-center gap-3 text-xs font-semibold tracking-widest text-graphite/75">
+              <span aria-hidden="true" className="h-0.5 w-8 bg-amber" />
+              POR QUE EXISTIMOS
+            </p>
+            <h2 className="mt-5 text-4xl leading-[1.05] font-semibold tracking-tight md:text-6xl">
+              A empresa não precisa de mais fornecedores.{" "}
+              <span className="bg-gradient-to-r from-amber/70 to-amber/70 bg-[length:100%_0.3em] bg-left-bottom bg-no-repeat box-decoration-clone">
+                Precisa de clareza.
+              </span>
+            </h2>
+          </div>
+          <div className="lg:pt-10" data-reveal>
             <p className="relative pl-5 text-xl leading-relaxed font-semibold md:text-2xl">
               <span
                 aria-hidden="true"
                 className="absolute top-1 bottom-1 left-0 w-1 rounded-full bg-amber"
               />
-              {about.lead}
+              Números espalhados, rotinas manuais, marca sem padrão e um site
+              que não vende costumam ser tratados por pessoas diferentes, que
+              não conversam entre si.
             </p>
-            {about.body.map((p) => (
-              <p
-                key={p}
-                className="mt-5 text-lg leading-relaxed text-graphite/75"
-              >
-                {p}
-              </p>
-            ))}
+            <p className="mt-5 text-lg leading-relaxed text-graphite/75">
+              A DATAMAT nasceu da inteligência de dados para juntar essas
+              pontas. Primeiro entendemos os números e a rotina da empresa;
+              depois agimos onde o problema realmente está, seja no painel, na
+              operação, na marca ou no site.
+            </p>
+            <p className="mt-5 text-lg leading-relaxed text-graphite/75">
+              Cada frente resolve um problema sozinha. Quando faz sentido, elas
+              se conectam, com um único ponto de contato do início ao fim.
+            </p>
           </div>
         </div>
 

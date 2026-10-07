@@ -6,6 +6,7 @@ import { AutomationPage } from "./pages/AutomationPage";
 import { BrandPage } from "./pages/BrandPage";
 import { SitesPage } from "./pages/SitesPage";
 import { AboutPage } from "./pages/AboutPage";
+import { DemosPage } from "./pages/DemosPage";
 import { CasesPage } from "./pages/CasesPage";
 import { ContactPage } from "./pages/ContactPage";
 import { PrivacyPage } from "./pages/PrivacyPage";
@@ -25,6 +26,7 @@ export const routes: Record<PagePath, ReactElement> = {
   "/ia-automacao": <AutomationPage />,
   "/marca-growth": <BrandPage />,
   "/sites": <SitesPage />,
+  "/demonstracoes": <DemosPage />,
   "/sobre": <AboutPage />,
   "/cases": <CasesPage />,
   "/contato": <ContactPage />,

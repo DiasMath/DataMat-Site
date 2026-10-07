@@ -19,6 +19,10 @@
     "title": "Sites & Presença Digital | DATAMAT",
     "description": "Sites claros e profissionais que apresentam melhor o negócio."
   },
+  "/demonstracoes": {
+    "title": "Demonstrações | DATAMAT",
+    "description": "Veja na prática como a DATAMAT resolve desafios de dados, operação, marca e site, com cenários ilustrativos passo a passo."
+  },
   "/sobre": {
     "title": "Sobre a DATAMAT | Inteligência para Negócios",
     "description": "A DATAMAT começa pelos dados e segue o problema: dados e BI, IA e automação, marca e sites para empresas de todo o Brasil, com atendimento online."

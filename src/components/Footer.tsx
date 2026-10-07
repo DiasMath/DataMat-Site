@@ -19,7 +19,7 @@ import { scrollToTop } from "../motion/scroll";
 const company = [
   { label: "Sobre", to: "/sobre" },
   { label: "Cases", to: "/cases" },
-  { label: "Demonstrações", to: "/#demonstracoes" },
+  { label: "Demonstrações", to: "/demonstracoes" },
   { label: "Contato", to: "/contato" },
 ];
 

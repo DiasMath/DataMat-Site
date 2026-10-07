@@ -69,7 +69,7 @@ export function PrivacyPage() {
   const { controller, officer, email, cnpj } = privacyOwner;
   return (
     <>
-      <section className="bg-bg-hero pt-36 pb-16 md:pt-44 md:pb-20">
+      <section className="bg-bg-hero pt-16 pb-16 md:pt-24 md:pb-20">
         <div className="mx-auto max-w-screen-2xl px-5 md:px-8">
           <p className="flex items-center gap-3 text-xs font-semibold tracking-widest text-amber">
             <span aria-hidden="true" className="h-0.5 w-8 bg-amber" />

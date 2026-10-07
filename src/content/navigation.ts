@@ -40,6 +40,6 @@ export const menuSolutions: MenuSolution[] = [
 
 export const menuLinks = [
   { label: "Cases", to: "/cases" },
-  { label: "Demonstrações", to: "/#demonstracoes" },
+  { label: "Demonstrações", to: "/demonstracoes" },
   { label: "Sobre", to: "/sobre" },
 ];

@@ -32,12 +32,18 @@ test("menu leva às páginas de solução", async ({ page, isMobile }) => {
   await expect(page.locator("h1")).toContainText("Veja sua empresa");
 });
 
-test("contato sem formulário conectado mostra os atalhos de assunto", async ({
-  page,
-}) => {
+test("formulário avisa que o envio não está conectado", async ({ page }) => {
   await page.goto("/contato/");
-  await expect(page.locator("h1")).toContainText("Vamos entender");
-  // Sem Firebase, não existe formulário que não envia.
-  await expect(page.locator("form")).toHaveCount(0);
-  await expect(page.getByText("Uma mensagem já é suficiente.")).toBeVisible();
+  await page.waitForTimeout(3100); // antispam: envio em menos de 3 s é ignorado
+  await page.fill("input[name=nome]", "Teste Automático");
+  await page.fill("input[name=empresa]", "DATAMAT");
+  await page.fill("input[name=email]", "teste@datamat.com.br");
+  await page.fill("input[name=whatsapp]", "21999999999");
+  await page.selectOption("select[name=solucao]", { index: 1 });
+  await page.fill("textarea[name=mensagem]", "Mensagem de teste");
+  await page.check("input[name=consentimento]");
+  await page.click("button[type=submit]");
+  await expect(page.locator(".form-status")).toContainText(
+    "não está conectado",
+  );
 });
