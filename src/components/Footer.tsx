@@ -187,7 +187,17 @@ export function Footer() {
             <ul className="mt-5 space-y-3">
               <li>
                 <Link to="/privacidade" className={linkClass}>
-                  Privacidade
+                  Privacidade e LGPD
+                </Link>
+              </li>
+              <li>
+                <Link to="/privacidade#direitos" className={linkClass}>
+                  Seus direitos
+                </Link>
+              </li>
+              <li>
+                <Link to="/privacidade#seguranca" className={linkClass}>
+                  Segurança dos dados
                 </Link>
               </li>
             </ul>

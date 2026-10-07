@@ -26,6 +26,6 @@ export const faq: { q: string; a: string }[] = [
   },
   {
     q: "E os dados da minha empresa?",
-    a: "Os dados continuam sendo da empresa. Acessamos apenas o necessário para o projeto, sempre combinado com você.",
+    a: "Os dados continuam sendo da empresa. Acessamos apenas o necessário para o projeto, sempre combinado em contrato. Os detalhes estão na nossa política de privacidade.",
   },
 ];
