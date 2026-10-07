@@ -60,3 +60,9 @@ export const whatsappLink = (message: string = defaultMessage) =>
     : "";
 
 export const whatsappUrl = whatsappLink();
+
+/** Número do WhatsApp formatado para exibir, ex.: "+55 (21) 99610-1868". */
+export const whatsappDisplay = (() => {
+  const m = whatsappNumber.match(/^(\d{2})(\d{2})(\d{4,5})(\d{4})$/);
+  return m ? `+${m[1]} (${m[2]}) ${m[3]}-${m[4]}` : whatsappNumber;
+})();
