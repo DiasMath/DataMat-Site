@@ -550,7 +550,7 @@ export function CTA({
       // Tempo (em "unidades" da timeline) parado antes da absorção, para ver
       // os pulsos correndo, e parado no final, para ver tudo completo.
       const LEAD = 0.35;
-      const HOLD = 0.9;
+      const HOLD = 0.5;
       const TOTAL = LEAD + 0.9 + HOLD;
       const at = (t: number) => (LEAD + t) / TOTAL;
       gsap

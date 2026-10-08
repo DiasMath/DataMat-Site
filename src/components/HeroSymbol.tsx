@@ -12,7 +12,7 @@ export function HeroSymbol({ tone = "dark" }: { tone?: "dark" | "light" }) {
       data-reveal="symbol"
     >
       <DatamatSymbol
-        className={`h-[118%] max-h-[64rem] w-auto max-w-none translate-x-[14%] blur-[3px] md:translate-x-[8%] ${tone === "dark" ? "text-white/[0.05]" : "text-graphite/[0.06]"}`}
+        className={`h-[118%] max-h-[64rem] w-auto max-w-none translate-x-[14%] blur-[1.5px] md:translate-x-[8%] ${tone === "dark" ? "text-white/[0.05]" : "text-graphite/[0.06]"}`}
       />
     </div>
   );

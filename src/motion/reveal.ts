@@ -60,7 +60,12 @@ export function applyReveals(root: HTMLElement) {
     const targets = stagger !== undefined ? Array.from(el.children) : el;
     const visibleNow = inView(el);
     // Na abertura da página, o que está na tela entra em sequência.
-    const entryDelay = visibleNow ? 0.1 + entryOrder++ * 0.12 : 0;
+    // O símbolo de fundo entra por último, depois do conteúdo.
+    const entryDelay = !visibleNow
+      ? 0
+      : el.dataset.reveal === "symbol"
+        ? 0.9
+        : 0.1 + entryOrder++ * 0.12;
     const trigger = visibleNow
       ? {}
       : { scrollTrigger: { trigger: el, start: motion.start, once: true } };
