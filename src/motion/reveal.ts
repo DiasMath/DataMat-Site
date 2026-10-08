@@ -30,33 +30,55 @@ const presets: Record<string, Preset> = {
 const num = (value: string | undefined, fallback = 0) =>
   value === undefined || value === "" ? fallback : Number(value);
 
-/**
- * Aplica o catálogo dentro de `root`. `skipInView`: na primeira carga
- * pré-renderizada, não anima o que já está na tela (evita o texto piscar).
- */
-export function applyReveals(root: HTMLElement, { skipInView = false } = {}) {
-  const inView = (el: Element) =>
-    el.getBoundingClientRect().top < window.innerHeight;
+/** Estado final comum: visível e na posição original. */
+const shown: gsap.TweenVars = { autoAlpha: 1, x: 0, y: 0, scale: 1 };
 
+/** Marca o elemento como revelado (o CSS para de escondê-lo). */
+export const markRevealed = (root: ParentNode) =>
+  root
+    .querySelectorAll<HTMLElement>("[data-reveal]")
+    .forEach((el) => el.classList.add("is-revealed"));
+
+/**
+ * Aplica o catálogo dentro de `root`. Tudo que tem data-reveal começa
+ * escondido pelo CSS (classe .js no <html>, ver animations.css), inclusive
+ * na primeira carga: assim cada página "entra" animada, sem piscar.
+ * O que já está na tela anima logo ao abrir; o resto, ao rolar.
+ */
+export function applyReveals(root: HTMLElement) {
+  const inView = (el: Element) =>
+    el.getBoundingClientRect().top < window.innerHeight * 0.92;
+
+  let entryOrder = 0;
   root.querySelectorAll<HTMLElement>("[data-reveal]").forEach((el) => {
-    if (skipInView && inView(el)) return;
     const preset =
       presets[el.dataset.reveal || "fade-up"] ?? presets["fade-up"];
     const stagger = el.dataset.stagger;
     const targets = stagger !== undefined ? Array.from(el.children) : el;
-    gsap.from(targets, {
-      duration: motion.duration.base,
-      ease: motion.ease.out,
-      ...preset,
-      delay: num(el.dataset.delay),
-      stagger: stagger !== undefined ? num(stagger, 0.08) : 0,
-      clearProps: "all",
-      scrollTrigger: { trigger: el, start: motion.start, once: true },
-    });
+    const visibleNow = inView(el);
+    // Na abertura da página, o que está na tela entra em sequência.
+    const entryDelay = visibleNow ? 0.1 + entryOrder++ * 0.08 : 0;
+    gsap.fromTo(
+      targets,
+      { ...preset },
+      {
+        ...shown,
+        duration: (preset.duration as number) ?? motion.duration.base,
+        ease: motion.ease.out,
+        delay: num(el.dataset.delay) + entryDelay,
+        stagger: stagger !== undefined ? num(stagger, 0.08) : 0,
+        clearProps: "transform,opacity,visibility",
+        onStart: () => el.classList.add("is-revealed"),
+        ...(visibleNow
+          ? {}
+          : {
+              scrollTrigger: { trigger: el, start: motion.start, once: true },
+            }),
+      },
+    );
   });
 
   root.querySelectorAll<HTMLElement>("[data-split]").forEach((el) => {
-    if (skipInView && inView(el)) return;
     SplitText.create(el, {
       type: "lines",
       mask: "lines",

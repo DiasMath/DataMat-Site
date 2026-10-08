@@ -1,3 +1,4 @@
+import { HeroSymbol } from "../components/HeroSymbol";
 import { useState } from "react";
 import { Container, Eyebrow, SectionIntro } from "../components/ui";
 import { SiteMock } from "../components/mocks";
@@ -40,7 +41,8 @@ function SiteViewport() {
 
 function SitesHero() {
   return (
-    <section className="product-hero sites-hero">
+    <section className="product-hero sites-hero relative isolate overflow-hidden">
+      <HeroSymbol />
       <Container>
         <div className="sites-hero-head">
           <Eyebrow>04 / SITES & PRESENÇA DIGITAL</Eyebrow>

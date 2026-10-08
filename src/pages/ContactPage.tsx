@@ -1,3 +1,4 @@
+import { HeroSymbol } from "../components/HeroSymbol";
 import { useRef, useState } from "react";
 import type { FormEvent, ReactNode } from "react";
 import { Link, useSearchParams } from "react-router-dom";
@@ -131,11 +132,15 @@ export function ContactPage() {
   const sending = status === "sending";
 
   return (
-    <section className="bg-bg-hero pt-12 pb-20 md:pt-16 md:pb-28">
+    <section className="relative isolate overflow-hidden bg-bg-hero pt-12 pb-20 md:pt-16 md:pb-28">
+      <HeroSymbol />
       <div className="mx-auto grid max-w-screen-2xl grid-cols-[minmax(0,1fr)] gap-12 px-5 md:px-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
         {/* Canais e o que acontece depois */}
         <div>
-          <p className="flex items-center gap-3 text-xs font-semibold tracking-widest text-amber">
+          <p
+            className="flex items-center gap-3 text-xs font-semibold tracking-widest text-amber"
+            data-reveal="fade"
+          >
             <span aria-hidden="true" className="h-0.5 w-8 bg-amber" />
             FALE COM A DATAMAT
           </p>
@@ -145,7 +150,11 @@ export function ContactPage() {
           >
             Vamos entender o que sua empresa precisa.
           </h1>
-          <p className="mt-5 max-w-lg text-lg text-text-muted">
+          <p
+            className="mt-5 max-w-lg text-lg text-text-muted"
+            data-reveal
+            data-delay="0.15"
+          >
             Conte o que está acontecendo. O atendimento é online, para empresas
             de todo o Brasil.
           </p>

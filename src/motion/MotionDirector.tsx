@@ -1,9 +1,9 @@
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { gsap, ScrollSmoother, ScrollTrigger } from "./gsap";
-import { applyReveals } from "./reveal";
+import { applyReveals, markRevealed } from "./reveal";
 import { motionDisabled } from "./tokens";
-import { markNavigated, skipIntro } from "../lib/boot";
+import { markNavigated } from "../lib/boot";
 
 /**
  * Orquestra o movimento do site: cria o scroll suave, volta ao topo ao
@@ -49,11 +49,12 @@ export function MotionDirector() {
     }
 
     const root = document.getElementById("smooth-content");
-    if (!root || motionDisabled) return;
-    const context = gsap.context(() => {
-      // Primeira carga pré-renderizada: o que já está na tela não "pisca".
-      applyReveals(root, { skipInView: skipIntro() });
-    }, root);
+    if (!root) return;
+    if (motionDisabled) {
+      markRevealed(root);
+      return;
+    }
+    const context = gsap.context(() => applyReveals(root), root);
 
     const refresh = requestAnimationFrame(() => ScrollTrigger.refresh());
     return () => {

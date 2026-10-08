@@ -4,7 +4,7 @@ import { people, principles } from "../content/about";
 import { clients } from "../content/clients";
 import { menuSolutions } from "../content/navigation";
 import { CTA } from "../components/FinalCta";
-import { DatamatSymbol } from "../components/DatamatSymbol";
+import { HeroSymbol } from "../components/HeroSymbol";
 
 /** Três fatos curtos ao lado do título. */
 const facts = [
@@ -49,11 +49,14 @@ export function AboutPage() {
   return (
     <>
       {/* Abertura */}
-      <section className="relative overflow-hidden bg-bg-hero pt-16 pb-20 md:pt-24 md:pb-28">
-        <DatamatSymbol className="pointer-events-none absolute -right-16 bottom-0 w-[42vw] max-w-xl text-white/[0.03] md:-right-8" />
+      <section className="relative isolate overflow-hidden bg-bg-hero pt-16 pb-20 md:pt-24 md:pb-28">
+        <HeroSymbol />
         <div className="relative mx-auto grid max-w-screen-2xl grid-cols-[minmax(0,1fr)] items-end gap-12 px-5 md:px-8 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-16">
           <div>
-            <p className="flex items-center gap-3 text-xs font-semibold tracking-widest text-amber">
+            <p
+              className="flex items-center gap-3 text-xs font-semibold tracking-widest text-amber"
+              data-reveal="fade"
+            >
               <span aria-hidden="true" className="h-0.5 w-8 bg-amber" />
               SOBRE A DATAMAT
             </p>
@@ -63,7 +66,11 @@ export function AboutPage() {
             >
               Tecnologia, estratégia e execução mais perto do negócio.
             </h1>
-            <p className="mt-6 max-w-xl text-xl text-text-muted">
+            <p
+              className="mt-6 max-w-xl text-xl text-text-muted"
+              data-reveal
+              data-delay="0.15"
+            >
               Começamos pelo problema. A ferramenta vem depois.
             </p>
           </div>

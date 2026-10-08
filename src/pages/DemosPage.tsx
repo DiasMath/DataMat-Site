@@ -1,3 +1,4 @@
+import { HeroSymbol } from "../components/HeroSymbol";
 import { PainSolutions } from "../components/home/PainSolutions";
 import { CasesTeaser } from "../components/home/CasesTeaser";
 import { CTA } from "../components/FinalCta";
@@ -9,9 +10,13 @@ import { CTA } from "../components/FinalCta";
 export function DemosPage() {
   return (
     <>
-      <section className="bg-bg-hero pt-16 pb-6 md:pt-24">
+      <section className="relative isolate overflow-hidden bg-bg-hero pt-16 pb-6 md:pt-24">
+        <HeroSymbol />
         <div className="mx-auto max-w-screen-2xl px-5 md:px-8">
-          <p className="flex items-center gap-3 text-xs font-semibold tracking-widest text-amber">
+          <p
+            className="flex items-center gap-3 text-xs font-semibold tracking-widest text-amber"
+            data-reveal="fade"
+          >
             <span aria-hidden="true" className="h-0.5 w-8 bg-amber" />
             DEMONSTRAÇÕES
           </p>
@@ -21,7 +26,11 @@ export function DemosPage() {
           >
             Veja na prática o que muda na sua empresa.
           </h1>
-          <p className="mt-6 max-w-2xl text-xl text-text-muted">
+          <p
+            className="mt-6 max-w-2xl text-xl text-text-muted"
+            data-reveal
+            data-delay="0.15"
+          >
             Escolha um desafio e acompanhe, passo a passo, como a DATAMAT
             resolve. Os cenários e os números são ilustrativos.
           </p>

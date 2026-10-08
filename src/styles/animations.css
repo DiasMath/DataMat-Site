@@ -32,3 +32,58 @@
 .is-paused * {
   animation-play-state: paused;
 }
+
+/*
+ * Entrada das páginas (src/motion/reveal.ts): o que tem data-reveal começa
+ * escondido até o GSAP assumir, para não "piscar" antes de animar.
+ * Rede de segurança: se o JS falhar, tudo aparece sozinho em 3s.
+ */
+@keyframes reveal-fallback {
+  to {
+    visibility: visible;
+  }
+}
+.js [data-reveal]:not([data-stagger]):not(.is-revealed),
+.js [data-reveal][data-stagger]:not(.is-revealed) > * {
+  visibility: hidden;
+  animation: reveal-fallback 0s 3s forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal]:not([data-stagger]):not(.is-revealed),
+  .js [data-reveal][data-stagger]:not(.is-revealed) > * {
+    visibility: visible;
+  }
+}
+
+/* Carrossel de clientes (src/components/home/ClientStrip.tsx) */
+@keyframes client-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.client-marquee {
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+}
+.client-marquee-track {
+  animation: client-marquee 40s linear infinite;
+}
+.client-marquee:hover .client-marquee-track {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .client-marquee-track {
+    animation: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: auto;
+  }
+  .client-marquee-track > ul + ul {
+    display: none;
+  }
+}

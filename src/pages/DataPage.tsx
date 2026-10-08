@@ -1,7 +1,7 @@
+import { HeroSymbol } from "../components/HeroSymbol";
 import { useEffect, useRef, useState } from "react";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { gsap, useGSAP } from "../motion/gsap";
-import { skipIntro } from "../lib/boot";
 import { motionDisabled } from "../motion/tokens";
 import { Container, Eyebrow, SectionIntro } from "../components/ui";
 import { DashboardMock } from "../components/mocks";
@@ -37,7 +37,7 @@ function DataHero() {
   // Peça especial: as barras do gráfico crescem quando o quadro aparece.
   useGSAP(
     () => {
-      if (skipIntro() || motionDisabled) return;
+      if (motionDisabled) return;
       gsap.from(".bar-set b", {
         scaleY: 0,
         transformOrigin: "bottom",
@@ -49,7 +49,8 @@ function DataHero() {
     { scope: frame },
   );
   return (
-    <section className="product-hero data-hero">
+    <section className="product-hero data-hero relative isolate overflow-hidden">
+      <HeroSymbol />
       <Container>
         <div className="data-hero-head">
           <div>

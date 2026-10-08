@@ -420,40 +420,15 @@ export function CTA({
         section.querySelectorAll<SVGCircleElement>(".pulse"),
       );
       gsap.set(lines, { strokeDasharray: 1, strokeDashoffset: 1 });
-      const connect = gsap
-        .timeline({ paused: true })
-        .from(q(".node-inner"), {
-          autoAlpha: 0,
-          scale: 0.6,
-          stagger: 0.15,
-          duration: 0.6,
-          ease: "back.out(1.6)",
-        })
-        .from(
-          q(".ring-line"),
-          {
-            scale: 0,
-            transformOrigin: "50% 50%",
-            duration: 0.6,
-            ease: "back.out(1.6)",
-          },
-          "-=0.4",
-        )
-        .to(
-          lines,
-          {
-            strokeDashoffset: 0,
-            stagger: 0.15,
-            duration: 0.9,
-            ease: "power2.inOut",
-          },
-          "-=0.3",
-        );
+      gsap.set(pulses, { opacity: 0 });
+
       // Fluxo contínuo: vários pulsos por linha, sem pausa entre eles.
+      // Só corre depois que as linhas terminam de ser desenhadas pelo scroll.
+      const flow = gsap.timeline({ paused: true });
       pulses.forEach((p, i) => {
         const line = lines[Math.floor(i / PULSES_PER_LINE)];
         const k = i % PULSES_PER_LINE;
-        connect.fromTo(
+        flow.fromTo(
           p,
           {
             attr: { cx: line.x1.baseVal.value, cy: line.y1.baseVal.value },
@@ -466,9 +441,10 @@ export function CTA({
             ease: "none",
             repeat: -1,
           },
-          1.6 + (k * PULSE_DURATION) / PULSES_PER_LINE,
+          (k * PULSE_DURATION) / PULSES_PER_LINE,
         );
       });
+
       // Barras do símbolo acendem uma de cada vez, em ordem.
       const barsTl = gsap.to(q(".bar"), {
         opacity: 0.35,
@@ -502,10 +478,16 @@ export function CTA({
 
       // Toca só com a seção na tela e antes da absorção.
       let visible = false;
+      let drawn = false;
       let absorbed = false;
       const sync = () => {
         const run = visible && !absorbed;
-        connect.paused(!run);
+        const flowing = run && drawn;
+        if (flowing && flow.paused()) flow.play();
+        if (!flowing && !flow.paused()) {
+          flow.pause(0);
+          gsap.set(pulses, { opacity: 0 });
+        }
         barsTl.paused(!run);
         if (absorbed) gsap.set(q(".bar"), { opacity: 1 });
       };
@@ -514,6 +496,53 @@ export function CTA({
         sync();
       });
       io.observe(section);
+
+      // As ferramentas, o anel e as linhas se desenham conforme a seção sobe
+      // na tela (presos ao scroll, nos dois sentidos).
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: "top 85%",
+            end: "top 10%",
+            scrub: 0.6,
+            onUpdate: (self) => {
+              const now = self.progress > 0.97;
+              if (now !== drawn) {
+                drawn = now;
+                sync();
+              }
+            },
+          },
+        })
+        .fromTo(
+          q(".node-inner"),
+          { autoAlpha: 0, scale: 0.6 },
+          {
+            autoAlpha: 1,
+            scale: 1,
+            stagger: 0.15,
+            duration: 0.6,
+            ease: "back.out(1.6)",
+          },
+        )
+        .fromTo(
+          q(".ring-line"),
+          { scale: 0, transformOrigin: "50% 50%" },
+          { scale: 1, duration: 0.6, ease: "back.out(1.6)" },
+          "-=0.4",
+        )
+        .fromTo(
+          lines,
+          { strokeDashoffset: 1 },
+          {
+            strokeDashoffset: 0,
+            stagger: 0.15,
+            duration: 0.9,
+            ease: "none",
+          },
+          "-=0.3",
+        );
 
       // 2. Tela presa (scrub). Só mexe em wrappers/grupos, com valores
       //    explícitos de ida e volta, para funcionar igual nos dois sentidos.

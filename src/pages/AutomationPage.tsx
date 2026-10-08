@@ -1,3 +1,4 @@
+import { HeroSymbol } from "../components/HeroSymbol";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Check } from "lucide-react";
 import { gsap } from "../motion/gsap";
@@ -85,7 +86,8 @@ function AutomationRunner() {
 
 function AutomationHero() {
   return (
-    <section className="product-hero automation-hero">
+    <section className="product-hero automation-hero relative isolate overflow-hidden">
+      <HeroSymbol />
       <Container>
         <Eyebrow>02 / IA & AUTOMAÇÃO</Eyebrow>
         <div className="automation-title">

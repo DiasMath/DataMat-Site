@@ -1,3 +1,4 @@
+import { HeroSymbol } from "../components/HeroSymbol";
 import { useEffect, useRef, useState } from "react";
 import { ArrowDown } from "lucide-react";
 import { gsap } from "../motion/gsap";
@@ -116,7 +117,8 @@ function EditorialCarousel() {
 
 function BrandHero() {
   return (
-    <section className="product-hero brand-hero">
+    <section className="product-hero brand-hero relative isolate overflow-hidden">
+      <HeroSymbol />
       <Container className="brand-hero-layout">
         <div className="brand-hero-copy">
           <Eyebrow>03 / MARCA & GROWTH</Eyebrow>

@@ -1,3 +1,4 @@
+import { HeroSymbol } from "../components/HeroSymbol";
 import { Check, ShieldCheck } from "lucide-react";
 import {
   privacyOwner,
@@ -69,9 +70,13 @@ export function PrivacyPage() {
   const { controller, officer, email, cnpj } = privacyOwner;
   return (
     <>
-      <section className="bg-bg-hero pt-16 pb-16 md:pt-24 md:pb-20">
+      <section className="relative isolate overflow-hidden bg-bg-hero pt-16 pb-16 md:pt-24 md:pb-20">
+        <HeroSymbol />
         <div className="mx-auto max-w-screen-2xl px-5 md:px-8">
-          <p className="flex items-center gap-3 text-xs font-semibold tracking-widest text-amber">
+          <p
+            className="flex items-center gap-3 text-xs font-semibold tracking-widest text-amber"
+            data-reveal="fade"
+          >
             <span aria-hidden="true" className="h-0.5 w-8 bg-amber" />
             PRIVACIDADE E LGPD
           </p>
@@ -81,7 +86,11 @@ export function PrivacyPage() {
           >
             Como tratamos os seus dados.
           </h1>
-          <p className="mt-5 text-sm text-text-muted">
+          <p
+            className="mt-5 text-sm text-text-muted"
+            data-reveal
+            data-delay="0.15"
+          >
             Atualizada em {privacyUpdatedAt}
           </p>
 
