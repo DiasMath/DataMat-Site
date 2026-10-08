@@ -74,3 +74,7 @@
     }
   }
 }
+
+/* Telas largas porém baixas (notebooks): versões compactas, ex. short:hidden */
+@custom-variant short (@media (min-width: 64rem) and (max-height: 820px));
+@custom-variant shorter (@media (min-width: 64rem) and (max-height: 760px));

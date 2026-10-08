@@ -503,8 +503,8 @@ export function CTA({
         .timeline({
           scrollTrigger: {
             trigger: section,
-            start: "top 85%",
-            end: "top 10%",
+            start: "top 92%",
+            end: "top top",
             scrub: 0.6,
             onUpdate: (self) => {
               const now = self.progress > 0.97;
@@ -547,25 +547,31 @@ export function CTA({
       // 2. Tela presa (scrub). Só mexe em wrappers/grupos, com valores
       //    explícitos de ida e volta, para funcionar igual nos dois sentidos.
       const off = { immediateRender: false };
+      // Tempo (em "unidades" da timeline) parado antes da absorção, para ver
+      // os pulsos correndo, e parado no final, para ver tudo completo.
+      const LEAD = 0.35;
+      const HOLD = 0.9;
+      const TOTAL = LEAD + 0.9 + HOLD;
+      const at = (t: number) => (LEAD + t) / TOTAL;
       gsap
         .timeline({
           scrollTrigger: {
             trigger: section,
             start: "top top",
-            end: "+=210%",
+            end: () => `+=${Math.round(TOTAL * 190)}%`,
             pin: true,
             anticipatePin: 1,
             scrub: 0.6,
             invalidateOnRefresh: true,
             onUpdate: (self) => {
-              const now = self.progress > 0.5;
+              const now = self.progress > at(0.6);
               if (now !== absorbed) {
                 absorbed = now;
                 sync();
               }
               // Troca o convite pelos atalhos e pela prova (no tempo deles,
               // não preso ao scroll: funciona igual na ida e na volta).
-              const done = self.progress > 0.78;
+              const done = self.progress > at(0.94);
               if (done !== finished) {
                 finished = done;
                 gsap.to(q(".intro"), {
@@ -582,7 +588,7 @@ export function CTA({
                   overwrite: true,
                 });
               }
-              const ripple = self.progress > 0.66;
+              const ripple = self.progress > at(0.79);
               if (ripple !== rippling) {
                 rippling = ripple;
                 if (ripple) ripples.restart();
@@ -603,6 +609,7 @@ export function CTA({
             ease: "power2.in",
             duration: 0.45,
           },
+          LEAD,
         )
         .fromTo(
           q(".node"),
@@ -617,34 +624,34 @@ export function CTA({
             duration: 0.18,
             ease: "power2.in",
           },
-          0.5,
+          LEAD + 0.5,
         )
         .fromTo(
           q(".links-group, .pulses-group"),
           { autoAlpha: 1 },
           { ...off, autoAlpha: 0, duration: 0.12 },
-          0.5,
+          LEAD + 0.5,
         )
         .fromTo(
           q(".symbol-wrap"),
           { scale: 1 },
           { ...off, scale: 1.3, duration: 0.14, ease: "back.out(2)" },
-          0.68,
+          LEAD + 0.68,
         )
         .fromTo(
           q(".ring-group"),
           { autoAlpha: 1 },
           { ...off, autoAlpha: 0, duration: 0.12 },
-          0.6,
+          LEAD + 0.6,
         )
         .fromTo(
           q(".joined"),
           { autoAlpha: 0, y: 16 },
           { ...off, autoAlpha: 1, y: 0, duration: 0.1 },
-          0.8,
+          LEAD + 0.8,
         )
         // tempo parado no final, para o visitante ver o resultado
-        .to({}, { duration: 0.3 });
+        .to({}, { duration: HOLD }, LEAD + 0.9);
 
       return () => {
         io.disconnect();

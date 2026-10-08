@@ -33,7 +33,7 @@ const steps = [
 ];
 
 const field =
-  "mt-1.5 w-full rounded-xl border border-graphite/15 bg-white px-4 py-3 text-base text-graphite outline-none transition placeholder:text-graphite/40 focus:border-amber focus:ring-2 focus:ring-amber/30";
+  "mt-1.5 w-full rounded-xl border border-graphite/15 bg-white px-4 py-2.5 text-base text-graphite outline-none shorter:py-2 transition placeholder:text-graphite/40 focus:border-amber focus:ring-2 focus:ring-amber/30";
 const labelClass = "block text-sm font-semibold text-graphite";
 
 function Channel({
@@ -55,7 +55,7 @@ function Channel({
     <a
       href={href}
       {...(external ? { target: "_blank", rel: "noreferrer" } : {})}
-      className={`group flex items-center gap-4 rounded-2xl border p-4 transition hover:-translate-y-0.5 md:p-5 ${primary ? "border-amber bg-amber text-graphite" : "border-white/10 bg-graphite text-cream hover:border-amber/60"}`}
+      className={`group flex items-center gap-4 rounded-2xl border p-4 transition hover:-translate-y-0.5 shorter:py-3 ${primary ? "border-amber bg-amber text-graphite" : "border-white/10 bg-graphite text-cream hover:border-amber/60"}`}
     >
       <span
         className={`flex size-11 shrink-0 items-center justify-center rounded-xl ${primary ? "bg-graphite text-amber" : "bg-white/5 text-amber"}`}
@@ -132,9 +132,9 @@ export function ContactPage() {
   const sending = status === "sending";
 
   return (
-    <section className="relative isolate overflow-hidden bg-bg-hero pt-12 pb-20 md:pt-16 md:pb-28">
+    <section className="relative isolate overflow-hidden bg-bg-hero pt-12 pb-20 md:pt-16 md:pb-28 lg:flex lg:min-h-[calc(100svh-82px)] lg:items-center lg:py-10 shorter:py-6">
       <HeroSymbol />
-      <div className="mx-auto grid max-w-screen-2xl grid-cols-[minmax(0,1fr)] gap-12 px-5 md:px-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
+      <div className="mx-auto grid w-full max-w-screen-2xl grid-cols-[minmax(0,1fr)] gap-12 px-5 md:px-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-center lg:gap-16">
         {/* Canais e o que acontece depois */}
         <div>
           <p
@@ -145,13 +145,13 @@ export function ContactPage() {
             FALE COM A DATAMAT
           </p>
           <h1
-            className="mt-5 text-4xl leading-[1.05] font-semibold tracking-tight text-cream md:text-6xl"
+            className="mt-5 text-4xl leading-[1.05] font-semibold tracking-tight text-cream md:text-5xl shorter:text-4xl"
             data-reveal="heading"
           >
             Vamos entender o que sua empresa precisa.
           </h1>
           <p
-            className="mt-5 max-w-lg text-lg text-text-muted"
+            className="mt-4 max-w-lg text-lg text-text-muted"
             data-reveal
             data-delay="0.15"
           >
@@ -159,7 +159,7 @@ export function ContactPage() {
             de todo o Brasil.
           </p>
 
-          <div className="mt-8 grid gap-3" data-reveal data-stagger="0.08">
+          <div className="mt-7 grid gap-3" data-reveal data-stagger="0.08">
             {whatsappUrl && (
               <Channel
                 primary
@@ -180,34 +180,42 @@ export function ContactPage() {
             )}
           </div>
           {contact.hours && (
-            <p className="mt-4 flex items-center gap-2 text-sm text-text-muted">
+            <p
+              className="mt-4 flex items-center gap-2 text-sm text-text-muted"
+              data-reveal="fade"
+            >
               <Clock size={15} aria-hidden="true" className="text-amber" />
               Atendimento: {contact.hours}
             </p>
           )}
 
-          <div className="mt-10 border-t border-white/10 pt-8">
+          <div
+            className="mt-8 border-t border-white/10 pt-6 shorter:mt-6 shorter:pt-5"
+            data-reveal
+          >
             <p className="text-xs font-semibold tracking-widest text-text-muted">
               O QUE ACONTECE DEPOIS
             </p>
-            <ol className="mt-5 grid gap-5">
+            <ol className="mt-4 grid gap-4 sm:grid-cols-3">
               {steps.map((s, i) => (
-                <li key={s.title} className="flex gap-4">
-                  <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-amber text-sm font-bold text-graphite tabular-nums">
+                <li key={s.title} className="flex gap-3 sm:flex-col sm:gap-2">
+                  <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-amber text-xs font-bold text-graphite tabular-nums">
                     {i + 1}
                   </span>
                   <span>
-                    <span className="block font-semibold text-cream">
+                    <span className="block text-sm font-semibold text-cream">
                       {s.title}
                     </span>
-                    <span className="text-sm text-text-muted">{s.text}</span>
+                    <span className="block text-xs leading-snug text-text-muted shorter:hidden">
+                      {s.text}
+                    </span>
                   </span>
                 </li>
               ))}
             </ol>
             <Link
               to="/#perguntas"
-              className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-cream hover:text-amber"
+              className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-cream hover:text-amber"
             >
               Ver perguntas frequentes{" "}
               <ArrowUpRight size={15} aria-hidden="true" />
@@ -216,7 +224,11 @@ export function ContactPage() {
         </div>
 
         {/* Formulário (só quando o envio está conectado) */}
-        <div className="rounded-3xl bg-cream p-6 text-graphite md:p-10">
+        <div
+          className="rounded-3xl bg-cream p-6 text-graphite md:p-8 shorter:py-6"
+          data-reveal
+          data-delay="0.2"
+        >
           {status === "sent" ? (
             <div
               className="flex h-full flex-col items-start justify-center py-10"
@@ -246,12 +258,12 @@ export function ContactPage() {
               )}
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="grid gap-5">
+            <form onSubmit={handleSubmit} className="grid gap-4 shorter:gap-3">
               <div>
                 <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
                   Prefere escrever?
                 </h2>
-                <p className="mt-1 text-graphite/70">
+                <p className="mt-1 text-graphite/70 short:hidden">
                   Leva 1 minuto. Respondemos pelo canal que você preferir.
                 </p>
               </div>
@@ -263,7 +275,7 @@ export function ContactPage() {
                 Site
                 <input name="site" tabIndex={-1} autoComplete="off" />
               </label>
-              <div className="grid gap-5 sm:grid-cols-2">
+              <div className="grid gap-4 sm:grid-cols-2">
                 <label className={labelClass}>
                   Nome
                   <input
@@ -331,9 +343,9 @@ export function ContactPage() {
               <label className={labelClass}>
                 Conte o cenário
                 <textarea
-                  className={field}
+                  className={`${field} shorter:h-18`}
                   name="mensagem"
-                  rows={5}
+                  rows={3}
                   minLength={5}
                   maxLength={LIMITS.mensagem}
                   placeholder="O que está acontecendo hoje e o que você gostaria que mudasse?"

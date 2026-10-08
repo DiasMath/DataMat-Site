@@ -3,7 +3,8 @@
  *
  *   data-reveal              entra subindo (= "fade-up")
  *   data-reveal="fade"       só aparece
- *   data-reveal="heading"    título principal da página
+ *   data-reveal="heading"    título principal: entra linha por linha (igual à home)
+ *   data-reveal="symbol"     símbolo de fundo do topo: surge crescendo devagar
  *   data-reveal="scale"      cresce levemente
  *   data-reveal="slide-left" entra vindo da direita
  *   data-delay="0.2"         atraso em segundos
@@ -25,6 +26,7 @@ const presets: Record<string, Preset> = {
   heading: { autoAlpha: 0, y: 22, duration: 0.8 },
   scale: { autoAlpha: 0, scale: 0.94 },
   "slide-left": { autoAlpha: 0, x: 36, duration: motion.duration.slow },
+  symbol: { autoAlpha: 0, scale: 0.88, duration: 1.8, ease: "expo.out" },
 };
 
 const num = (value: string | undefined, fallback = 0) =>
@@ -51,29 +53,51 @@ export function applyReveals(root: HTMLElement) {
 
   let entryOrder = 0;
   root.querySelectorAll<HTMLElement>("[data-reveal]").forEach((el) => {
-    const preset =
+    const { ease: _ease, ...preset } =
       presets[el.dataset.reveal || "fade-up"] ?? presets["fade-up"];
+    const presetEase = _ease as string | undefined;
     const stagger = el.dataset.stagger;
     const targets = stagger !== undefined ? Array.from(el.children) : el;
     const visibleNow = inView(el);
     // Na abertura da página, o que está na tela entra em sequência.
-    const entryDelay = visibleNow ? 0.1 + entryOrder++ * 0.08 : 0;
+    const entryDelay = visibleNow ? 0.1 + entryOrder++ * 0.12 : 0;
+    const trigger = visibleNow
+      ? {}
+      : { scrollTrigger: { trigger: el, start: motion.start, once: true } };
+
+    // Título: linha por linha, saindo de uma máscara (o mesmo da home).
+    if (el.dataset.reveal === "heading") {
+      SplitText.create(el, {
+        type: "lines",
+        mask: "lines",
+        autoSplit: true,
+        onSplit: (self) => {
+          el.classList.add("is-revealed");
+          return gsap.from(self.lines, {
+            yPercent: 105,
+            duration: 1,
+            stagger: 0.09,
+            ease: "power4.out",
+            delay: num(el.dataset.delay) + entryDelay,
+            ...trigger,
+          });
+        },
+      });
+      return;
+    }
+
     gsap.fromTo(
       targets,
       { ...preset },
       {
         ...shown,
         duration: (preset.duration as number) ?? motion.duration.base,
-        ease: motion.ease.out,
+        ease: presetEase ?? motion.ease.out,
         delay: num(el.dataset.delay) + entryDelay,
         stagger: stagger !== undefined ? num(stagger, 0.08) : 0,
         clearProps: "transform,opacity,visibility",
         onStart: () => el.classList.add("is-revealed"),
-        ...(visibleNow
-          ? {}
-          : {
-              scrollTrigger: { trigger: el, start: motion.start, once: true },
-            }),
+        ...trigger,
       },
     );
   });

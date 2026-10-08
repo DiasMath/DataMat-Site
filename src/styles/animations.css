@@ -73,6 +73,9 @@
 .client-marquee-track {
   animation: client-marquee 40s linear infinite;
 }
+.client-marquee-track.is-reverse {
+  animation-direction: reverse;
+}
 .client-marquee:hover .client-marquee-track {
   animation-play-state: paused;
 }
