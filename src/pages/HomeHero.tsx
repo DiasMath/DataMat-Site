@@ -75,9 +75,8 @@ export function HomeHero() {
       const cardSlots = q<HTMLElement>(".hero-slot");
       const copy = q(".hero-copy")[0];
       const liveMsg = q(".hero-live-msg")[0];
-      const still =
-        motionDisabled ||
-        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      // Igual ao resto do site: a animação roda sempre (só os testes a desligam).
+      const still = motionDisabled;
 
       const sky = startSky(q<HTMLCanvasElement>(".hero-sky")[0], still);
 

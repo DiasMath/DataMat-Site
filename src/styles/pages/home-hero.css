@@ -324,13 +324,6 @@
 .home-hero.is-paused .hero-scroll svg {
   animation-play-state: paused;
 }
-@media (prefers-reduced-motion: reduce) {
-  .orbit-carrier,
-  .hero-slot,
-  .hero-live-tag::before {
-    animation: none;
-  }
-}
 @media (max-width: 1024px) {
   /* No celular/tablet a órbita vira o fundo do hero (desfocada, à direita)
      e o texto fica na frente: uma tela só, em vez de dois blocos soltos. */
