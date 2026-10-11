@@ -547,9 +547,10 @@ export function CTA({
       // 2. Tela presa (scrub). Só mexe em wrappers/grupos, com valores
       //    explícitos de ida e volta, para funcionar igual nos dois sentidos.
       const off = { immediateRender: false };
-      // Tempo (em "unidades" da timeline) parado antes da absorção, para ver
-      // os pulsos correndo, e parado no final, para ver tudo completo.
-      const LEAD = 0.35;
+      // Tempo (em "unidades" da timeline) antes da absorção: zero, para o
+      // fundo começar a mudar já no primeiro scroll com a tela presa. No
+      // final fica um tempo parado, para ver tudo completo.
+      const LEAD = 0;
       const HOLD = 0.5;
       const TOTAL = LEAD + 0.9 + HOLD;
       const at = (t: number) => (LEAD + t) / TOTAL;
@@ -606,7 +607,9 @@ export function CTA({
           {
             clipPath: () =>
               `circle(150vmax at ${center().x}px ${center().y}px)`,
-            ease: "power2.in",
+            // linear: o círculo já aparece no primeiro scroll (com "power2.in"
+            // ele crescia tão devagar no começo que parecia parado)
+            ease: "none",
             duration: 0.45,
           },
           LEAD,
