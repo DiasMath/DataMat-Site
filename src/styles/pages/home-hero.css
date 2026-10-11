@@ -40,8 +40,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* espaço do "Explore a página", abaixo da legenda */
-  padding-bottom: clamp(44px, 8svh, 72px);
+  /* o mesmo respiro do topo, para o texto ficar centrado na altura */
+  padding-bottom: clamp(16px, 4svh, 56px);
 }
 .hero-copy {
   position: relative;
@@ -65,7 +65,8 @@
   font-style: normal;
 }
 .hero-copy > p {
-  max-width: 565px;
+  /* nunca mais largo que a linha mais longa do título (medida no HomeHero.tsx) */
+  max-width: min(565px, var(--title-w, 565px));
   color: #ddddd9;
   font-size: clamp(1.05rem, 1.4vw, 1.25rem);
   line-height: 1.6;
@@ -89,21 +90,6 @@
 .hero-secondary:hover {
   color: var(--color-amber);
 }
-.hero-scroll {
-  position: absolute;
-  bottom: clamp(12px, 2.6svh, 24px);
-  left: 0;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  color: #d5d4d0;
-  font-size: 0.68rem;
-  letter-spacing: 0.18em;
-}
-.hero-scroll svg {
-  animation: scroll-cue 2s ease-in-out infinite;
-}
-
 /* ---------- Universo ---------- */
 .hero-sky {
   position: absolute;
@@ -201,17 +187,59 @@
   fill: var(--color-amber);
 }
 
-/* Cartões: o .hero-slot posiciona (gira pela órbita) e flutua (CSS);
-   o .hero-pair viaja até a logo (GSAP); as duas faces ficam sobrepostas. */
-.hero-slot {
+/* Cartões andando em cima das órbitas, com transform (suave como os planetas):
+   .hero-lane = a órbita do cartão; .hero-arm gira; .hero-mount fica na linha;
+   .hero-upright gira ao contrário (o cartão fica sempre em pé); .hero-cardfade
+   some e aparece; .hero-bob flutua; .hero-pair viaja até a logo (GSAP). */
+.hero-lane {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+}
+.hero-lane.is-in {
+  width: 46%;
+  height: 46%;
+}
+.hero-lane.is-mid {
+  width: 72%;
+  height: 72%;
+}
+.hero-arm,
+.hero-upright {
+  animation: hero-spin linear infinite;
+}
+.hero-arm {
+  position: absolute;
+  inset: 0;
+}
+.hero-mount {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  width: 0;
+  height: 0;
+}
+.hero-upright {
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation-direction: reverse;
+}
+.hero-cardfade {
   position: absolute;
   translate: -50% -50%;
+  transition: opacity 0.7s ease;
+}
+.js .hero-cardfade {
+  opacity: 0;
+}
+.hero-bob {
   animation: hero-card-float 7s ease-in-out infinite;
 }
-.hero-slot:nth-of-type(2n) {
+.hero-lane:nth-of-type(2n) .hero-bob {
   animation-delay: -2.5s;
 }
-.hero-slot:nth-of-type(3n) {
+.hero-lane:nth-of-type(3n) .hero-bob {
   animation-delay: -4s;
 }
 @keyframes hero-card-float {
@@ -258,50 +286,30 @@
   font-weight: 700;
 }
 
-/* ---------- Legenda ao vivo ---------- */
+/* ---------- Texto digitando (abaixo dos botões) ---------- */
 .hero-live {
   display: flex;
   align-items: center;
-  gap: 12px;
+  max-width: var(--title-w, none);
   min-height: 24px;
-  margin-top: clamp(12px, 2.6svh, 28px);
-  color: #ddddd9;
-  font-size: 0.95rem;
+  margin-top: clamp(12px, 2.6svh, 30px);
+  color: #cfcdc8;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.82rem;
 }
-.hero-live-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: #ffc56e;
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-}
-.hero-live-tag::before {
-  content: "";
+.hero-live-caret {
+  display: inline-block;
+  flex: none;
   width: 7px;
-  height: 7px;
-  border-radius: 50%;
+  height: 1em;
+  margin-left: 2px;
   background: var(--color-amber);
-  box-shadow: 0 0 10px var(--color-amber);
-  animation: hero-blink 1.6s ease-in-out infinite;
+  animation: hero-blink 1s steps(1) infinite;
 }
 @keyframes hero-blink {
   50% {
-    opacity: 0.3;
+    opacity: 0;
   }
-}
-.hero-live-msg {
-  transition:
-    opacity 0.35s,
-    transform 0.35s;
-}
-.hero-live-msg.is-out {
-  opacity: 0;
-  transform: translateY(6px);
-}
-.hero-live-arrow {
-  color: var(--color-amber);
 }
 
 /* Com JavaScript, a órbita começa escondida e entra animada (HomeHero.tsx).
@@ -319,9 +327,10 @@
 /* Pausa as animações decorativas durante o scroll e fora da tela
    (controlado em HomeHero.tsx). */
 .home-hero.is-paused .orbit-carrier,
-.home-hero.is-paused .hero-slot,
-.home-hero.is-paused .hero-live-tag::before,
-.home-hero.is-paused .hero-scroll svg {
+.home-hero.is-paused .hero-arm,
+.home-hero.is-paused .hero-upright,
+.home-hero.is-paused .hero-bob,
+.home-hero.is-paused .hero-live-caret {
   animation-play-state: paused;
 }
 @media (max-width: 1024px) {
@@ -353,8 +362,8 @@
     opacity: 0.7;
     filter: blur(3px);
   }
-  /* os cartões não cabem atrás do texto no celular: a legenda conta a história */
-  .hero-slot {
+  /* os cartões não cabem atrás do texto no celular: o texto digitando conta a história */
+  .hero-lane {
     display: none;
   }
   .hero-copy {
@@ -379,9 +388,6 @@
   }
   .hero-secondary {
     font-size: 0.84rem;
-  }
-  .hero-scroll {
-    display: none;
   }
 }
 /* no celular o menu é mais baixo (68px), igual ao espaço do topo da página */

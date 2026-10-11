@@ -23,42 +23,52 @@ function seeded(seed: number) {
 }
 const rand = seeded(17);
 
-/** Órbitas: quantos planetas, segundos por volta, tamanho e intensidade (como o site já tinha). */
+/**
+ * Órbitas: quantos planetas, segundos por volta, tamanho e intensidade (como o
+ * site já tinha). Na mesma órbita todos têm a mesma velocidade e ficam
+ * espaçados (com um leve desvio): nunca se aproximam. Cada órbita tem
+ * velocidade e ponto de partida próprios, então não alinham entre si.
+ */
 const rings = [
-  { key: "one", planets: 3, secs: 26, size: 7, opacity: 1 },
-  { key: "two", planets: 4, secs: 42, size: 7, opacity: 0.7 },
-  { key: "three", planets: 5, secs: 64, size: 5, opacity: 0.5 },
-].map((ring, ri) => ({
-  ...ring,
-  carriers: Array.from({ length: ring.planets }, () => {
-    const duration = ring.secs * (0.75 + rand() * 0.6);
-    return {
+  { key: "one", planets: 2, secs: 26, size: 7, opacity: 1 },
+  { key: "two", planets: 2, secs: 42, size: 7, opacity: 0.7 },
+  { key: "three", planets: 3, secs: 64, size: 5, opacity: 0.5 },
+].map((ring, ri) => {
+  const duration = ring.secs * (0.85 + rand() * 0.3);
+  const phase = rand();
+  return {
+    ...ring,
+    carriers: Array.from({ length: ring.planets }, (_, i) => ({
       duration,
-      delay: -duration * rand(), // posição inicial sorteada: nada alinhado
+      delay: -duration * (phase + i / ring.planets + (rand() - 0.5) * 0.08),
       reverse: ri % 2 === 1,
-    };
-  }),
-}));
+    })),
+  };
+});
 
-/** Posição inicial de cada cartão, em % da órbita: [topo, esquerda]. Todos à direita do texto. */
-const slots: [number, number][] = [
-  [26, 37],
-  [19, 64],
-  [70, 68],
-  [80, 58],
+/**
+ * Cartões andando em cima das órbitas: 2 na de dentro e 2 na do meio, em
+ * lados opostos, todos com a mesma velocidade (uma volta a cada 10 minutos).
+ * [órbita, ângulo inicial em graus]
+ */
+const LAP = 600;
+const LANES = { in: 23, mid: 36 } as const; // raio, em % da órbita
+const cardPlan: [keyof typeof LANES, number][] = [
+  ["in", -70],
+  ["mid", 20],
+  ["in", 110],
+  ["mid", 200],
 ];
-
-/** Uma volta dos cartões pela órbita a cada 6 minutos (radianos por segundo). */
-const CARD_TURN = (Math.PI * 2) / 360;
 
 /**
  * Hero da home: o sistema "DATAMAT".
  * - Universo de estrelas sutis no hero inteiro (src/pages/hero/sky.ts).
  * - Logo DATAMAT no centro da órbita, com as 3 barras "carregando".
  * - Um para um: cada problema (cartão escuro) entra na logo e volta, no mesmo
- *   lugar, como a solução (cartão claro). A legenda "AGORA" acompanha.
- * - Os cartões giram bem devagar pela órbita; perto do texto, somem e
- *   reaparecem mais à frente.
+ *   lugar, como a solução (cartão claro); a logo dá um "pump" quando ele sai.
+ *   Embaixo dos botões, um texto digitando conta o que está acontecendo.
+ * - Os cartões andam em cima das órbitas bem devagar; perto do texto ou das
+ *   bordas, somem e reaparecem logo mais à frente, sem encostar um no outro.
  * Tudo pausa durante o scroll e com o hero fora da tela.
  */
 export function HomeHero() {
@@ -70,31 +80,56 @@ export function HomeHero() {
       if (!section) return;
       const q = gsap.utils.selector(section);
       const core = q(".hero-core")[0];
+      const orbitBox = q(".hero-orbit")[0];
       const levels = q(".hero-level");
-      const pairs = q(".hero-pair");
-      const cardSlots = q<HTMLElement>(".hero-slot");
       const copy = q(".hero-copy")[0];
-      const liveMsg = q(".hero-live-msg")[0];
+      const headline = q(".hero-copy h1")[0];
+      const liveTxt = q(".hero-live-txt")[0];
       // Igual ao resto do site: a animação roda sempre (só os testes a desligam).
       const still = motionDisabled;
+
+      // O subtítulo e o texto digitando nunca ficam mais largos que a linha
+      // mais longa do título (medida de verdade, a cada mudança de tamanho).
+      const fitBelow = () => {
+        const range = document.createRange();
+        range.selectNodeContents(headline);
+        const left = headline.getBoundingClientRect().left;
+        let right = left;
+        for (const rc of range.getClientRects())
+          right = Math.max(right, rc.right);
+        copy.style.setProperty("--title-w", `${Math.ceil(right - left)}px`);
+      };
+      const titleSize = new ResizeObserver(fitBelow);
+      titleSize.observe(headline);
+      document.fonts?.ready.then(fitBelow);
 
       const sky = startSky(q<HTMLCanvasElement>(".hero-sky")[0], still);
 
       // Sem movimento: tudo parado, já com as soluções.
       if (still) {
+        section.classList.add("is-paused");
         gsap.set([q(".orbit-ring"), core, q(".is-solution")], { autoAlpha: 1 });
-        return () => sky.stop();
+        gsap.set(q(".hero-cardfade"), { opacity: 1 });
+        return () => {
+          titleSize.disconnect();
+          sky.stop();
+        };
       }
 
-      // ---------- Legenda "AGORA" ----------
-      let swapTimer = 0;
-      const caption = (html: string) => {
-        liveMsg.classList.add("is-out");
-        window.clearTimeout(swapTimer);
-        swapTimer = window.setTimeout(() => {
-          liveMsg.innerHTML = html;
-          liveMsg.classList.remove("is-out");
-        }, 300);
+      // ---------- Texto digitando ----------
+      let typing = 0;
+      const type = (text: string) => {
+        window.clearInterval(typing);
+        let n = 0;
+        liveTxt.textContent = "";
+        typing = window.setInterval(() => {
+          liveTxt.textContent = text.slice(0, ++n);
+          if (n >= text.length) window.clearInterval(typing);
+        }, 42);
+      };
+      const waiting = () => {
+        window.clearInterval(typing);
+        liveTxt.textContent = "aguardando…";
       };
 
       // ---------- Logo: barras esvaziam e enchem de baixo para cima ----------
@@ -109,11 +144,13 @@ export function HomeHero() {
             stagger: 0.3,
             ease: "power2.inOut",
           })
-          .to(
-            core,
-            { scale: 1, duration: 0.6, ease: "elastic.out(1, 0.5)" },
-            "-=0.15",
-          );
+          .to(core, { scale: 1, duration: 0.3, ease: "power2.out" }, "-=0.15");
+      // Entrega a solução: "pump" da logo no mesmo instante em que o cartão sai.
+      const pump = () =>
+        gsap
+          .timeline()
+          .to(core, { scale: 1.18, duration: 0.2, ease: "power2.out" })
+          .to(core, { scale: 1, duration: 0.9, ease: "elastic.out(1, 0.4)" });
 
       // Distância de cada cartão até o centro da logo.
       const toCore = (axis: "x" | "y") => (_: number, el: Element) => {
@@ -124,7 +161,203 @@ export function HomeHero() {
           : b.top + b.height / 2 - (a.top + a.height / 2);
       };
 
+      // ---------- Cartões nas órbitas ----------
+      // O giro é todo em CSS (suave como os planetas); aqui só lemos o ângulo
+      // e, quando precisa, adiantamos o cartão na própria órbita.
+      type Card = {
+        lane: keyof typeof LANES;
+        arm: HTMLElement;
+        upright: HTMLElement;
+        fade: HTMLElement;
+        jumping: boolean;
+        busy: boolean; // a caminho da logo: não pula até voltar
+        landing: number | null;
+      };
+      const cards: Card[] = q<HTMLElement>(".hero-lane").map((lane, i) => ({
+        lane: cardPlan[i][0],
+        arm: lane.querySelector<HTMLElement>(".hero-arm")!,
+        upright: lane.querySelector<HTMLElement>(".hero-upright")!,
+        fade: lane.querySelector<HTMLElement>(".hero-cardfade")!,
+        jumping: false,
+        busy: false,
+        landing: null,
+      }));
+      const angleOf = (c: Card) => {
+        const a = c.arm.getAnimations()[0];
+        const progress = Number(a?.effect?.getComputedTiming().progress) || 0;
+        return progress * Math.PI * 2;
+      };
+      const shift = (c: Card, rad: number) => {
+        const ms = (rad / (Math.PI * 2)) * LAP * 1000;
+        [c.arm, c.upright].forEach((el) =>
+          el.getAnimations().forEach((a) => {
+            a.currentTime = Number(a.currentTime ?? 0) + ms;
+          }),
+        );
+      };
+
+      // Linhas de texto, botões e texto digitando (medidos a cada 0,5 s).
+      let textLines: DOMRect[] = [];
+      let floating: DOMRect | null = null; // botão do WhatsApp, fixo no canto
+      let measured = 0;
+      const lines = () => {
+        const now = performance.now();
+        if (now - measured > 500) {
+          measured = now;
+          textLines = [];
+          const walker = document.createTreeWalker(copy, NodeFilter.SHOW_TEXT);
+          const range = document.createRange();
+          while (walker.nextNode()) {
+            if (!walker.currentNode.textContent?.trim()) continue;
+            range.selectNodeContents(walker.currentNode);
+            for (const rc of range.getClientRects()) textLines.push(rc);
+          }
+          copy
+            .querySelectorAll(".hero-actions > *, .hero-live")
+            .forEach((el) => textLines.push(el.getBoundingClientRect()));
+          floating =
+            document
+              .querySelector(".whatsapp-float")
+              ?.getBoundingClientRect() ?? null;
+        }
+        return textLines;
+      };
+
+      let started = false; // os cartões só aparecem depois da entrada
+      let paused = false;
+      let prepareNow: ((k: number) => void) | null = null;
+      const watch = () => {
+        prepareNow = null;
+        if (!started || paused || window.innerWidth <= 1024) return;
+        const area = section.getBoundingClientRect();
+        const orb = orbitBox.getBoundingClientRect();
+        const ox = orb.left + orb.width / 2;
+        const oy = orb.top + orb.height / 2;
+        const text = lines();
+        const centerAt = (c: Card, ang: number) => {
+          const R = (LANES[c.lane] / 100) * orb.width;
+          return [ox + R * Math.cos(ang), oy + R * Math.sin(ang)];
+        };
+        const visibleAt = (c: Card, ang: number) => {
+          const [cx, cy] = centerAt(c, ang);
+          const w = c.fade.offsetWidth;
+          const h = c.fade.offsetHeight + 22; // inclui a flutuação
+          const l = cx - w / 2;
+          const r = cx + w / 2;
+          const t = cy - h / 2;
+          const b = cy + h / 2;
+          // dentro do hero, sem encostar nas bordas
+          const inside =
+            r < area.right - 16 && t > area.top + 16 && b < area.bottom - 16;
+          // e longe do texto
+          const hitsText = text.some(
+            (rc) => rc.top < b + 12 && rc.bottom > t - 12 && rc.right + 28 > l,
+          );
+          // nem embaixo do botão do WhatsApp
+          const f = floating;
+          const underButton =
+            !!f &&
+            f.width > 0 &&
+            f.left < r + 12 &&
+            f.right > l - 12 &&
+            f.top < b + 12 &&
+            f.bottom > t - 12;
+          return inside && !hitsText && !underButton;
+        };
+        const clearFor = (c: Card, ang: number, span: number) => {
+          for (let d = 0; d <= span; d += 0.02)
+            if (!visibleAt(c, ang + d)) return false;
+          return true;
+        };
+        const tooClose = (c: Card, ang: number) =>
+          cards.some((x) => {
+            if (x === c) return false;
+            // quem está pulando conta pelo lugar onde vai pousar (já reservado)
+            const xa = x.jumping ? x.landing : angleOf(x);
+            if (xa == null) return false;
+            const [ax, ay] = centerAt(c, ang);
+            const [bx, by] = centerAt(x, xa);
+            return (
+              Math.hypot(ax - bx, ay - by) <
+              (c.fade.offsetWidth + x.fade.offsetWidth) / 2 + 60
+            );
+          });
+        // Some rápido e reaparece logo mais à frente, longe dos outros.
+        const jump = (c: Card) => {
+          c.jumping = true;
+          c.landing = null;
+          c.fade.style.transitionDuration = "0.35s";
+          c.fade.style.opacity = "0";
+          window.setTimeout(() => {
+            const base = angleOf(c);
+            // Procura, à frente na órbita, um lugar visível e longe dos outros.
+            const find = (span: number, spaced: boolean) => {
+              for (let step = 0.02; step < Math.PI * 2; step += 0.02) {
+                const ang = base + step;
+                if (spaced && tooClose(c, ang)) continue;
+                if (clearFor(c, ang, span)) return step;
+              }
+              return null;
+            };
+            // quem vai entrar na logo precisa ficar visível a viagem toda;
+            // em telas apertadas, aceita um trecho menor
+            const step =
+              (c.busy ? find(0.18, true) : null) ??
+              find(0.04, true) ??
+              (c.busy ? find(0.04, false) : null);
+            c.fade.style.transitionDuration = "0.5s";
+            if (step != null) {
+              c.landing = base + step;
+              shift(c, step);
+              // o cartão que vai entrar na logo tem a vez: quem ficou perto
+              // dele sai da frente
+              if (c.busy)
+                cards.forEach((x) => {
+                  if (
+                    x !== c &&
+                    !x.busy &&
+                    !x.jumping &&
+                    tooClose(x, angleOf(x))
+                  )
+                    jump(x);
+                });
+            }
+            // sem lugar livre agora: fica escondido e tenta de novo em seguida
+            // (só o cartão que vai entrar na logo aparece de qualquer jeito)
+            if (step != null || c.busy) c.fade.style.opacity = "1";
+            window.setTimeout(() => {
+              c.jumping = false;
+              c.landing = null;
+            }, 550);
+          }, 380);
+        };
+        // Antes de um cartão entrar na logo: se ele vai precisar pular logo,
+        // pula agora (e não no meio da viagem).
+        prepareNow = (k) => {
+          const c = cards[k];
+          if (!c) return;
+          c.busy = true;
+          if (c.jumping) return;
+          if (clearFor(c, angleOf(c), 0.18)) c.fade.style.opacity = "1";
+          else jump(c);
+        };
+        cards.forEach((c) => {
+          if (c.jumping || c.busy) return;
+          const ang = angleOf(c);
+          // vai sumir (texto ou borda) ou está perto de outro cartão: some
+          // rápido e reaparece logo mais à frente
+          if (!visibleAt(c, ang + 0.03) || tooClose(c, ang)) jump(c);
+          else c.fade.style.opacity = "1";
+        });
+      };
+      const prepare = (k: number) => {
+        watch();
+        prepareNow?.(k);
+      };
+      const watcher = window.setInterval(watch, 200);
+
       // ---------- Um para um ----------
+      const pairs = q(".hero-pair");
       const darks = q(".is-problem");
       const lights = q(".is-solution");
       const cycle = gsap.timeline({
@@ -135,6 +368,7 @@ export function HomeHero() {
       cycle
         .set(lights, { autoAlpha: 0 })
         .set(pairs, { x: 0, y: 0, scale: 1, autoAlpha: 1 })
+        .call(waiting)
         .fromTo(
           darks,
           { y: 14, scale: 0.85, autoAlpha: 0 },
@@ -150,12 +384,11 @@ export function HomeHero() {
       heroPairs.forEach((pair, k) => {
         const el = pairs[k];
         cycle
-          .addLabel(`go${k}`, k === 0 ? "+=1.2" : "+=0.5")
+          .addLabel(`go${k}`, k === 0 ? "+=1.8" : "+=2.2")
+          // um pouco antes de sair, o cartão já fica num lugar visível
+          .call(() => prepare(k), undefined, `go${k}-=2.6`)
           .call(
-            () =>
-              caption(
-                `${pair.problem} <span class="hero-live-arrow">→</span> …`,
-              ),
+            () => type(`› processando: ${pair.problem.toLowerCase()}…`),
             undefined,
             `go${k}`,
           )
@@ -174,11 +407,9 @@ export function HomeHero() {
           .add(load(), "-=0.3")
           .set(darks[k], { autoAlpha: 0 })
           .set(lights[k], { autoAlpha: 1 })
-          .call(() =>
-            caption(
-              `${pair.problem} <span class="hero-live-arrow">→</span> ${pair.solution}`,
-            ),
-          )
+          .call(() => type(`✓ resolvido: ${pair.solution.toLowerCase()}`))
+          .addLabel(`out${k}`)
+          .add(pump(), `out${k}`)
           .to(
             el,
             {
@@ -189,8 +420,11 @@ export function HomeHero() {
               duration: 0.8,
               ease: "back.out(1.5)",
             },
-            "-=0.25",
-          );
+            `out${k}`,
+          )
+          .call(() => {
+            if (cards[k]) cards[k].busy = false;
+          });
       });
       cycle.to(
         pairs,
@@ -200,7 +434,6 @@ export function HomeHero() {
       cycle.timeScale(0.75); // ritmo calmo
 
       // ---------- Entrada ----------
-      let started = false; // os cartões só começam a girar depois da entrada
       gsap.set(levels, { attr: { y: 1100 } });
       const intro = gsap
         .timeline({ defaults: { ease: "power3.out" } })
@@ -243,11 +476,11 @@ export function HomeHero() {
             0.1,
           )
           .from(
-            q(".hero-copy > p, .hero-actions"),
+            q(".hero-copy > p, .hero-actions, .hero-live"),
             { autoAlpha: 0, y: 18, duration: 0.7, stagger: 0.1 },
             0.75,
           );
-        SplitText.create(q(".hero-copy h1")[0], {
+        SplitText.create(headline, {
           type: "lines",
           mask: "lines",
           autoSplit: true,
@@ -261,109 +494,6 @@ export function HomeHero() {
             }),
         });
       }
-
-      // ---------- Cartões girando devagar pela órbita ----------
-      // Onde o texto realmente termina (a linha mais longa), medido a cada 0,5 s.
-      let textEdge = 0;
-      let measured = 0;
-      const textRight = () => {
-        const now = performance.now();
-        if (now - measured > 500) {
-          measured = now;
-          textEdge = 0;
-          const walker = document.createTreeWalker(copy, NodeFilter.SHOW_TEXT);
-          const range = document.createRange();
-          while (walker.nextNode()) {
-            if (!walker.currentNode.textContent?.trim()) continue;
-            range.selectNodeContents(walker.currentNode);
-            for (const rc of range.getClientRects())
-              textEdge = Math.max(textEdge, rc.right);
-          }
-        }
-        return textEdge;
-      };
-      const orbitBox = q(".hero-orbit")[0];
-      const orbitState = cardSlots.map((_, i) => {
-        const [top, left] = slots[i];
-        return {
-          r: Math.hypot(left - 50, top - 50),
-          a: Math.atan2(top - 50, left - 50),
-          fade: { f: 1 },
-          jumping: false,
-        };
-      });
-      let paused = false;
-      const spin = (_time: number, dt: number) => {
-        if (paused || !started) return;
-        const wide = window.innerWidth > 1024;
-        if (!wide) return; // no celular os cartões não aparecem
-        const limit = textRight() + 30;
-        const area = section.getBoundingClientRect();
-        const orb = orbitBox.getBoundingClientRect();
-        cardSlots.forEach((slot, i) => {
-          const o = orbitState[i];
-          o.a += CARD_TURN * (dt / 1000);
-          const leftAt = (ang: number) =>
-            orb.left +
-            ((50 + o.r * Math.cos(ang)) / 100) * orb.width -
-            slot.offsetWidth / 2;
-          // Chegou perto do texto: some, pula o trecho e reaparece mais à frente.
-          if (!o.jumping && leftAt(o.a) < limit) {
-            o.jumping = true;
-            gsap.to(o.fade, {
-              f: 0,
-              duration: 0.5,
-              onComplete: () => {
-                // pousa logo depois do texto, num ponto sem outro cartão por perto
-                const w = slot.offsetWidth;
-                const h = slot.offsetHeight;
-                const others = cardSlots
-                  .filter((s) => s !== slot)
-                  .map((s) => s.getBoundingClientRect());
-                const clashes = (ang: number) => {
-                  const cx =
-                    orb.left + ((50 + o.r * Math.cos(ang)) / 100) * orb.width;
-                  const cy =
-                    orb.top + ((50 + o.r * Math.sin(ang)) / 100) * orb.height;
-                  return others.some(
-                    (b) =>
-                      Math.abs(cx - (b.left + b.width / 2)) <
-                        (w + b.width) / 2 + 16 &&
-                      Math.abs(cy - (b.top + b.height / 2)) <
-                        (h + b.height) / 2 + 12,
-                  );
-                };
-                let ang = o.a;
-                for (
-                  let n = 0;
-                  n < 700 && (leftAt(ang) < limit + 40 || clashes(ang));
-                  n++
-                )
-                  ang += 0.01;
-                o.a = ang;
-                gsap.to(o.fade, {
-                  f: 1,
-                  duration: 0.8,
-                  onComplete: () => {
-                    o.jumping = false;
-                  },
-                });
-              },
-            });
-          }
-          slot.style.left = `${50 + o.r * Math.cos(o.a)}%`;
-          slot.style.top = `${50 + o.r * Math.sin(o.a)}%`;
-          // Nas bordas do hero o cartão só esmaece, para nunca aparecer cortado.
-          const box = slot.getBoundingClientRect();
-          const edge = Math.min(
-            (area.right - 16 - box.right) / 60,
-            (box.top - (area.top + 10)) / 50,
-            (area.bottom - 16 - box.bottom) / 60,
-          );
-          slot.style.opacity = String(Math.min(1, Math.max(0, edge), o.fade.f));
-        });
-      };
-      gsap.ticker.add(spin);
 
       // ---------- Desempenho ----------
       // A órbita é pesada de desenhar. Durante o scroll, ou com o hero fora da
@@ -397,10 +527,11 @@ export function HomeHero() {
       observer.observe(section);
       return () => {
         observer.disconnect();
+        titleSize.disconnect();
         window.removeEventListener("scroll", onScroll);
         window.clearTimeout(idle);
-        window.clearTimeout(swapTimer);
-        gsap.ticker.remove(spin);
+        window.clearInterval(typing);
+        window.clearInterval(watcher);
         cycle.kill();
         sky.stop();
       };
@@ -466,20 +597,39 @@ export function HomeHero() {
             ))}
           </svg>
         </div>
-        {heroPairs.map((pair, i) => (
-          <div
-            key={pair.problem}
-            className="hero-slot"
-            style={{ top: `${slots[i][0]}%`, left: `${slots[i][1]}%` }}
-          >
-            <div className="hero-pair">
-              <div className="hero-card is-problem">{pair.problem}</div>
-              <div className="hero-card is-solution">
-                {pair.solution} <ArrowUpRight size={15} />
+        {/* Cartões: .hero-lane = a órbita; .hero-arm gira; .hero-upright gira
+            ao contrário (o cartão fica em pé); .hero-cardfade some e aparece;
+            .hero-bob flutua; .hero-pair viaja até a logo (GSAP). */}
+        {heroPairs.map((pair, i) => {
+          const [lane, deg] = cardPlan[i];
+          const phase = (((deg % 360) + 360) % 360) / 360;
+          const timing = {
+            animationDuration: `${LAP}s`,
+            animationDelay: `${(-phase * LAP).toFixed(2)}s`,
+          };
+          return (
+            <div key={pair.problem} className={`hero-lane is-${lane}`}>
+              <div className="hero-arm" style={timing}>
+                <div className="hero-mount">
+                  <div className="hero-upright" style={timing}>
+                    <div className="hero-cardfade">
+                      <div className="hero-bob">
+                        <div className="hero-pair">
+                          <div className="hero-card is-problem">
+                            {pair.problem}
+                          </div>
+                          <div className="hero-card is-solution">
+                            {pair.solution} <ArrowUpRight size={15} />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
       <Container className="new-hero-content">
         <div className="hero-copy">
@@ -499,19 +649,12 @@ export function HomeHero() {
               Conversar sobre minha empresa <ArrowUpRight size={17} />
             </ContactAction>
           </div>
-          {/* Legenda ao vivo: conta o que está acontecendo na órbita. */}
+          {/* Texto digitando: conta o que está acontecendo na órbita. */}
           <div className="hero-live" aria-hidden="true">
-            <span className="hero-live-tag">AGORA</span>
-            <span className="hero-live-msg">
-              {heroPairs[0].problem} <span className="hero-live-arrow">→</span>{" "}
-              {heroPairs[0].solution}
-            </span>
+            <span className="hero-live-txt">aguardando…</span>
+            <span className="hero-live-caret" />
           </div>
         </div>
-        <a className="hero-scroll" href="#clientes">
-          <span>EXPLORE A PÁGINA</span>
-          <ArrowDown size={18} />
-        </a>
       </Container>
     </section>
   );

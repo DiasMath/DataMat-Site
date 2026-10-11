@@ -1,7 +1,8 @@
 /**
  * Universo do hero da home: estrelas sutis em todo o hero (inclusive atrás
- * do texto), andando bem devagar e piscando, poeira âmbar fraca em volta da
- * órbita e uma estrela cadente de vez em quando. Desenhado num <canvas>.
+ * do texto, com um pouco mais embaixo dele), andando bem devagar e piscando,
+ * nebulosas fracas e estrelas cadentes de vez em quando, em qualquer parte do
+ * hero e em direções variadas. Desenhado num <canvas>.
  *
  * Retorna controles para pausar (scroll, hero fora da tela) e encerrar.
  */
@@ -22,8 +23,16 @@ export function startSky(canvas: HTMLCanvasElement, still: boolean) {
   let stars: Star[] = [];
   let w = 0;
   let h = 0;
-  let shooting: { x: number; y: number; t: number } | null = null;
-  let nextShot = performance.now() + 4000;
+  type Shot = {
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+    len: number;
+    t: number;
+  };
+  let shots: Shot[] = [];
+  let nextShot = performance.now() + 1500;
   let frame = 0;
   let paused = false;
 
@@ -46,6 +55,20 @@ export function startSky(canvas: HTMLCanvasElement, still: boolean) {
         warm: Math.random() < 0.18,
       };
     });
+    // um pouco mais de estrelas embaixo do texto (canto inferior esquerdo), bem fracas
+    const extra = Math.round((w * 0.55 * h * 0.4) / 9000);
+    for (let i = 0; i < extra; i++) {
+      const depth = Math.random() * 0.6;
+      stars.push({
+        x: Math.random() * w * 0.55,
+        y: h * 0.6 + Math.random() * h * 0.4,
+        r: 0.3 + depth * 1.1,
+        a: 0.12 + depth * 0.35,
+        speed: 0.01 + depth * 0.045,
+        tw: Math.random() * Math.PI * 2,
+        warm: Math.random() < 0.18,
+      });
+    }
   };
 
   const draw = (now: number) => {
@@ -90,33 +113,40 @@ export function startSky(canvas: HTMLCanvasElement, still: boolean) {
     }
     ctx.globalAlpha = 1;
 
-    if (!still && !shooting && now > nextShot) {
-      shooting = {
-        x: w * (0.1 + Math.random() * 0.4),
-        y: h * (0.05 + Math.random() * 0.3),
+    // Estrelas cadentes: nascem em qualquer parte do hero, indo para a
+    // esquerda ou para a direita, até duas ao mesmo tempo.
+    if (!still && shots.length < 2 && now > nextShot) {
+      const dir = Math.random() < 0.5 ? 1 : -1;
+      const angle = 0.18 + Math.random() * 0.45; // inclinação
+      shots.push({
+        x: w * (0.05 + Math.random() * 0.9),
+        y: h * (0.03 + Math.random() * 0.75),
+        vx: Math.cos(angle) * 9 * dir,
+        vy: Math.sin(angle) * 9 + 2,
+        len: 90 + Math.random() * 60,
         t: 0,
-      };
+      });
+      nextShot = now + 2500 + Math.random() * 3500;
     }
-    if (shooting) {
-      shooting.t += 1;
-      const len = 120;
-      const x = shooting.x + shooting.t * 9;
-      const y = shooting.y + shooting.t * 3.2;
-      const life = 1 - shooting.t / 55;
-      const g = ctx.createLinearGradient(x, y, x - len, y - len * 0.36);
+    shots = shots.filter((s) => {
+      s.t += 1;
+      const x = s.x + s.t * s.vx;
+      const y = s.y + s.t * s.vy;
+      const k = s.len / Math.hypot(s.vx, s.vy);
+      const tx = x - s.vx * k;
+      const ty = y - s.vy * k;
+      const life = 1 - s.t / 55;
+      const g = ctx.createLinearGradient(x, y, tx, ty);
       g.addColorStop(0, `rgba(255,214,150,${0.5 * life})`);
       g.addColorStop(1, "rgba(255,214,150,0)");
       ctx.strokeStyle = g;
       ctx.lineWidth = 1.4;
       ctx.beginPath();
       ctx.moveTo(x, y);
-      ctx.lineTo(x - len, y - len * 0.36);
+      ctx.lineTo(tx, ty);
       ctx.stroke();
-      if (shooting.t > 55) {
-        shooting = null;
-        nextShot = now + 10000 + Math.random() * 8000;
-      }
-    }
+      return s.t <= 55;
+    });
   };
 
   const loop = (now: number) => {
